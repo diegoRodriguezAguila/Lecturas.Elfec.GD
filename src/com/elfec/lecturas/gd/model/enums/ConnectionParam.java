@@ -1,13 +1,13 @@
 package com.elfec.lecturas.gd.model.enums;
 
 /**
- * Se utiliza para las llaves de los parámetros de la configuración de
- * conexión a la base de datos
+ * Se utiliza para las llaves de los parámetros de la configuración de conexión
+ * a la base de datos
+ * 
  * @author drodriguez
  *
  */
-public enum ConnectionParam
-{
+public enum ConnectionParam {
 	/**
 	 * Ip del host de conexión
 	 */
@@ -25,18 +25,17 @@ public enum ConnectionParam
 	 */
 	ROLE("role"),
 	/**
-	 * La contraseña del rol 
+	 * La contraseña del rol
 	 */
 	PASSWORD("password");
 	private String value;
-	
-	private ConnectionParam(String value)
-	{
+
+	private ConnectionParam(String value) {
 		this.value = value;
 	}
-	
-	@Override public String toString()
-	{
+
+	@Override
+	public String toString() {
 		return this.value;
 	}
 }

@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 
 import com.activeandroid.serializer.TypeSerializer;
 
-public class JodaDateTimeSerializer extends TypeSerializer  {
+public class JodaDateTimeSerializer extends TypeSerializer {
 
 	@Override
 	public DateTime deserialize(Object data) {

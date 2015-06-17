@@ -14,7 +14,7 @@
     <string name="btn_login">Ingresar</string>
     <string name="errors_in_fields">Los campos tienen errores, reviselos para poder continuar</string>
     <string name="msg_login_waiting">Validando la información del usuario, espere por favor&#8230;</string>
-    <string name="title_login_errors">ERROR DE INGRESO AL SISTEMA</string>
+    <string name="title_login_errors">Error de ingreso al sistema</string>
     
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>

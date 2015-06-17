@@ -19,7 +19,9 @@ import android.support.v4.os.EnvironmentCompat;
 import android.util.Log;
 
 /**
- * Clase que sirve para acceder a los archivos de la aplicación, ya sean del almacenamiento interno u externo
+ * Clase que sirve para acceder a los archivos de la aplicación, ya sean del
+ * almacenamiento interno u externo
+ * 
  * @author drodriguez
  *
  */
@@ -29,55 +31,63 @@ public class FileManager {
 	 * Nombre del directorio de la aplicación
 	 */
 	public static final String APP_DIR = "com.elfec.lecturas.gd";
-	
+
 	/**
-	 * Obtiene el directorio de almacenamiento externo, por defecto el que está disponible vía USB
+	 * Obtiene el directorio de almacenamiento externo, por defecto el que está
+	 * disponible vía USB
+	 * 
 	 * @return File
 	 */
-	public static File getExternalAppDirectory()
-	{
-		File appDir = new File(Environment.getExternalStorageDirectory()+File.separator+APP_DIR);
-	    if (! appDir.exists()){
-	        if (! appDir.mkdirs()){
-	            Log.e("App Directory failed","Failed to create directory: "+APP_DIR);
-	            return null;
-	        }
-	    }
-	    return appDir;
-	}
-	
-	/**
-	 * Obtiene los directorios de almacenamiento externo, sd card. disponibles
-	 * @return File[]
-	 */
-	public static File[] getAllExternalAppDirectories(Context context)
-	{		
-		boolean isBeforeKitKat = Build.VERSION.SDK_INT<Build.VERSION_CODES.KITKAT;
-		File[] extAppDirs = isBeforeKitKat? getExternalAppDirectoriesPre4_4(context):
-				ContextCompat.getExternalFilesDirs(context, null);
-		List<File> extAppDirList = new ArrayList<File>();
-		for(File appDir : extAppDirs)
-		{
-			if(appDir!=null && (isBeforeKitKat || Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(appDir))))
-			{
-				extAppDirList.add(appDir);
-			    if (! appDir.exists()){
-			        if (! appDir.mkdirs()){
-			            Log.e("App Directory failed","Failed to create directory: "+appDir.getPath());
-			            return null;
-			        }
-			    }
+	public static File getExternalAppDirectory() {
+		File appDir = new File(Environment.getExternalStorageDirectory()
+				+ File.separator + APP_DIR);
+		if (!appDir.exists()) {
+			if (!appDir.mkdirs()) {
+				Log.e("App Directory failed", "Failed to create directory: "
+						+ APP_DIR);
+				return null;
 			}
 		}
-	    return extAppDirList.toArray(new File[extAppDirList.size()]);
+		return appDir;
 	}
+
 	/**
-	 * Obtiene los directorios de almacenamiento externo, sd card.
-	 * Funciona solo en versiones de android pre kit kat
+	 * Obtiene los directorios de almacenamiento externo, sd card. disponibles
+	 * 
+	 * @return File[]
+	 */
+	public static File[] getAllExternalAppDirectories(Context context) {
+		boolean isBeforeKitKat = Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
+		File[] extAppDirs = isBeforeKitKat ? getExternalAppDirectoriesPre4_4(context)
+				: ContextCompat.getExternalFilesDirs(context, null);
+		List<File> extAppDirList = new ArrayList<File>();
+		for (File appDir : extAppDirs) {
+			if (appDir != null
+					&& (isBeforeKitKat || Environment.MEDIA_MOUNTED
+							.equals(EnvironmentCompat.getStorageState(appDir)))) {
+				extAppDirList.add(appDir);
+				if (!appDir.exists()) {
+					if (!appDir.mkdirs()) {
+						Log.e("App Directory failed",
+								"Failed to create directory: "
+										+ appDir.getPath());
+						return null;
+					}
+				}
+			}
+		}
+		return extAppDirList.toArray(new File[extAppDirList.size()]);
+	}
+
+	/**
+	 * Obtiene los directorios de almacenamiento externo, sd card. Funciona solo
+	 * en versiones de android pre kit kat
+	 * 
 	 * @return File[]
 	 */
 	private static File[] getExternalAppDirectoriesPre4_4(Context context) {
-		String appdata = context.getFilesDir().getPath().replaceFirst("data", "Android");
+		String appdata = context.getFilesDir().getPath()
+				.replaceFirst("data", "Android");
 		String externalpath = new String();
 		String internalpath = new String();
 		Runtime runtime = Runtime.getRuntime();
@@ -106,128 +116,148 @@ public class FileManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		internalpath+=appdata;
-		externalpath+=externalpath.isEmpty()?"":appdata;
-		return externalpath.isEmpty()?new File[]{new File(internalpath)}
-					:new File[]{new File(internalpath), new File(externalpath)};
+		internalpath += appdata;
+		externalpath += externalpath.isEmpty() ? "" : appdata;
+		return externalpath.isEmpty() ? new File[] { new File(internalpath) }
+				: new File[] { new File(internalpath), new File(externalpath) };
 	}
-	
+
 	/**
-	 * Obtiene el directorio de almacenamiento externo 
+	 * Obtiene el directorio de almacenamiento externo
+	 * 
 	 * @return File
 	 */
-	public static File getInternalAppDirectory(Context context)
-	{
+	public static File getInternalAppDirectory(Context context) {
 		File appDir = context.getFilesDir();
-	    if (! appDir.exists()){
-	        if (! appDir.mkdirs()){
-	            Log.e("App Directory failed","Failed to create directory: "+APP_DIR);
-	            return null;
-	        }
-	    }
-	    return appDir;
+		if (!appDir.exists()) {
+			if (!appDir.mkdirs()) {
+				Log.e("App Directory failed", "Failed to create directory: "
+						+ APP_DIR);
+				return null;
+			}
+		}
+		return appDir;
 	}
-	
+
 	/**
 	 * Obtiene el File del archivo solicitado del almacenamiento externo
+	 * 
 	 * @param fileName
-	 * @param createIfNotExists true si se debe crear si no existe el archivo
-	 * @return el FileputStream del archivo solicitado, si no existe null o el archivo vacio
+	 * @param createIfNotExists
+	 *            true si se debe crear si no existe el archivo
+	 * @return el FileputStream del archivo solicitado, si no existe null o el
+	 *         archivo vacio
 	 */
-	public static File getExternalFile(String fileName, boolean createIfNotExists)
-	{
-		File file = new File(FileManager.getExternalAppDirectory().getPath()+File.separator+fileName);
-		try 
-		{
-			if(createIfNotExists && !file.exists())
+	public static File getExternalFile(String fileName,
+			boolean createIfNotExists) {
+		File file = new File(FileManager.getExternalAppDirectory().getPath()
+				+ File.separator + fileName);
+		try {
+			if (createIfNotExists && !file.exists())
 				file.createNewFile();
-			if(file.exists())
+			if (file.exists())
 				return file;
-		} 
-		catch (FileNotFoundException e) {e.printStackTrace();} 
-		catch (IOException e) {e.printStackTrace();}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
+
 	/**
-	 * Obtiene el File del archivo solicitado del almacenamiento externo proporcionado como extAppDirectory
-	 * @param extAppDirectory el almacenamiento externo donde se abrirá el archivo
+	 * Obtiene el File del archivo solicitado del almacenamiento externo
+	 * proporcionado como extAppDirectory
+	 * 
+	 * @param extAppDirectory
+	 *            el almacenamiento externo donde se abrirá el archivo
 	 * @param fileName
-	 * @param createIfNotExists true si se debe crear si no existe el archivo
-	 * @return el FileputStream del archivo solicitado, si no existe null o el archivo vacio
+	 * @param createIfNotExists
+	 *            true si se debe crear si no existe el archivo
+	 * @return el FileputStream del archivo solicitado, si no existe null o el
+	 *         archivo vacio
 	 */
-	public static File getExternalFile(File extAppDirectory, String fileName, boolean createIfNotExists)
-	{
-		File file = new File(extAppDirectory.getPath()+File.separator+fileName);
-		try 
-		{
-			if(createIfNotExists && !file.exists())
+	public static File getExternalFile(File extAppDirectory, String fileName,
+			boolean createIfNotExists) {
+		File file = new File(extAppDirectory.getPath() + File.separator
+				+ fileName);
+		try {
+			if (createIfNotExists && !file.exists())
 				file.createNewFile();
-			if(file.exists())
+			if (file.exists())
 				return file;
-		} 
-		catch (FileNotFoundException e) {e.printStackTrace();} 
-		catch (IOException e) {e.printStackTrace();}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
+
 	/**
 	 * Obtiene el File del archivo solicitado del almacenamiento interno
+	 * 
 	 * @param context
 	 * @param fileName
-	 * @param createIfNotExists true si se debe crear si no existe el archivo
-	 * @return el File del archivo solicitado, si no existe null o el archivo vacio
+	 * @param createIfNotExists
+	 *            true si se debe crear si no existe el archivo
+	 * @return el File del archivo solicitado, si no existe null o el archivo
+	 *         vacio
 	 */
-	public static File getInternalFile(Context context, String fileName, boolean createIfNotExists)
-	{
-		File file = new File(getInternalAppDirectory(context)+File.separator+fileName);
-		try 
-		{
-			if(createIfNotExists && !file.exists())
+	public static File getInternalFile(Context context, String fileName,
+			boolean createIfNotExists) {
+		File file = new File(getInternalAppDirectory(context) + File.separator
+				+ fileName);
+		try {
+			if (createIfNotExists && !file.exists())
 				file.createNewFile();
-			if(file.exists())
+			if (file.exists())
 				return file;
-		} 
-		catch (FileNotFoundException e) {e.printStackTrace();} 
-		catch (IOException e) {e.printStackTrace();}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
+
 	/**
 	 * Obtiene el input stream
+	 * 
 	 * @param file
 	 * @return FileInputStream
 	 */
-	public static FileInputStream getFileInputStream(File file)
-	{
+	public static FileInputStream getFileInputStream(File file) {
 		try {
-			if(file!=null)
+			if (file != null)
 				return new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Obtiene el output stream sobreescribiendo el archivo por defecto	 
+	 * Obtiene el output stream sobreescribiendo el archivo por defecto
+	 * 
 	 * @return FileOutputStream
 	 */
-	public static FileOutputStream getFileOutputStream(File file)
-	{
+	public static FileOutputStream getFileOutputStream(File file) {
 		return getFileOutputStream(file, false);
 	}
-	
+
 	/**
 	 * Obtiene el output stream
+	 * 
 	 * @param file
-	 * @param append indica si se debe escribir a continuación en el archivo (true) o si se debe sobreescribir (false)
+	 * @param append
+	 *            indica si se debe escribir a continuación en el archivo (true)
+	 *            o si se debe sobreescribir (false)
 	 * @return FileOutputStream
 	 */
-	public static FileOutputStream getFileOutputStream(File file, boolean append)
-	{
+	public static FileOutputStream getFileOutputStream(File file, boolean append) {
 		try {
-			if(file!=null)
+			if (file != null)
 				return new FileOutputStream(file, append);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -1,6 +1,8 @@
 package com.elfec.lecturas.gd.model.enums;
+
 /**
  * Describe los estados del dispositivo actual
+ * 
  * @author drodriguez
  *
  */
@@ -15,20 +17,20 @@ public enum DeviceStatus {
 	ENABLED;
 	/**
 	 * Obtiene el estado del dispositivo, equivalente al short provisto
+	 * 
 	 * @param status
 	 * @return
 	 */
-	public static DeviceStatus get(short status)
-	{
+	public static DeviceStatus get(short status) {
 		return DeviceStatus.values()[status];
 	}
-	
+
 	/**
 	 * Convierte el estado del dispositivo a su short equivalente
+	 * 
 	 * @return Short equivalente al estado
 	 */
-	public short toShort()
-	{
-		return (short)this.ordinal();
+	public short toShort() {
+		return (short) this.ordinal();
 	}
 }
