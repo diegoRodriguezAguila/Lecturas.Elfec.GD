@@ -27,12 +27,12 @@ public interface ILoginView {
 	 * Muestra errores en el campo del nombre de usuario
 	 * @param errors
 	 */
-	public void setUsernameFieldErrors(List<String> errors);
+	public void setUsernameFieldErrors(List<Exception> errors);
 	/**
 	 * Muestra errores en el campo de la contraseña
 	 * @param errors
 	 */
-	public void setPasswordFieldErrors(List<String> errors);
+	public void setPasswordFieldErrors(List<Exception> errors);
 	/**
 	 * Limpia el campo del password
 	 */

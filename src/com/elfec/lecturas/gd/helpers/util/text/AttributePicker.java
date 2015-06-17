@@ -1,4 +1,4 @@
-package com.elfec.lecturas.gd.helpers.utils.text;
+package com.elfec.lecturas.gd.helpers.util.text;
 /**
  * Sirve para que el converToSQL pueda elegir el atributo que se quiere poner en la lista sql
  * @author drodriguez

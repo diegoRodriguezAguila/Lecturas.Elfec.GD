@@ -5,14 +5,14 @@ import java.util.List;
 
 /**
  * Representa el resultado de realizar una acción en un gestionador de la 
- * capa de lógica de negocio u otra que lo requiera
+ * capa de lógica de negocio u otra que lo requiera sin tipo de retorno, solo con lista de errores
  * @author drodriguez
  *
  */
-public class ManagerResult {
+public class VoidResult {
 	protected List<Exception> listOfErrors;
 	
-	public ManagerResult() {
+	public VoidResult() {
 		listOfErrors = new ArrayList<Exception>();
 	}
 	
@@ -38,9 +38,7 @@ public class ManagerResult {
 	 */
 	public void addErrors(List<Exception> errors)
 	{
-		for (int i = 0; i < errors.size(); i++) {
-			addError(errors.get(i));
-		}
+		listOfErrors.addAll(errors);
 	}
 	/**
 	 * Si es que el resultado del acceso a datos tuvo errores

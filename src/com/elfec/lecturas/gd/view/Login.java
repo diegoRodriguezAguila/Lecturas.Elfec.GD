@@ -11,15 +11,17 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.alertdialogpro.ProgressDialogPro;
 import com.elfec.lecturas.gd.R;
-import com.elfec.lecturas.gd.helpers.utils.text.MessageListFormatter;
-import com.elfec.lecturas.gd.helpers.utils.ui.KeyboardHelper;
+import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
+import com.elfec.lecturas.gd.helpers.util.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.presenter.LoginPresenter;
 import com.elfec.lecturas.gd.presenter.views.ILoginView;
 
@@ -32,6 +34,7 @@ public class Login extends AppCompatActivity implements ILoginView {
 	private View rootLayout;
 	private TextInputLayout txtInputUsername;
 	private TextInputLayout txtInputPassword;
+	private ProgressDialogPro waitingDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +99,17 @@ public class Login extends AppCompatActivity implements ILoginView {
 	}
 	
 	@Override
-	public void setUsernameFieldErrors(List<String> errors) {
+	public void setUsernameFieldErrors(List<Exception> errors) {
 		if(errors.size()>0)
-			txtInputUsername.setError(MessageListFormatter.fotmatHTMLFromStringList(errors));
-		else txtInputUsername.setError(null);
+			txtInputUsername.setError(MessageListFormatter.fotmatHTMLFromErrors(errors));
+		else txtInputUsername.setErrorEnabled(false);
 	}
 
 	@Override
-	public void setPasswordFieldErrors(List<String> errors) {
+	public void setPasswordFieldErrors(List<Exception> errors) {
 		if(errors.size()>0)
-			txtInputPassword.setError(MessageListFormatter.fotmatHTMLFromStringList(errors));
-		else txtInputPassword.setError(null);
+			txtInputPassword.setError(MessageListFormatter.fotmatHTMLFromErrors(errors));
+		else txtInputPassword.setErrorEnabled(false);
 	}
 	
 	@Override
@@ -122,44 +125,62 @@ public class Login extends AppCompatActivity implements ILoginView {
 
 	@Override
 	public void notifyErrorsInFields() {
-		// TODO Auto-generated method stub
-		
+		Snackbar.make(findViewById(R.id.snackbar_position), R.string.errors_in_fields, Snackbar.LENGTH_LONG)
+		.setAction(R.string.btn_ok, new OnClickListener() {					
+			@Override
+			public void onClick(View v) {}}).show();
 	}
 
 	@Override
 	public void showWaiting() {
-		Snackbar.make(findViewById(R.id.snackbar_position), R.string.title_login, Snackbar.LENGTH_LONG)
-		.setAction("ACEPTAR", new OnClickListener() {
-			
+		runOnUiThread(new Runnable() {			
 			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+			public void run() {
+				waitingDialog = new ProgressDialogPro(Login.this, R.style.AppStyle_Dialog_FlavoredMaterialLight);
+				waitingDialog.setMessage(getResources().getString(R.string.msg_login_waiting));
+				//waitingDialog.setCancelable(false);
+				waitingDialog.setCanceledOnTouchOutside(false);
+				waitingDialog.show();
 			}
-		}).show();
-		/*
-		new AlertDialog.Builder(this).setMessage("Hola patricio").setPositiveButton("aceptar", null).show();
-		ProgressDialogPro progressDialog = new ProgressDialogPro(this);
-		progressDialog.setMessage("O esperas esta vaina o gacas");
-		progressDialog.show();*/
+		});
 	}
 
 	@Override
-	public void updateWaiting(int strId) {
-		// TODO Auto-generated method stub
-		
+	public void updateWaiting(final int strId) {
+		runOnUiThread(new Runnable() {			
+			@Override
+			public void run() {
+				if(waitingDialog!=null)
+					waitingDialog.setMessage(getResources().getString(strId));
+			}
+		});
 	}
 
 	@Override
 	public void hideWaiting() {
-		// TODO Auto-generated method stub
-		
+		runOnUiThread(new Runnable() {			
+			@Override
+			public void run() {
+				if(waitingDialog!=null)
+					waitingDialog.dismiss();
+			}
+		});
 	}
 
 	@Override
-	public void showLoginErrors(List<Exception> validationErrors) {
-		// TODO Auto-generated method stub
-		
+	public void showLoginErrors(final List<Exception> validationErrors) {
+		runOnUiThread(new Runnable() {			
+			@Override
+			public void run() {
+				if(validationErrors.size()>0)
+				{
+					new AlertDialog.Builder(Login.this).setTitle(R.string.title_login_errors)
+					.setMessage(MessageListFormatter.fotmatHTMLFromErrors(validationErrors))
+					.setPositiveButton(R.string.btn_ok, null)
+					.show();
+				}
+			}
+		});
 	}
 	
 	//#endregion

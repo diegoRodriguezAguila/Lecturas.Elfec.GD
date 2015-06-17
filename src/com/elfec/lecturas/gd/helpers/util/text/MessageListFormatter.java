@@ -1,4 +1,4 @@
-package com.elfec.lecturas.gd.helpers.utils.text;
+package com.elfec.lecturas.gd.helpers.util.text;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class MessageListFormatter {
 		if(size==1)
 			return Html.fromHtml(str.append(errors.get(0).getMessage()).toString());
 		for (int i = 0; i < size; i++) {
-			str.append("â— ").append(errors.get(i).getMessage());
+			str.append("â—? ").append(errors.get(i).getMessage());
 			str.append((i<size-1?"<br/>":""));
 		}
 		return Html.fromHtml(str.toString());
@@ -42,7 +42,7 @@ public class MessageListFormatter {
 		if(size==1)
 			return Html.fromHtml(str.append(attributePicker.pickAttribute(objects.get(0))).toString());
 		for (int i = 0; i < size; i++) {
-			str.append("â— ").append(attributePicker.pickAttribute(objects.get(i)));
+			str.append("â—? ").append(attributePicker.pickAttribute(objects.get(i)));
 			str.append((i<size-1?"<br/>":""));
 		}
 		return Html.fromHtml(str.toString());
@@ -60,7 +60,7 @@ public class MessageListFormatter {
 		if(size==1)
 			return Html.fromHtml(str.append(messages.get(0)).toString());
 		for (int i = 0; i < size; i++) {
-			str.append("â— ").append(messages.get(i));
+			str.append("â—? ").append(messages.get(i));
 			str.append((i<size-1?"<br/>":""));
 		}
 		return Html.fromHtml(str.toString());

@@ -20,6 +20,7 @@
         android:layout_marginRight="16dp"
         android:text="@string/app_full_name"
         android:textAppearance="@style/TextAppearance.CustomFont.Light"
+        android:textColor="@color/txt_hard_green"
         android:textSize="26sp" />
 
     <LinearLayout
@@ -55,7 +56,7 @@
                 android:inputType="text"
                 android:maxLength="20"
                 android:maxLines="1"
-                android:tag="NotNullOrEmpty" >
+                android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ0123456789" >
             </EditText>
         </android.support.design.widget.TextInputLayout>
 
@@ -77,8 +78,7 @@
                 android:ems="10"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
-                android:maxLength="20"
-                android:tag="NotNullOrEmpty" />
+                android:maxLength="20" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
