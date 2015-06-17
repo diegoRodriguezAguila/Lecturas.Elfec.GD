@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lecturas Gran Demanda </string>
+    <string name="app_full_name">Lecturas Gran Demanda v. %s</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    
+    <!-- Login -->
+    <string name="title_login">&#160;&#160;Ingreso al sistema</string>
+    <string name="hint_user">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Usuario</string>
+    <string name="hint_password">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Contraseña</string>
+    <string name="btn_login">Ingresar</string>
+
+</resources>
