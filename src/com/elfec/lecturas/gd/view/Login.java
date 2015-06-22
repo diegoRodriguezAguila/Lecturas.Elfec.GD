@@ -47,6 +47,10 @@ public class Login extends AppCompatActivity implements ILoginView {
 		txtInputPassword = ((TextInputLayout) findViewById(R.id.password_text_input_layout));
 		setVersionTitle();
 		presenter = new LoginPresenter(this);
+		
+		//TEST PRUPOUSES
+		txtInputUsername.getEditText().setText("ecampos");
+		txtInputPassword.getEditText().setText("123");	
 	}
 
 	@Override
@@ -200,8 +204,8 @@ public class Login extends AppCompatActivity implements ILoginView {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Intent i = new Intent(Login.this, Login.class);
-				i.putExtra("imei key", getIMEI());
+				Intent i = new Intent(Login.this, Start.class);
+				i.putExtra(Start.IMEI, getIMEI());
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_left_in,
 						R.anim.slide_left_out);

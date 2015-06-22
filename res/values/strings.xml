@@ -3,10 +3,7 @@
 
     <string name="app_name">Lecturas Gran Demanda </string>
     <string name="app_full_name">Lecturas Gran Demanda v. %s</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    
-    
+
     <!-- Login -->
     <string name="title_login">&#160;&#160;Ingreso al sistema</string>
     <string name="hint_user">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Usuario</string>
@@ -15,10 +12,38 @@
     <string name="errors_in_fields">Los campos tienen errores, reviselos para poder continuar</string>
     <string name="msg_login_waiting">Validando la información del usuario, espere por favor&#8230;</string>
     <string name="title_login_errors">Error de ingreso al sistema</string>
+
+    <!-- Start -->
+    <string name="title_activity_start">&#160;&#160;Inicio</string>
+    <string name="btn_reading_take">Tomar lecturas</string>
+    <string name="title_readings_list">Lista de lecturas</string>
+    <string name="lbl_main_menu_info">Presione menu principal para ingresar a las opciones de lecturas</string>
+    <string name="btn_download_data">Cargar datos</string>
+    <string name="btn_upload_data">Descargar datos</string>
+    <!-- Start: Navigation Panel -->
+    <string name="drawer_open">Abrir panel de navegación</string>
+    <string name="drawer_close">Cerrar panel de navegación</string>
+    <string name="lbl_reading_status">Estado:</string>
+    <string name="lbl_route">Ruta:</string>
     
+    <!-- Reading Take -->
+    <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
+    <!-- Reading Take: Bottom Toolbar -->
+    <string name="first_reading">Primera lectura</string>
+    <string name="previous_reading">Lectura anterior</string>
+    <string name="next_reading">Lectura siguiente</string>    
+    <string name="last_reading">Última lectura</string>
+
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_confirm">Confirmar</string>
+    
+    
+
+    <!-- Samples -->
+    <string name="sample_welcome_user">Bienvenido <b>drodriguezd</b>!</string>
+    <string name="sample_date">25 Mar 2015</string>
+    <string name="sample_device_imei">331235343553633</string>
 
 </resources>
