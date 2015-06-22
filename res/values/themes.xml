@@ -36,6 +36,8 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="icon">@drawable/ic_launcher</item>
         <item name="alertDialogProTheme">@style/AppStyle.Dialog.FlavoredMaterialLight</item>
+        <item name="actionBarItemBackground">@drawable/select_background_material</item>
+        <item name="selectableItemBackground">@drawable/select_background_material</item>
     </style>
 
 </resources>

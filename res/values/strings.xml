@@ -20,26 +20,26 @@
     <string name="lbl_main_menu_info">Presione menu principal para ingresar a las opciones de lecturas</string>
     <string name="btn_download_data">Cargar datos</string>
     <string name="btn_upload_data">Descargar datos</string>
-    <!-- Start: Navigation Panel -->
+
+    <!-- Reading Take -->
+    <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
+    
+    <!-- Reading Take: Navigation Panel -->
     <string name="drawer_open">Abrir panel de navegación</string>
     <string name="drawer_close">Cerrar panel de navegación</string>
     <string name="lbl_reading_status">Estado:</string>
     <string name="lbl_route">Ruta:</string>
-    
-    <!-- Reading Take -->
-    <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
     <!-- Reading Take: Bottom Toolbar -->
+    <string name="search_reading">Buscar lecturas</string>
     <string name="first_reading">Primera lectura</string>
     <string name="previous_reading">Lectura anterior</string>
-    <string name="next_reading">Lectura siguiente</string>    
+    <string name="next_reading">Lectura siguiente</string>
     <string name="last_reading">Última lectura</string>
 
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_confirm">Confirmar</string>
-    
-    
 
     <!-- Samples -->
     <string name="sample_welcome_user">Bienvenido <b>drodriguezd</b>!</string>
