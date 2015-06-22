@@ -28,14 +28,17 @@
         <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left_material</item>
         <item name="android:textSelectHandleRight">@drawable/text_select_handle_right_material</item>
         <item name="android:textSelectHandle">@drawable/text_select_handle_middle_material</item>
-        <item name="android:actionBarStyle">@style/AppStyle.ActionBar</item>
-        <item name="actionBarStyle">@style/AppStyle.ActionBar</item>
-        <item name="homeAsUpIndicator">@null</item>
+        
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/background_gray</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="icon">@drawable/ic_launcher</item>
         <item name="alertDialogProTheme">@style/AppStyle.Dialog.FlavoredMaterialLight</item>
+        
+        <item name="android:actionBarStyle">@style/AppStyle.ActionBar</item>
+        <item name="actionBarStyle">@style/AppStyle.ActionBar</item>
+        <item name="homeAsUpIndicator">@null</item>
+        <item name="actionModeStyle">@style/AppStyle.ActionMode</item>
         <item name="actionBarItemBackground">@drawable/select_background_material</item>
         <item name="selectableItemBackground">@drawable/select_background_material</item>
     </style>

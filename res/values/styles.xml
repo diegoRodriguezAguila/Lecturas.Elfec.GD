@@ -18,6 +18,12 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="fontPath">fonts/roboto_light.ttf</item>
     </style>
+    
+    <style name="AppStyle.ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="background">?attr/colorPrimary</item>
+        <item name="elevation">0dp</item>
+        <item name="titleTextStyle">@style/AppStyle.ActionBar.TextStyle</item>
+    </style>
 
     <style name="AppStyle.Button" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@android:color/white</item>
