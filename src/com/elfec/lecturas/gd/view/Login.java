@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -21,15 +20,15 @@ import android.widget.TextView;
 
 import com.alertdialogpro.ProgressDialogPro;
 import com.elfec.lecturas.gd.R;
+import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
+import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
-import com.elfec.lecturas.gd.helpers.util.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.presenter.LoginPresenter;
 import com.elfec.lecturas.gd.presenter.views.ILoginView;
 
 public class Login extends AppCompatActivity implements ILoginView {
 
 	private LoginPresenter presenter;
-	private long lastClickTime = 0;
 
 	private View rootLayout;
 	private TextInputLayout txtInputUsername;
@@ -47,15 +46,22 @@ public class Login extends AppCompatActivity implements ILoginView {
 		txtInputPassword = ((TextInputLayout) findViewById(R.id.password_text_input_layout));
 		setVersionTitle();
 		presenter = new LoginPresenter(this);
-		
-		//TEST PRUPOUSES
+
+		// TEST PRUPOUSES
 		txtInputUsername.getEditText().setText("ecampos");
-		txtInputPassword.getEditText().setText("123");	
+		txtInputPassword.getEditText().setText("123");
 	}
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		presenter.dispose();
+		presenter = null;
 	}
 
 	/**
@@ -79,11 +85,10 @@ public class Login extends AppCompatActivity implements ILoginView {
 	 * @param v
 	 */
 	public void btnLoginClick(View v) {
-		if (SystemClock.elapsedRealtime() - lastClickTime > 1000) {
+		if (ButtonClicksHelper.canClickButton()) {
 			KeyboardHelper.hideKeyboard(rootLayout);
 			presenter.login();
 		}
-		lastClickTime = SystemClock.elapsedRealtime();
 	}
 
 	// #region Interface Methods

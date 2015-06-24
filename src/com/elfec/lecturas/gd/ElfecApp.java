@@ -14,4 +14,10 @@ public class ElfecApp extends Application {
 				.setDefaultFontPath("fonts/roboto_regular.ttf")
 				.setFontAttrId(R.attr.fontPath).build());
 	}
+	
+	@Override
+	public void onTerminate() {
+		super.onTerminate();
+		AppPreferences.dispose();
+	}
 }

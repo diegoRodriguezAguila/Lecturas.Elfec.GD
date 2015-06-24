@@ -26,7 +26,7 @@ public class RoleAccessRDA {
 	 * @throws SQLException
 	 * @throws ConnectException
 	 */
-	public static void enableRole(String username, String password,
+	public void enableRole(String username, String password,
 			String rolename, String rolepassword) throws ConnectException,
 			SQLException {
 		Log.w("ROL ACTIVATION",

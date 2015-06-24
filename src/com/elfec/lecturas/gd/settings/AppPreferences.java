@@ -1,10 +1,10 @@
 package com.elfec.lecturas.gd.settings;
 
-import com.elfec.lecturas.gd.model.exceptions.InitializationException;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.elfec.lecturas.gd.model.exceptions.InitializationException;
 
 /**
  * Maneja las sharedpreferences de toda la aplicación
@@ -17,7 +17,7 @@ public class AppPreferences {
 	private final String LOGGED_USERNAME = "loggedUsername";
 	// ONCE IMPORT DATA
 	private final String ALL_ONCE_REQUIRED_DATA_IMPORTED = "allOnceReqDataImported";
-	private final String SUPPLY_CATEGORY_TYPES_IMPORTED = "supplyCategoryTypesImported";
+	private final String ORDENATIVES_IMPORTED = "ordenativesImported";
 	private final String CPT_CALCULATION_BASES_IMPORTED = "conceptCalculationBasesImported";
 	private final String PRNT_CALCULATION_BASES_IMPORTED = "printCalculationBasesImported";
 	private final String CATEGORIES_IMPORTED = "categoriesImported";
@@ -112,8 +112,8 @@ public class AppPreferences {
 	 * 
 	 * @return true si es que ya se importó
 	 */
-	public boolean isSupplyCategoryTypesImported() {
-		return preferences.getBoolean(SUPPLY_CATEGORY_TYPES_IMPORTED, false);
+	public boolean isOrdenativesImported() {
+		return preferences.getBoolean(ORDENATIVES_IMPORTED, false);
 	}
 
 	/**
@@ -121,9 +121,9 @@ public class AppPreferences {
 	 * 
 	 * @return la instancia actual de PreferencesManager
 	 */
-	public AppPreferences setSupplyCategoryTypesImported(boolean isImported) {
+	public AppPreferences setOrdenativesImported(boolean isImported) {
 		preferences.edit()
-				.putBoolean(SUPPLY_CATEGORY_TYPES_IMPORTED, isImported)
+				.putBoolean(ORDENATIVES_IMPORTED, isImported)
 				.commit();
 		return this;
 	}
@@ -274,12 +274,17 @@ public class AppPreferences {
 	 */
 	public void wipeOnceRequiredDataPreferences() {
 		preferences.edit().remove(ALL_ONCE_REQUIRED_DATA_IMPORTED)
-				.remove(SUPPLY_CATEGORY_TYPES_IMPORTED)
+				.remove(ORDENATIVES_IMPORTED)
 				.remove(CPT_CALCULATION_BASES_IMPORTED)
 				.remove(PRNT_CALCULATION_BASES_IMPORTED)
 				.remove(CATEGORIES_IMPORTED).remove(CONCEPTS_IMPORTED)
 				.remove(BANK_ACCOUNTS_IMPORTED)
 				.remove(PERIOD_BANK_ACCOUNTS_IMPORTED)
 				.remove(ANNULMENT_REASONS_IMPORTED).commit();
+	}
+
+	public static void dispose() {
+		context = null;
+		appPreferences = null;
 	}
 }

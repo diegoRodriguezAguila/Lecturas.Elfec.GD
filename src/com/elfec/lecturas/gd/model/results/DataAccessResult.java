@@ -10,6 +10,10 @@ import java.util.ArrayList;
  * @param <TResult>
  */
 public class DataAccessResult<TResult> extends TypedResult<TResult> {
+	/**
+	 * Serial
+	 */
+	private static final long serialVersionUID = -8439031704590160469L;
 	private boolean isRemoteDataAccess;
 
 	public DataAccessResult() {

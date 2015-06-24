@@ -1,5 +1,6 @@
 package com.elfec.lecturas.gd.model.results;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,11 @@ import java.util.List;
  * @author drodriguez
  *
  */
-public class VoidResult {
+public class VoidResult implements Serializable {
+	/**
+	 * Serial
+	 */
+	private static final long serialVersionUID = -212209775088608052L;
 	protected List<Exception> listOfErrors;
 
 	public VoidResult() {

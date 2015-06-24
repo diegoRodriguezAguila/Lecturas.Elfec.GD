@@ -18,8 +18,17 @@
     <string name="btn_reading_take">Tomar lecturas</string>
     <string name="title_readings_list">Lista de lecturas</string>
     <string name="lbl_main_menu_info">Presione menu principal para ingresar a las opciones de lecturas</string>
-    <string name="btn_download_data">Cargar datos</string>
-    <string name="btn_upload_data">Descargar datos</string>
+    <string name="btn_import_data">Cargar datos</string>
+    <string name="btn_export_data">Descargar datos</string>
+    <!-- Start: Import data -->
+    <string name="title_import_data">Carga de datos</string>
+    <string name="msg_confirm_import_data">Se procederá a iniciar el proceso de carga de datos ¿Desea continuar?</string>
+    <string name="msg_import_data_initialize">Inicializando la importación de datos del servidor&#8230;</string>
+    <string name="msg_importing_route_assignments">Cargando asignación de rutas del usuario (USUARIO_ASIGNACION)&#8230;</string>
+    <string name="msg_importing_ordenatives">Cargando ordenativos (TIPOS_NOV_SUM)&#8230;</string>
+    <string name="msg_finishing_import">Finalizando la carga de datos&#8230;</string>
+    <string name="title_import_data_error">Error en la carga de datos</string>
+    <string name="msg_data_imported_successfully">Se completó la carga de datos exitosamente!</string>
 
     <!-- Reading Take -->
     <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>

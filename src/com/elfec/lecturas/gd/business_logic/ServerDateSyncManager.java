@@ -22,10 +22,10 @@ public class ServerDateSyncManager {
 	 * @param password
 	 * @return Resultado de la validacion
 	 */
-	public static TypedResult<Boolean> validateSysDate(String username, String password){
+	public TypedResult<Boolean> validateSysDate(String username, String password){
 		TypedResult<Boolean> result = new TypedResult<Boolean>(false);
 		try {
-			DateTime serverDateTime = ServerDateRDA.requestServerDateTime(username, password);
+			DateTime serverDateTime = new ServerDateRDA().requestServerDateTime(username, password);
 			boolean isDateClose = (Math.abs(Minutes.minutesBetween(serverDateTime, DateTime.now()).getMinutes())<=3);
 			if(!isDateClose)
 				result.addError(new SysdateUnsyncFromServerException(serverDateTime));

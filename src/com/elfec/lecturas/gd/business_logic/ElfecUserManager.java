@@ -32,7 +32,7 @@ public class ElfecUserManager {
 	 * @return El resultado de la validación, que incluye al usuario obtenido y
 	 *         la lista de errores
 	 */
-	public static DataAccessResult<User> validateUser(String username,
+	public DataAccessResult<User> validateUser(String username,
 			String password, String IMEI) {
 		DataAccessResult<User> result = new DataAccessResult<User>();
 		User localUser = User.findByUserName(username);
@@ -53,20 +53,20 @@ public class ElfecUserManager {
 	 * @param IMEI
 	 * @param result
 	 */
-	private static void validateRemoteUser(String username, String password,
+	private void validateRemoteUser(String username, String password,
 			String IMEI, DataAccessResult<User> result) {
 		result.setRemoteDataAccess(true);
 		try {
-			result.addErrors(RoleAccessManager.enableMobileCollectionRole(
+			result.addErrors(new RoleAccessManager().enableMobileCollectionRole(
 					username, password).getErrors());// habilitando el rol
-			result.addErrors(ServerDateSyncManager.validateSysDate(username,
+			result.addErrors(new ServerDateSyncManager().validateSysDate(username,
 					password).getErrors());
 			if (!result.hasErrors()) {
 				User remoteUser = UserRDA.requestUser(username, password);
 				if (remoteUser == null
 						|| remoteUser.getStatus() != UserStatus.ACTIVE)
 					result.addError(new UnactiveUserException(username));
-				if (DeviceRDA.requestDeviceStatus(username, password, IMEI) == DeviceStatus.UNABLED)
+				if (new DeviceRDA().requestDeviceStatus(username, password, IMEI) == DeviceStatus.UNABLED)
 					result.addError(new UnabledDeviceException());
 				if (!result.hasErrors())
 					result.setResult(remoteUser.synchronizeUser(password));
@@ -86,7 +86,7 @@ public class ElfecUserManager {
 	 * @param result
 	 * @param localUser
 	 */
-	private static void validateLocalUser(User localUser, String password,
+	private void validateLocalUser(User localUser, String password,
 			DataAccessResult<User> result) {
 		result.setRemoteDataAccess(false);
 		if (!localUser.passwordMatch(password))

@@ -27,7 +27,7 @@ public class DeviceRDA {
 	 * @throws SQLException
 	 * @throws ConnectException
 	 */
-	public static DeviceStatus requestDeviceStatus(String username,
+	public DeviceStatus requestDeviceStatus(String username,
 			String password, String IMEI) throws ConnectException, SQLException {
 		ResultSet rs = OracleDatabaseConnector.instance(username, password)
 				.executeSelect(

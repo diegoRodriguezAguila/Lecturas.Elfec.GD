@@ -1,4 +1,4 @@
-package com.elfec.lecturas.gd.helpers.util.ui;
+package com.elfec.lecturas.gd.helpers.ui;
 
 import android.content.Context;
 import android.view.View;

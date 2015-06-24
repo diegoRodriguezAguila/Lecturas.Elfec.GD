@@ -88,24 +88,24 @@
         android:layout_alignParentStart="true" >
 
         <Button
-            android:id="@+id/btn_download_data"
+            android:id="@+id/btn_import_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
             android:drawableTop="@drawable/import_from_server"
-            android:onClick="btnDownloadDataClick"
-            android:text="@string/btn_download_data" />
+            android:onClick="btnImportDataClick"
+            android:text="@string/btn_import_data" />
 
         <Button
-            android:id="@+id/btn_upload_data"
+            android:id="@+id/btn_export_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/export_to_server"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:onClick="btnUploadDataClick"
-            android:text="@string/btn_upload_data" />
+            android:text="@string/btn_export_data" />
 
 	</LinearLayout>    
     

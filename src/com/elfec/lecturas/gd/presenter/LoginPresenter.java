@@ -6,6 +6,7 @@ import com.elfec.lecturas.gd.business_logic.ElfecUserManager;
 import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.business_logic.validators.LoginFieldsValidator;
 import com.elfec.lecturas.gd.model.User;
+import com.elfec.lecturas.gd.model.interfaces.IDisposable;
 import com.elfec.lecturas.gd.model.results.DataAccessResult;
 import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.presenter.views.ILoginView;
@@ -17,7 +18,7 @@ import com.elfec.lecturas.gd.remote_data_access.connection.OracleDatabaseConnect
  * @author drodriguez
  *
  */
-public class LoginPresenter {
+public class LoginPresenter implements IDisposable {
 
 	private ILoginView view;
 
@@ -59,7 +60,7 @@ public class LoginPresenter {
 			public void run() {
 				Looper.prepare();
 				view.showWaiting();
-				DataAccessResult<User> result = ElfecUserManager.validateUser(
+				DataAccessResult<User> result = new ElfecUserManager().validateUser(
 						username, password, view.getIMEI());
 				view.clearPassword();
 				view.hideWaiting();
@@ -72,5 +73,11 @@ public class LoginPresenter {
 				Looper.loop();
 			}
 		}).start();
+	}
+
+	@Override
+	public void dispose() {
+		view = null;
+		OracleDatabaseConnector.dispose();
 	}
 }

@@ -11,7 +11,11 @@ import java.util.ArrayList;
  * @param <TResult>
  */
 public class TypedResult<TResult> extends VoidResult {
-	protected TResult result;
+	/**
+	 * Serial
+	 */
+	private static final long serialVersionUID = 8475461808008087175L;
+	protected transient TResult result;
 
 	public TypedResult() {
 		listOfErrors = new ArrayList<Exception>();

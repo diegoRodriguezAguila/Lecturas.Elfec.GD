@@ -26,7 +26,7 @@ public class ServerDateRDA {
 	 * @throws SQLException
 	 * @throws ConnectException
 	 */
-	public static DateTime requestServerDateTime(String username,
+	public DateTime requestServerDateTime(String username,
 			String password) throws ConnectException, SQLException {
 		ResultSet rs = OracleDatabaseConnector.instance(username, password)
 				.executeSelect("SELECT SYSDATE FECHA_SERVER FROM DUAL");

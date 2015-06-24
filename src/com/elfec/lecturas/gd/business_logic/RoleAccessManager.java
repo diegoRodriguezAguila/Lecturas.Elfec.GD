@@ -29,7 +29,7 @@ public class RoleAccessManager {
 	 * @param password
 	 * @return resultado del acceso remoto a datos
 	 */
-	public static VoidResult enableMobileCollectionRole(String username,
+	public VoidResult enableMobileCollectionRole(String username,
 			String password) {
 		VoidResult result = new VoidResult();
 		String errorWhileEnablingRole = "Error al activar el rol: ";
@@ -38,7 +38,7 @@ public class RoleAccessManager {
 			settings = OracleDatabaseSettings
 					.getJSONConnectionSettings(AppPreferences
 							.getApplicationContext());
-			RoleAccessRDA.enableRole(username, password,
+			new RoleAccessRDA().enableRole(username, password,
 					settings.getString(ConnectionParam.ROLE.toString()),
 					settings.getString(ConnectionParam.PASSWORD.toString()));
 		} catch (JSONException e) {
