@@ -54,5 +54,8 @@
     <string name="sample_welcome_user">Bienvenido <b>drodriguezd</b>!</string>
     <string name="sample_date">25 Mar 2015</string>
     <string name="sample_device_imei">331235343553633</string>
+    
+    <!-- Accesiblity -->
+    <string name="img_importation">Importación de datos</string>
 
 </resources>

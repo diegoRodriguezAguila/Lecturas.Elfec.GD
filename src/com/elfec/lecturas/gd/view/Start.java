@@ -1,5 +1,6 @@
 package com.elfec.lecturas.gd.view;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.WordUtils;
@@ -24,6 +25,8 @@ import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.presenter.StartPresenter;
 import com.elfec.lecturas.gd.presenter.views.IStartView;
+import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
+import com.elfec.lecturas.gd.view.notifications.DataImportationNotifier;
 
 public class Start extends AppCompatActivity implements IStartView {
 
@@ -182,6 +185,11 @@ public class Start extends AppCompatActivity implements IStartView {
 	@Override
 	public Context getContext() {
 		return this;
+	}
+
+	@Override
+	public List<IDataImportationObserver> getImportationObserverViews() {
+		return Arrays.asList(this, new DataImportationNotifier(this, getIntent()));
 	}
 
 	// #endregion

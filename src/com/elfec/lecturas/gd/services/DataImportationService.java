@@ -84,13 +84,24 @@ public class DataImportationService extends Service {
 				strMsgId = R.string.msg_importing_ordenatives;
 				VoidResult result = new OrdenativeManager().importOrdenatives(
 						username, password, dataImportListener);
-
+				try {
+					Thread.sleep(6000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if (!result.hasErrors()) {
 					strMsgId = R.string.msg_importing_route_assignments;
 					TypedResult<List<RouteAssignment>> resultRouteAssignment = new RouteAssignmentManager()
 							.importUserRouteAssignments(username, password,
 									dataImportListener);
 					result = resultRouteAssignment;
+				}
+				try {
+					Thread.sleep(6000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				OracleDatabaseConnector.dispose();
 				sendImportationFinished(result);

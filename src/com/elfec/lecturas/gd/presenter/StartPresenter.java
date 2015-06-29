@@ -3,7 +3,6 @@ package com.elfec.lecturas.gd.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.model.interfaces.IDisposable;
 import com.elfec.lecturas.gd.presenter.receivers.DataImportationReceiverPresenter;
@@ -25,7 +24,7 @@ public class StartPresenter implements IDisposable {
 	public StartPresenter(IStartView view) {
 		this.view = view;
 		this.dataImportationReceiver = new DataImportationReceiverPresenter(
-				view, view.getContext());
+				view.getImportationObserverViews(), view.getContext());
 	}
 
 	/**
@@ -39,9 +38,6 @@ public class StartPresenter implements IDisposable {
 	 * Inicia la carga de datos del servidor
 	 */
 	public void startDataImportation() {
-		view.showWaiting(R.string.title_import_data,
-				R.string.msg_import_data_initialize,
-				R.drawable.import_from_server_d);
 		Context contex = view.getContext();
 		contex.startService(new Intent(contex, DataImportationService.class));
 		dataImportationReceiver.startReceiving();

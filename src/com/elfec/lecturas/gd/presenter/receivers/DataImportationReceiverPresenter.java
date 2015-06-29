@@ -1,5 +1,7 @@
 package com.elfec.lecturas.gd.presenter.receivers;
 
+import java.util.List;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +12,7 @@ import android.os.HandlerThread;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.interfaces.IDisposable;
 import com.elfec.lecturas.gd.model.results.VoidResult;
-import com.elfec.lecturas.gd.presenter.views.IStartView;
+import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
 import com.elfec.lecturas.gd.services.DataImportationService;
 
 /**
@@ -23,12 +25,13 @@ import com.elfec.lecturas.gd.services.DataImportationService;
 public class DataImportationReceiverPresenter extends BroadcastReceiver
 		implements IDisposable {
 
-	private IStartView view;
+	private List<IDataImportationObserver> observers;
 	private Context callerContext;
 
-	public DataImportationReceiverPresenter(IStartView view,
+
+	public DataImportationReceiverPresenter( List<IDataImportationObserver> observers,
 			Context callerContext) {
-		this.view = view;
+		this.observers = observers;
 		this.callerContext = callerContext;
 	}
 
@@ -54,27 +57,25 @@ public class DataImportationReceiverPresenter extends BroadcastReceiver
 	@Override
 	public void dispose() {
 		this.callerContext = null;
-		this.view = null;
+		this.observers = null;
 	}
 
 	@Override
 	public void onReceive(Context context, final Intent intent) {
-		if (view != null) {// is not disposed
+		if (observers != null) {// is not disposed
 			int action = intent.getIntExtra("action", -1);
 			switch (action) {
+			case DataImportationService.IMPORTATION_STARTING: {
+				importationStarting();
+				break;
+			}
 			case DataImportationService.UPDATE_WAITING: {
-				view.updateWaiting(intent.getIntExtra("message", 0));
+				updateWaiting(intent.getIntExtra("message", 0));
 				break;
 			}
 			case DataImportationService.IMPORTATION_FINISHED: {
-				VoidResult result = (VoidResult) intent
-						.getSerializableExtra("result");
-				stopReceiving();
-				view.hideWaiting();
-				view.showErrors(R.string.title_import_data_error,
-						R.drawable.error_import_from_server, result.getErrors());
-				if (!result.hasErrors())
-					view.notifySuccessfullyImportation();
+				importationFinished((VoidResult) intent
+						.getSerializableExtra("result"));
 				break;
 			}
 			default:
@@ -82,5 +83,46 @@ public class DataImportationReceiverPresenter extends BroadcastReceiver
 			}
 		}
 
+	}
+
+	/**
+	 * Notifica al usuario en la UI que empezó la importación de datos
+	 */
+	private void importationStarting() {
+		for (IDataImportationObserver observer : observers) {
+			observer.showWaiting(R.string.title_import_data,
+					R.string.msg_import_data_initialize,
+					R.drawable.import_from_server_d);
+		}
+		
+	}
+
+	/**
+	 * Realiza la actualización del mensaje de espera a la interfaz
+	 * 
+	 * @param msgStrId
+	 */
+	private void updateWaiting(int msgStrId) {
+		for (IDataImportationObserver observer : observers) {
+			observer.updateWaiting(msgStrId);
+		}
+	}
+
+	/**
+	 * Notifica al usuario de que el evento de importación finalizó
+	 * 
+	 * @param result
+	 */
+	private void importationFinished(VoidResult result) {
+		stopReceiving();
+		boolean hasErrors = result.hasErrors();
+		for (IDataImportationObserver observer : observers) {
+			observer.hideWaiting();
+			observer.showErrors(R.string.title_import_data_error,
+					R.drawable.error_import_from_server, result.getErrors());		
+			if (!hasErrors){
+				observer.notifySuccessfullyImportation();
+			}
+		}
 	}
 }
