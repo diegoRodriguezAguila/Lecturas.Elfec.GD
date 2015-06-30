@@ -53,7 +53,7 @@ public class DataImportationNotifier implements IDataImportationObserver {
 				.setColor(
 						context.getResources().getColor(
 								R.color.color_primary))
-				.setSmallIcon(R.drawable.import_from_server)
+				.setSmallIcon(R.drawable.import_from_server_sn)
 				.setOngoing(true)
 				.setPriority(Notification.PRIORITY_HIGH)
 				.setContentIntent(
