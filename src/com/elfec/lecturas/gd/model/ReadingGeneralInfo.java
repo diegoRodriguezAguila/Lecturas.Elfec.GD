@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 
 /**
  * Modelo de la información general de las lecturas
@@ -203,6 +204,24 @@ public class ReadingGeneralInfo extends Model {
 		this.contractedOffpeakPower = contractedOffpeakPower;
 		this.outagePassibleDate = outagePassibleDate;
 		this.expirationDate = expirationDate;
+	}
+
+	/**
+	 * Elimina toda la información general de lecturas que pertenezcan a la
+	 * asignación de ruta dada
+	 * 
+	 * @param routeAssignment
+	 */
+	public static void deleteAssignedRouteReadingsInfo(
+			RouteAssignment routeAssignment) {
+		new Delete()
+				.from(ReadingGeneralInfo.class)
+				.where("RouteId = ? AND Day = ? AND Month = ? AND Year = ?",
+						routeAssignment.getRoute(), routeAssignment.getDay(),
+						routeAssignment.getMonth(), routeAssignment.getYear())
+				.where("SupplyNumber BETWEEN "
+						+ routeAssignment.getFirstSupplyNumber() + " AND "
+						+ routeAssignment.getLastSupplyNumber()).execute();
 	}
 
 	// #region Getters y Setters

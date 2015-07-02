@@ -2,8 +2,13 @@ package com.elfec.lecturas.gd.services;
 
 import java.util.List;
 
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.business_logic.OrdenativeManager;
+import com.elfec.lecturas.gd.business_logic.ReadingGeneralInfoManager;
 import com.elfec.lecturas.gd.business_logic.RouteAssignmentManager;
 import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.model.RouteAssignment;
@@ -14,10 +19,6 @@ import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.model.security.AES;
 import com.elfec.lecturas.gd.presenter.receivers.DataImportationReceiverPresenter;
 import com.elfec.lecturas.gd.remote_data_access.connection.OracleDatabaseConnector;
-
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
 
 /**
  * Servicio android que corre en segundo plano para realizar la importación de
@@ -65,6 +66,7 @@ public class DataImportationService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		new Thread(new Runnable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
 				sendImportationAction(IMPORTATION_STARTING);
@@ -84,24 +86,21 @@ public class DataImportationService extends Service {
 				strMsgId = R.string.msg_importing_ordenatives;
 				VoidResult result = new OrdenativeManager().importOrdenatives(
 						username, password, dataImportListener);
-				try {
-					Thread.sleep(6000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 				if (!result.hasErrors()) {
 					strMsgId = R.string.msg_importing_route_assignments;
-					TypedResult<List<RouteAssignment>> resultRouteAssignment = new RouteAssignmentManager()
+					result = new RouteAssignmentManager()
 							.importUserRouteAssignments(username, password,
 									dataImportListener);
-					result = resultRouteAssignment;
 				}
-				try {
-					Thread.sleep(6000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (!result.hasErrors()) {
+					strMsgId = R.string.msg_importing_readings_general_info;
+					result = new ReadingGeneralInfoManager()
+							.importAllAssignedReadingsGeneralInfo(
+									username,
+									password,
+									((TypedResult<List<RouteAssignment>>) result)
+											.getResult(), dataImportListener);
 				}
 				OracleDatabaseConnector.dispose();
 				sendImportationFinished(result);

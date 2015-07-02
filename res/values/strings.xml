@@ -24,8 +24,9 @@
     <string name="title_import_data">Carga de datos</string>
     <string name="msg_confirm_import_data">Se procederá a iniciar el proceso de carga de datos ¿Desea continuar?</string>
     <string name="msg_import_data_initialize">Inicializando la importación de datos del servidor&#8230;</string>
-    <string name="msg_importing_route_assignments">Cargando asignación de rutas del usuario (USUARIO_ASIGNACION)&#8230;</string>
     <string name="msg_importing_ordenatives">Cargando ordenativos (TIPOS_NOV_SUM)&#8230;</string>
+    <string name="msg_importing_route_assignments">Cargando asignación de rutas del usuario (USUARIO_ASIGNACION)&#8230;</string>
+    <string name="msg_importing_readings_general_info">Cargando información de lecturas (LECTURASGD)&#8230;</string>
     <string name="msg_finishing_import">Finalizando la carga de datos&#8230;</string>
     <string name="title_import_data_error">Error en la carga de datos</string>
     <string name="msg_data_imported_successfully">Se completó la carga de datos exitosamente!</string>

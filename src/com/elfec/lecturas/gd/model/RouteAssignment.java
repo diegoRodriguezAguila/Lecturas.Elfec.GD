@@ -2,6 +2,8 @@ package com.elfec.lecturas.gd.model;
 
 import java.util.Locale;
 
+import org.joda.time.DateTime;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -17,6 +19,7 @@ import com.elfec.lecturas.gd.model.enums.RouteAssignmentStatus;
 @Table(name = "RouteAssignments")
 public class RouteAssignment extends Model {
 
+	private static final long ACCOUNT_CONST = 100000;
 	private static final String updateQuery = "UPDATE MOVILES.USUARIO_ASIGNACION SET ESTADO=%d, CANT_LEC_REC=%d WHERE UPPER(USUARIO)=UPPER('%s') AND DIA=%d AND MES=%d AND ANIO=%d AND RUTA=%d AND ORDEN_INICIO=%d AND ORDEN_FIN=%d";
 
 	@Column(name = "AssignedUser", notNull = true)
@@ -73,6 +76,35 @@ public class RouteAssignment extends Model {
 	}
 
 	/**
+	 * Obtiene la fecha de la asignación en el rol
+	 * 
+	 * @return fecha de la asiganción de la ruta en el rol
+	 */
+	public DateTime getScheduleDate() {
+		return new DateTime(year, month, day, 0, 0);
+	}
+
+	/**
+	 * Obtiene la cuenta de inicio de la ruta
+	 * 
+	 * @return NROSUM o Cuenta de inicio de ruta
+	 */
+	public long getFirstSupplyNumber() {
+		long startSupplyNumber = route * ACCOUNT_CONST;
+		return startSupplyNumber += routeStart;
+	}
+
+	/**
+	 * Obtiene la cuenta de fin de la ruta
+	 * 
+	 * @return NROSUM o Cuenta de inicio de ruta
+	 */
+	public long getLastSupplyNumber() {
+		long startSupplyNumber = route * ACCOUNT_CONST;
+		return startSupplyNumber += routeEnd;
+	}
+
+	/**
 	 * Obtiene la consulta update para una asignación de ruta
 	 * 
 	 * @return consulta SQL lista para ser ejecutada
@@ -86,7 +118,7 @@ public class RouteAssignment extends Model {
 	/**
 	 * Elimina todas las rutas asignadas a un usuario
 	 * 
-	 * @param username
+	 * @param assignedUser
 	 */
 	public static void deleteAllUserRouteAssignments(String assignedUser) {
 		new Delete().from(RouteAssignment.class)

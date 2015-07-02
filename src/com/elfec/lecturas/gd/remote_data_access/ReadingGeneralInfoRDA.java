@@ -41,11 +41,13 @@ public class ReadingGeneralInfoRDA {
 					.instance(username, password)
 					.executeSelect(
 							String.format(
-									"SELECT * FROM MOVILES.LECTURASGD WHERE ANIO = %d AND MES = %d AND DIA = %d AND IDRUTA = %d",
+									"SELECT * FROM MOVILES.LECTURASGD WHERE ANIO = %d AND MES = %d AND DIA = %d AND IDRUTA = %d AND ( NROSUM BETWEEN %d AND %d )",
 									routeAssignment.getYear(),
 									routeAssignment.getMonth(),
 									routeAssignment.getDay(),
-									routeAssignment.getRoute()));
+									routeAssignment.getRoute(),
+									routeAssignment.getFirstSupplyNumber(),
+									routeAssignment.getLastSupplyNumber()));
 			while (rs.next()) {
 				readingsGeneralInfo.add(new ReadingGeneralInfo(rs
 						.getLong("IDLECTURAGD"), rs.getInt("ANIO"), rs
