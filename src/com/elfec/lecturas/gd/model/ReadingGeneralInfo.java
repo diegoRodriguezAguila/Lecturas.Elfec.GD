@@ -14,7 +14,7 @@ import com.activeandroid.annotation.Table;
  * @author drodriguez
  *
  */
-@Table(name = "ReadingGeneralInfos")
+@Table(name = "ReadingsGeneralInfo")
 public class ReadingGeneralInfo extends Model {
 
 	/**
@@ -26,7 +26,7 @@ public class ReadingGeneralInfo extends Model {
 	 * ANIO en Oracle
 	 */
 	@Column(name = "Year", notNull = true)
-	private short year;
+	private int year;
 	/**
 	 * MES en Oracle
 	 */
@@ -36,7 +36,7 @@ public class ReadingGeneralInfo extends Model {
 	 * DIA en Oraculo
 	 */
 	@Column(name = "Day", notNull = true)
-	private int day;
+	private short day;
 	/**
 	 * IDRUTA en Oracle
 	 */
@@ -129,10 +129,16 @@ public class ReadingGeneralInfo extends Model {
 	@Column(name = "CleaningType")
 	private short cleaningType;
 	/**
-	 * PORCENTAJE_AP (aseo público) en Oracle
+	 * PORCENTAJE_AP (alumbrado público) en Oracle
 	 */
-	@Column(name = "PublicCleaningPercentage")
-	private BigDecimal publicCleaningPercentage;
+	@Column(name = "PublicLightingPercentage")
+	private BigDecimal publicLightingPercentage;
+	/**
+	 * TIPO_AP (alumbrado público) en Oracle
+	 */
+	@Column(name = "PublicLightingType")
+	private short publicLightingType;
+
 	/**
 	 * POT_PUNTA_CONTRATADA en Oracle
 	 */
@@ -154,6 +160,51 @@ public class ReadingGeneralInfo extends Model {
 	@Column(name = "ExpirationDate")
 	private DateTime expirationDate;
 
+	public ReadingGeneralInfo() {
+		super();
+	}
+
+	public ReadingGeneralInfo(long readingRemoteId, int year, short month,
+			short day, int routeId, int clientId, int supplyId,
+			String supplyNumber, String name, String address, String NIT,
+			String categoryId, String categoryDescription, int meterId,
+			short printPrompt, BigDecimal debtAmount, String owedMonths,
+			BigDecimal fELosses, BigDecimal cULosses, BigDecimal demandFactor,
+			int monthHours, short cleaningType,
+			BigDecimal publicCleaningPercentage, short publicLightingType,
+			int contractedPeakPower, int contractedOffpeakPower,
+			DateTime outagePassibleDate, DateTime expirationDate) {
+		super();
+		this.readingRemoteId = readingRemoteId;
+		this.year = year;
+		this.month = month;
+		this.day = day;
+		this.routeId = routeId;
+		this.clientId = clientId;
+		this.supplyId = supplyId;
+		this.supplyNumber = supplyNumber;
+		this.name = name;
+		this.address = address;
+		this.NIT = NIT;
+		this.categoryId = categoryId;
+		this.categoryDescription = categoryDescription;
+		this.meterId = meterId;
+		this.printPrompt = printPrompt;
+		this.debtAmount = debtAmount;
+		this.owedMonths = owedMonths;
+		this.FELosses = fELosses;
+		this.CULosses = cULosses;
+		this.demandFactor = demandFactor;
+		this.monthHours = monthHours;
+		this.cleaningType = cleaningType;
+		this.publicLightingPercentage = publicCleaningPercentage;
+		this.publicLightingType = publicLightingType;
+		this.contractedPeakPower = contractedPeakPower;
+		this.contractedOffpeakPower = contractedOffpeakPower;
+		this.outagePassibleDate = outagePassibleDate;
+		this.expirationDate = expirationDate;
+	}
+
 	// #region Getters y Setters
 
 	public long getReadingRemoteId() {
@@ -164,11 +215,11 @@ public class ReadingGeneralInfo extends Model {
 		this.readingRemoteId = readingRemoteId;
 	}
 
-	public short getYear() {
+	public int getYear() {
 		return year;
 	}
 
-	public void setYear(short year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 
@@ -180,11 +231,11 @@ public class ReadingGeneralInfo extends Model {
 		this.month = month;
 	}
 
-	public int getDay() {
+	public short getDay() {
 		return day;
 	}
 
-	public void setDay(int day) {
+	public void setDay(short day) {
 		this.day = day;
 	}
 
@@ -332,12 +383,20 @@ public class ReadingGeneralInfo extends Model {
 		this.cleaningType = cleaningType;
 	}
 
-	public BigDecimal getPublicCleaningPercentage() {
-		return publicCleaningPercentage;
+	public BigDecimal getPublicLightingPercentage() {
+		return publicLightingPercentage;
 	}
 
-	public void setPublicCleaningPercentage(BigDecimal publicCleaningPercentage) {
-		this.publicCleaningPercentage = publicCleaningPercentage;
+	public void setPublicLightingPercentage(BigDecimal publicCleaningPercentage) {
+		this.publicLightingPercentage = publicCleaningPercentage;
+	}
+
+	public short getPublicLightingType() {
+		return publicLightingType;
+	}
+
+	public void setPublicLightingType(short publicLightingType) {
+		this.publicLightingType = publicLightingType;
 	}
 
 	public int getContractedPeakPower() {
