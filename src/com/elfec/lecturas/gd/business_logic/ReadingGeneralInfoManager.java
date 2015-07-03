@@ -23,7 +23,8 @@ import com.elfec.lecturas.gd.remote_data_access.ReadingGeneralInfoRDA;
  */
 public class ReadingGeneralInfoManager {
 	/**
-	 * Importa las rutas asignadas al usuario para la fecha actual.<br>
+	 * Importa toda la información general de las lecturas de las rutas
+	 * asignadas al usuario para la fecha actual.<br>
 	 * <b>Nota.-</b> La importación incluye la consulta remota y el guardado
 	 * local de los datos
 	 * 

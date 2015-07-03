@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 
 /**
  * Modelo de las lecturas y sus medidores
@@ -217,6 +218,18 @@ public class ReadingMeter extends Model {
 		this.averageReactiveConsumption = averageReactiveConsumption;
 		this.draggedPeakPower = draggedPeakPower;
 		this.draggedOffpeakPower = draggedOffpeakPower;
+	}
+
+	/**
+	 * Elimina toda la información de Medidores de lecturas que tengan los Ids
+	 * en la clausula pasada
+	 * 
+	 * @param readingRemoteIds
+	 *            clausula In en formato (123,4213,...)
+	 */
+	public static void deleteReadingMeters(String readingRemoteIds) {
+		new Delete().from(ReadingMeter.class)
+				.where("ReadingRemoteId IN " + readingRemoteIds).execute();
 	}
 
 	// #region Getters y Setters

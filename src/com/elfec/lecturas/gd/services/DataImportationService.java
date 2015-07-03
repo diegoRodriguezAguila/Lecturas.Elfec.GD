@@ -9,8 +9,10 @@ import android.os.IBinder;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.business_logic.OrdenativeManager;
 import com.elfec.lecturas.gd.business_logic.ReadingGeneralInfoManager;
+import com.elfec.lecturas.gd.business_logic.ReadingMeterManager;
 import com.elfec.lecturas.gd.business_logic.RouteAssignmentManager;
 import com.elfec.lecturas.gd.business_logic.SessionManager;
+import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.model.User;
 import com.elfec.lecturas.gd.model.events.DataImportListener;
@@ -101,6 +103,13 @@ public class DataImportationService extends Service {
 									password,
 									((TypedResult<List<RouteAssignment>>) result)
 											.getResult(), dataImportListener);
+				}
+				if (!result.hasErrors()) {
+					strMsgId = R.string.msg_importing_reading_meters;
+					result = new ReadingMeterManager().importReadingMeters(
+							username, password,
+							((TypedResult<List<ReadingGeneralInfo>>) result)
+									.getResult(), dataImportListener);
 				}
 				OracleDatabaseConnector.dispose();
 				sendImportationFinished(result);

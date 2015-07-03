@@ -27,6 +27,7 @@
     <string name="msg_importing_ordenatives">Cargando ordenativos (TIPOS_NOV_SUM)&#8230;</string>
     <string name="msg_importing_route_assignments">Cargando asignación de rutas del usuario (USUARIO_ASIGNACION)&#8230;</string>
     <string name="msg_importing_readings_general_info">Cargando información de lecturas (LECTURASGD)&#8230;</string>
+    <string name="msg_importing_reading_meters">Cargando información de medidores de lecturas (LECTURASGD_MED)&#8230;</string>
     <string name="msg_finishing_import">Finalizando la carga de datos&#8230;</string>
     <string name="title_import_data_error">Error en la carga de datos</string>
     <string name="msg_data_imported_successfully">Se completó la carga de datos exitosamente!</string>
