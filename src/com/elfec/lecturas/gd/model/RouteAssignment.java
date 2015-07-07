@@ -134,6 +134,7 @@ public class RouteAssignment extends Model {
 	 * Obtiene todas las rutas cargadas asignadas al usuario
 	 * 
 	 * @param assignedUser
+	 * @return lista de rutas asignadas
 	 */
 	public static List<RouteAssignment> getAllImportedUserRouteAssignments(
 			String assignedUser) {
@@ -142,9 +143,14 @@ public class RouteAssignment extends Model {
 				.where("Status IN (2, 7)").execute();
 	}
 
-	@Override
-	public String toString() {
-		return "" + route;
+	/**
+	 * Obtiene todas las rutas cargadas
+	 * 
+	 * @return lista de rutas asignadas
+	 */
+	public static List<RouteAssignment> getAllImportedRouteAssignments() {
+		return new Select().from(RouteAssignment.class)
+				.where("Status IN (2, 7)").execute();
 	}
 
 	// #region Getters y Setters

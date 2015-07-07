@@ -101,10 +101,12 @@
     </android.support.design.widget.AppBarLayout>
     
      <!-- Your Scrollable View -->
-    <android.support.v7.widget.RecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/list_readings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_progress="@layout/list_loading"
+        app:layout_empty="@layout/empty_reading_list"
         android:background="@color/background_material_light"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     

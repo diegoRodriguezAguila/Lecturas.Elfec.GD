@@ -12,6 +12,12 @@ import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.view.adapters.viewholders.ReadingHolder;
 
+/**
+ * Adapter para las lecturas que se muestran en un recyclerview
+ * 
+ * @author drodriguez
+ *
+ */
 public class ReadingRecyclerViewAdapter extends
 		RecyclerView.Adapter<ReadingHolder> {
 

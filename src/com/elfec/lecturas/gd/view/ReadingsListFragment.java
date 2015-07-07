@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,8 @@ import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.presenter.ReadingsListPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.view.adapters.ReadingRecyclerViewAdapter;
+import com.elfec.lecturas.gd.view.adapters.RouteAssignmentAdapter;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 public class ReadingsListFragment extends Fragment implements IReadingsListView {
 
@@ -35,7 +36,7 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 
 	private Spinner spinnerReadingStatus;
 	private Spinner spinnerRoutes;
-	private RecyclerView readingsList;
+	private SuperRecyclerView readingsList;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,19 +60,40 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 		spinnerReadingStatus = (Spinner) view
 				.findViewById(R.id.spinner_reading_status);
 		spinnerRoutes = (Spinner) view.findViewById(R.id.spinner_routes);
-		spinnerRoutes.setAdapter(new ArrayAdapter<String>(getActivity(),
-				R.layout.support_simple_spinner_dropdown_item, getResources()
-						.getStringArray(R.array.reading_status_array)));
-		setOnItemSelectedListeners();
 		setCollapsableToolBarTitle((CollapsingToolbarLayout) view
 				.findViewById(R.id.collapsing_toolbar));
-
-		readingsList = (RecyclerView) view.findViewById(R.id.list_readings);
+		readingsList = (SuperRecyclerView) view
+				.findViewById(R.id.list_readings);
 		readingsList.setHasFixedSize(true);
 		readingsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+		setOnItemSelectedListeners();
+		setReadingStatusAdapter();
 		presenter.loadRoutes();
 		presenter.loadReadingsGeneralInfo();
 		return view;
+	}
+
+	/**
+	 * Asigna el adapter del spinner de estados de las rutas
+	 */
+	public void setReadingStatusAdapter() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						getActivity(),
+						R.layout.support_simple_spinner_dropdown_item,
+						getResources().getStringArray(
+								R.array.reading_status_array));
+				mHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						spinnerReadingStatus.setAdapter(adapter);
+					}
+				});
+			}
+		}).start();
 	}
 
 	/**
@@ -81,7 +103,8 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 	 */
 	private void setCollapsableToolBarTitle(
 			CollapsingToolbarLayout collapsingToolbarLayout) {
-		collapsingToolbarLayout.setTitle("Lista de lecturas");
+		collapsingToolbarLayout
+				.setTitle(getString(R.string.title_reading_list));
 		final Typeface tf = TypefaceUtils.load(getActivity().getAssets(),
 				"fonts/roboto_light.ttf");
 		try {
@@ -107,15 +130,15 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 					@Override
 					public void onItemSelected(AdapterView<?> adapter, View v,
 							int pos, long id) {
-						if (v != null)
+						if (v != null) {
 							((TextView) v).setTextColor(getResources()
 									.getColor(android.R.color.white));
+							readingsList.setAdapter(null);
+						}
 					}
 
 					@Override
 					public void onNothingSelected(AdapterView<?> adapter) {
-						// TODO Auto-generated method stub
-
 					}
 				});
 		spinnerRoutes.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -124,14 +147,11 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 			public void onItemSelected(AdapterView<?> adapter, View v, int pos,
 					long id) {
 				if (v != null)
-					((TextView) v).setTextColor(getResources().getColor(
-							android.R.color.white));
+					presenter.loadReadingsGeneralInfo();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> adapter) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 	}
@@ -143,11 +163,9 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				spinnerReadingStatus
-						.setAdapter(new ArrayAdapter<RouteAssignment>(
-								getActivity(),
-								R.layout.support_simple_spinner_dropdown_item,
-								routes));
+				spinnerRoutes.setAdapter(new RouteAssignmentAdapter(
+						getActivity(),
+						R.layout.support_simple_spinner_dropdown_item, routes));
 			}
 		});
 	}

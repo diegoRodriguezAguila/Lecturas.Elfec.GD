@@ -1,6 +1,5 @@
 package com.elfec.lecturas.gd.presenter;
 
-import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
@@ -26,9 +25,7 @@ public class ReadingsListPresenter {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				view.setRoutes(RouteAssignment
-						.getAllImportedUserRouteAssignments(SessionManager
-								.getLoggedInUsername()));
+				view.setRoutes(RouteAssignment.getAllImportedRouteAssignments());
 			}
 		}).start();
 	}
@@ -40,15 +37,8 @@ public class ReadingsListPresenter {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					Thread.sleep(2500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				view.setReadings(ReadingGeneralInfo.getAllReadingsSorted());
 			}
 		}).start();
 	}
-
 }
