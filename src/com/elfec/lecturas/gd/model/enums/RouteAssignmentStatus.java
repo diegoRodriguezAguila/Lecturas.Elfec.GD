@@ -16,7 +16,7 @@ public enum RouteAssignmentStatus {
 	 */
 	IMPORTED,
 	/**
-	 * Estado de ruta exporta del móvil al servidor
+	 * Estado de ruta exportada del móvil al servidor
 	 */
 	EXPORTED,
 	/**

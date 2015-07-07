@@ -1,5 +1,6 @@
 package com.elfec.lecturas.gd.model;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
@@ -8,6 +9,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.elfec.lecturas.gd.model.enums.RouteAssignmentStatus;
 
 /**
@@ -116,13 +118,28 @@ public class RouteAssignment extends Model {
 	}
 
 	/**
-	 * Elimina todas las rutas asignadas a un usuario
+	 * Elimina todas las rutas asignadas a un usuario que no esten en estado
+	 * cargada
 	 * 
 	 * @param assignedUser
 	 */
-	public static void deleteAllUserRouteAssignments(String assignedUser) {
+	public static void deleteAllNonImportedUserRouteAssignments(
+			String assignedUser) {
 		new Delete().from(RouteAssignment.class)
-				.where("AssignedUser = ?", assignedUser).execute();
+				.where("AssignedUser = ?", assignedUser)
+				.where("Status IN (1, 6)").execute();
+	}
+
+	/**
+	 * Obtiene todas las rutas cargadas asignadas al usuario
+	 * 
+	 * @param assignedUser
+	 */
+	public static List<RouteAssignment> getAllImportedUserRouteAssignments(
+			String assignedUser) {
+		return new Select().from(RouteAssignment.class)
+				.where("AssignedUser = ?", assignedUser)
+				.where("Status IN (2, 7)").execute();
 	}
 
 	// #region Getters y Setters

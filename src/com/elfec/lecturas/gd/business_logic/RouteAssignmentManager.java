@@ -9,9 +9,11 @@ import org.joda.time.DateTime;
 import com.elfec.lecturas.gd.business_logic.data_exchange.DataImporter;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.model.data_exchange.ImportSource;
+import com.elfec.lecturas.gd.model.enums.RouteAssignmentStatus;
 import com.elfec.lecturas.gd.model.events.DataImportListener;
 import com.elfec.lecturas.gd.model.exceptions.NoRoutesAsignedException;
 import com.elfec.lecturas.gd.model.results.TypedResult;
+import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.remote_data_access.RouteAssignmentRDA;
 
 /**
@@ -40,20 +42,56 @@ public class RouteAssignmentManager {
 			DataImportListener dataImportListener) {
 		if (dataImportListener != null)
 			dataImportListener.onImportInitialized();
-		RouteAssignment.deleteAllUserRouteAssignments(SessionManager.getLoggedInUsername());
+
+		RouteAssignment.deleteAllNonImportedUserRouteAssignments(SessionManager
+				.getLoggedInUsername());
 		TypedResult<List<RouteAssignment>> result = new DataImporter()
 				.importData(new ImportSource<RouteAssignment>() {
 					@Override
 					public List<RouteAssignment> requestData()
 							throws ConnectException, SQLException {
-						return new RouteAssignmentRDA().requestUserRouteAssignments(
-								username, password, DateTime.now());
+						return new RouteAssignmentRDA()
+								.requestUserRouteAssignments(username,
+										password, DateTime.now());
 					}
 				});
-		if(result.getResult().size()==0)//no tiene rutas asignadas
+		if (result.getResult().size() == 0)// no tiene rutas asignadas
 			result.addError(new NoRoutesAsignedException(username));
+
 		if (dataImportListener != null)
 			dataImportListener.onImportFinished(result);
+		return result;
+	}
+
+	/**
+	 * Asigna remota y localmente el estado de CARGADAS a la lista de rutas. Si
+	 * ocurre un error al realizar el update remoto aquellas rutas que se hayan
+	 * logrado guardar estarán marcadas como exportadas localmente
+	 * 
+	 * @param assignedRoutes
+	 * @return {@link VoidResult} lista de errores del proceso
+	 */
+	public VoidResult setRoutesSuccessfullyImported(String username,
+			String password, List<RouteAssignment> assignedRoutes) {
+		VoidResult result = new VoidResult();
+		RouteAssignmentRDA routeAssignmentRDA = new RouteAssignmentRDA();
+		try {
+			for (RouteAssignment route : assignedRoutes) {
+				route.setStatus(route.getStatus() == RouteAssignmentStatus.ASSIGNED ? RouteAssignmentStatus.IMPORTED
+						: RouteAssignmentStatus.RE_READING_IMPORTED);
+				routeAssignmentRDA.remoteUpdateUserRouteAssignment(username,
+						password, route);
+				route.save();
+			}
+		} catch (ConnectException e) {
+			result.addError(e);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			result.addError(e);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.addError(e);
+		}
 		return result;
 	}
 }

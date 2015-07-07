@@ -31,9 +31,9 @@ public class RouteAssignmentRDA {
 	 * @throws ConnectException
 	 * @throws SQLException
 	 */
-	public List<RouteAssignment> requestUserRouteAssignments(
-			String username, String password, DateTime assignmentDate)
-			throws ConnectException, SQLException {
+	public List<RouteAssignment> requestUserRouteAssignments(String username,
+			String password, DateTime assignmentDate) throws ConnectException,
+			SQLException {
 		List<RouteAssignment> routeAssignments = new ArrayList<RouteAssignment>();
 		String query = "SELECT * FROM MOVILES.USUARIO_ASIGNACION WHERE UPPER(USUARIO)=UPPER('%s') AND DIA_ASIG_CARGA=%d AND MES=%d AND ANIO=%d AND (ESTADO=1 OR ESTADO=6)";
 		ResultSet rs = OracleDatabaseConnector.instance(username, password)
@@ -65,7 +65,7 @@ public class RouteAssignmentRDA {
 	 * @throws ConnectException
 	 * @throws SQLException
 	 */
-	public static int remoteUpdateUserRouteAssignment(String username,
+	public int remoteUpdateUserRouteAssignment(String username,
 			String password, RouteAssignment routeAssignment)
 			throws ConnectException, SQLException {
 		Statement stmt = OracleDatabaseConnector.instance(username, password)

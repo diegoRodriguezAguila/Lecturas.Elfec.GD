@@ -85,24 +85,24 @@ public class DataImportationService extends Service {
 					}
 				};
 
+				List<RouteAssignment> assignedRoutes = null;
 				strMsgId = R.string.msg_importing_ordenatives;
 				VoidResult result = new OrdenativeManager().importOrdenatives(
 						username, password, dataImportListener);
-
+				RouteAssignmentManager routeAssignmentManager = new RouteAssignmentManager();
 				if (!result.hasErrors()) {
 					strMsgId = R.string.msg_importing_route_assignments;
-					result = new RouteAssignmentManager()
-							.importUserRouteAssignments(username, password,
-									dataImportListener);
+					result = routeAssignmentManager.importUserRouteAssignments(
+							username, password, dataImportListener);
+					assignedRoutes = ((TypedResult<List<RouteAssignment>>) result)
+							.getResult();
 				}
 				if (!result.hasErrors()) {
 					strMsgId = R.string.msg_importing_readings_general_info;
 					result = new ReadingGeneralInfoManager()
-							.importAllAssignedReadingsGeneralInfo(
-									username,
-									password,
-									((TypedResult<List<RouteAssignment>>) result)
-											.getResult(), dataImportListener);
+							.importAllAssignedReadingsGeneralInfo(username,
+									password, assignedRoutes,
+									dataImportListener);
 				}
 				if (!result.hasErrors()) {
 					strMsgId = R.string.msg_importing_reading_meters;
@@ -110,6 +110,13 @@ public class DataImportationService extends Service {
 							username, password,
 							((TypedResult<List<ReadingGeneralInfo>>) result)
 									.getResult(), dataImportListener);
+				}
+				if (!result.hasErrors()) {// FINALIZACION
+					sendImportationAction(UPDATE_WAITING,
+							R.string.msg_finishing_import);
+					result = routeAssignmentManager
+							.setRoutesSuccessfullyImported(username, password,
+									assignedRoutes);
 				}
 				OracleDatabaseConnector.dispose();
 				sendImportationFinished(result);

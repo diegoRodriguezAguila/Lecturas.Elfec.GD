@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">Lecturas Gran Demanda </string>
     <string name="app_full_name">Lecturas Gran Demanda v. %s</string>
@@ -56,6 +56,11 @@
     <string name="sample_welcome_user">Bienvenido <b>drodriguezd</b>!</string>
     <string name="sample_date">25 Mar 2015</string>
     <string name="sample_device_imei">331235343553633</string>
+    <string name="sample_nus">321233</string>
+	<string name="sample_account_number" tools:ignore="TypographyDashes">37-222-563-23</string>
+	<string name="sample_meter_number">6435122</string>
+	<string name="sample_reading_status">Leída</string>
+	<string name="sample_name">Fábrica de Leche PIL</string>
     
     <!-- Accesiblity -->
     <string name="img_importation">Importación de datos</string>

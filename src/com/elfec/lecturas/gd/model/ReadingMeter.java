@@ -20,7 +20,7 @@ public class ReadingMeter extends Model {
 	/**
 	 * IDLECTURAGD en Oracle
 	 */
-	@Column(name = "ReadingRemoteId", notNull = true)
+	@Column(name = "ReadingRemoteId", notNull = true, index = true)
 	private long readingRemoteId;
 	/**
 	 * IDMEDIDOR en Oracle

@@ -8,6 +8,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 
 /**
  * Modelo de la información general de las lecturas
@@ -21,7 +22,7 @@ public class ReadingGeneralInfo extends Model {
 	/**
 	 * IDLECTURAGD en Oracle
 	 */
-	@Column(name = "ReadingRemoteId", notNull = true)
+	@Column(name = "ReadingRemoteId", notNull = true, index = true)
 	private long readingRemoteId;
 	/**
 	 * ANIO en Oracle
@@ -41,7 +42,7 @@ public class ReadingGeneralInfo extends Model {
 	/**
 	 * IDRUTA en Oracle
 	 */
-	@Column(name = "RouteId", notNull = true)
+	@Column(name = "RouteId", notNull = true, index = true)
 	private int routeId;
 	/**
 	 * IDCLIENTE en Oracle
@@ -52,12 +53,12 @@ public class ReadingGeneralInfo extends Model {
 	 * IDSUMINISTRO Identificador del suministros, tabla de referencia
 	 * suministros
 	 */
-	@Column(name = "SupplyId", notNull = true)
+	@Column(name = "SupplyId", notNull = true, index = true)
 	private int supplyId;
 	/**
 	 * NROSUM en Oracle
 	 */
-	@Column(name = "SupplyNumber")
+	@Column(name = "SupplyNumber", index = true)
 	private String supplyNumber;
 	/**
 	 * NOMBRE en Oracle
@@ -161,6 +162,12 @@ public class ReadingGeneralInfo extends Model {
 	@Column(name = "ExpirationDate")
 	private DateTime expirationDate;
 
+	// Extra Vars
+	/**
+	 * Guarda la información del medidor relacionado a esta lectura
+	 */
+	private ReadingMeter readingMeter;
+
 	public ReadingGeneralInfo() {
 		super();
 	}
@@ -204,6 +211,20 @@ public class ReadingGeneralInfo extends Model {
 		this.contractedOffpeakPower = contractedOffpeakPower;
 		this.outagePassibleDate = outagePassibleDate;
 		this.expirationDate = expirationDate;
+	}
+
+	/**
+	 * Obtiene la información del medidor de la lectura lo cachéa en una
+	 * variable
+	 * 
+	 * @return {@link ReadingMeter}
+	 */
+	public ReadingMeter getReadingMeter() {
+		if (readingMeter == null)
+			readingMeter = new Select().from(ReadingMeter.class)
+					.where("ReadingRemoteId = ?", readingRemoteId)
+					.executeSingle();
+		return readingMeter;
 	}
 
 	/**

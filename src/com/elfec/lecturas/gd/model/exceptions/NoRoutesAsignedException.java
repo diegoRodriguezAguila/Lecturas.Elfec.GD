@@ -25,7 +25,8 @@ public class NoRoutesAsignedException extends Exception {
 	public String getMessage() {
 		return "El usuario <b>"
 				+ username
-				+ "</b> no tiene asignada ninguna ruta para la fecha de hoy <b>"
-				+ DateTime.now().toString("dd/MM/yyyy") + "</b>.";
+				+ "</b> no tiene ninguna ruta asignada para la fecha de hoy <b>"
+				+ DateTime.now().toString("dd/MM/yyyy")
+				+ "</b> o ya cargó las rutas que se le asignaron.";
 	}
 }

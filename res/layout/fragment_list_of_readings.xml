@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_gray"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" 
+    android:fitsSystemWindows="true">
+        
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true">
+         
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:expandedTitleMarginBottom="160dp"           
+    		android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@style/AppStyle.ActionBar.TextStyle"
+            app:expandedTitleTextAppearance="@style/TextAppearance.CustomFont.Title"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-    <LinearLayout
+            
+       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:orientation="vertical"
         android:padding="15dp"
+        android:layout_marginTop="50dp"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppCustomTheme.ColoredBackground" >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_readings_list"
-            android:textAppearance="@style/TextAppearance.CustomFont.Light"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,13 +87,25 @@
                 android:paddingTop="0dp" />
         </LinearLayout>
     </LinearLayout>
-
-    <ListView
+          
+        <android.support.v7.widget.Toolbar
+             android:id="@+id/toolbar"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+             android:background="?attr/colorPrimary"
+             android:theme="@style/AppCustomTheme.Base"
+             app:layout_collapseMode="pin"/>
+    
+    
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+    
+     <!-- Your Scrollable View -->
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list_readings"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="match_parent"
         android:background="@color/background_material_light"
-        android:fastScrollEnabled="true" />
-
-</LinearLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    
+</android.support.design.widget.CoordinatorLayout>

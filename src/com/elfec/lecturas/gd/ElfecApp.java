@@ -1,9 +1,9 @@
 package com.elfec.lecturas.gd;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 import com.activeandroid.app.Application;
 import com.elfec.lecturas.gd.settings.AppPreferences;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class ElfecApp extends Application {
 	@Override
@@ -14,7 +14,7 @@ public class ElfecApp extends Application {
 				.setDefaultFontPath("fonts/roboto_regular.ttf")
 				.setFontAttrId(R.attr.fontPath).build());
 	}
-	
+
 	@Override
 	public void onTerminate() {
 		super.onTerminate();
