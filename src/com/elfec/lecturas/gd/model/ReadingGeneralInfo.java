@@ -1,6 +1,7 @@
 package com.elfec.lecturas.gd.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -9,6 +10,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 
 /**
  * Modelo de la información general de las lecturas
@@ -164,6 +166,12 @@ public class ReadingGeneralInfo extends Model {
 
 	// Extra Vars
 	/**
+	 * El estado actual de la lectura
+	 */
+	@Column(name = "Status")
+	private short status;
+
+	/**
 	 * Guarda la información del medidor relacionado a esta lectura
 	 */
 	private ReadingMeter readingMeter;
@@ -181,7 +189,8 @@ public class ReadingGeneralInfo extends Model {
 			int monthHours, short cleaningType,
 			BigDecimal publicCleaningPercentage, short publicLightingType,
 			int contractedPeakPower, int contractedOffpeakPower,
-			DateTime outagePassibleDate, DateTime expirationDate) {
+			DateTime outagePassibleDate, DateTime expirationDate,
+			ReadingStatus status) {
 		super();
 		this.readingRemoteId = readingRemoteId;
 		this.year = year;
@@ -211,6 +220,7 @@ public class ReadingGeneralInfo extends Model {
 		this.contractedOffpeakPower = contractedOffpeakPower;
 		this.outagePassibleDate = outagePassibleDate;
 		this.expirationDate = expirationDate;
+		this.status = status.toShort();
 	}
 
 	/**
@@ -225,6 +235,26 @@ public class ReadingGeneralInfo extends Model {
 					.where("ReadingRemoteId = ?", readingRemoteId)
 					.executeSingle();
 		return readingMeter;
+	}
+
+	/**
+	 * Obtiene todas las lecturas ordenadas por numero de cuenta
+	 * 
+	 * @return Lista de lecturas
+	 */
+	public static List<ReadingGeneralInfo> getAllReadingsSorted() {
+		return new Select().from(ReadingGeneralInfo.class)
+				.orderBy("SupplyNumber").execute();
+	}
+
+	/**
+	 * Obtiene todas las lecturas ordenadas por numero de cuenta
+	 * 
+	 * @return Lista de lecturas
+	 */
+	public static List<ReadingGeneralInfo> getAllReadingsSorted(int route) {
+		return new Select().from(ReadingGeneralInfo.class)
+				.orderBy("SupplyNumber").execute();
 	}
 
 	/**
@@ -469,6 +499,14 @@ public class ReadingGeneralInfo extends Model {
 
 	public void setExpirationDate(DateTime expirationDate) {
 		this.expirationDate = expirationDate;
+	}
+
+	public ReadingStatus getStatus() {
+		return ReadingStatus.get(status);
+	}
+
+	public void setStatus(ReadingStatus status) {
+		this.status = status.toShort();
 	}
 
 	// #endregion

@@ -1,10 +1,12 @@
 package com.elfec.lecturas.gd.view;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,9 +23,15 @@ import android.widget.TextView;
 
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.model.RouteAssignment;
+import com.elfec.lecturas.gd.presenter.ReadingsListPresenter;
+import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.view.adapters.ReadingRecyclerViewAdapter;
 
-public class ReadingsListFragment extends Fragment {
+public class ReadingsListFragment extends Fragment implements IReadingsListView {
+
+	private ReadingsListPresenter presenter;
+	private Handler mHandler;
 
 	private Spinner spinnerReadingStatus;
 	private Spinner spinnerRoutes;
@@ -39,6 +47,8 @@ public class ReadingsListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		presenter = new ReadingsListPresenter(this);
+		mHandler = new Handler();
 	}
 
 	@Override
@@ -49,9 +59,6 @@ public class ReadingsListFragment extends Fragment {
 		spinnerReadingStatus = (Spinner) view
 				.findViewById(R.id.spinner_reading_status);
 		spinnerRoutes = (Spinner) view.findViewById(R.id.spinner_routes);
-		spinnerReadingStatus.setAdapter(new ArrayAdapter<String>(getActivity(),
-				R.layout.support_simple_spinner_dropdown_item, getResources()
-						.getStringArray(R.array.reading_status_array)));
 		spinnerRoutes.setAdapter(new ArrayAdapter<String>(getActivity(),
 				R.layout.support_simple_spinner_dropdown_item, getResources()
 						.getStringArray(R.array.reading_status_array)));
@@ -62,9 +69,8 @@ public class ReadingsListFragment extends Fragment {
 		readingsList = (RecyclerView) view.findViewById(R.id.list_readings);
 		readingsList.setHasFixedSize(true);
 		readingsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-		ReadingRecyclerViewAdapter mSimpleRecyclerViewAdapter = new ReadingRecyclerViewAdapter(
-				ReadingGeneralInfo.getAll(ReadingGeneralInfo.class));
-		readingsList.setAdapter(mSimpleRecyclerViewAdapter);
+		presenter.loadRoutes();
+		presenter.loadReadingsGeneralInfo();
 		return view;
 	}
 
@@ -129,4 +135,33 @@ public class ReadingsListFragment extends Fragment {
 			}
 		});
 	}
+
+	// #region Interface Methods
+
+	@Override
+	public void setRoutes(final List<RouteAssignment> routes) {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				spinnerReadingStatus
+						.setAdapter(new ArrayAdapter<RouteAssignment>(
+								getActivity(),
+								R.layout.support_simple_spinner_dropdown_item,
+								routes));
+			}
+		});
+	}
+
+	@Override
+	public void setReadings(final List<ReadingGeneralInfo> readings) {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				readingsList
+						.setAdapter(new ReadingRecyclerViewAdapter(readings));
+			}
+		});
+	}
+
+	// #endregion
 }

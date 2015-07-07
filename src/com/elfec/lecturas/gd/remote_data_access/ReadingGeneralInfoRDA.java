@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.remote_data_access.connection.OracleDatabaseConnector;
 
 /**
@@ -69,7 +70,8 @@ public class ReadingGeneralInfoRDA {
 								.getInt("POT_PUNTA_CONTRATADA"), rs
 								.getInt("POT_FPUNTA_CONTRATADA"), new DateTime(
 								rs.getTimestamp("FECHA_PASIBLE_CORTE")),
-						new DateTime(rs.getTimestamp("FECHA_VENCIMIENTO"))));
+						new DateTime(rs.getTimestamp("FECHA_VENCIMIENTO")),
+						ReadingStatus.PENDING));
 			}
 			return readingsGeneralInfo;
 		}

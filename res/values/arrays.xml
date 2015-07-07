@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
      <string-array name="reading_status_array">
+        <item>Todas</item>
         <item>Pendientes</item>
         <item>Leídas</item>
         <item>Impedidas</item>

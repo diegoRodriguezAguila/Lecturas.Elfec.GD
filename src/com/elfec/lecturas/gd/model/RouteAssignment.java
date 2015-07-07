@@ -142,6 +142,11 @@ public class RouteAssignment extends Model {
 				.where("Status IN (2, 7)").execute();
 	}
 
+	@Override
+	public String toString() {
+		return "" + route;
+	}
+
 	// #region Getters y Setters
 	public String getAssignedUser() {
 		return assignedUser;

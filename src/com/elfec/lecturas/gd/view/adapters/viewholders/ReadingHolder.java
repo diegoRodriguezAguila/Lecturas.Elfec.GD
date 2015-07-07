@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bignerdranch.android.recyclerviewchoicemode.MultiSelector;
 import com.bignerdranch.android.recyclerviewchoicemode.SwappingHolder;
 import com.elfec.lecturas.gd.R;
+import com.elfec.lecturas.gd.helpers.ui.ReadingStatusColorPicker;
 import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 
@@ -20,6 +21,7 @@ public class ReadingHolder extends SwappingHolder implements
 		View.OnClickListener {
 
 	public TextView txtAccountNumber;
+	public TextView txtReadingStatus;
 	public TextView txtNUS;
 	public TextView txtMeterNumber;
 	public TextView txtClientName;
@@ -31,6 +33,8 @@ public class ReadingHolder extends SwappingHolder implements
 		itemView.setOnClickListener(this);
 		txtAccountNumber = (TextView) itemView
 				.findViewById(R.id.txt_account_number);
+		txtReadingStatus = (TextView) itemView
+				.findViewById(R.id.txt_reading_status);
 		txtNUS = (TextView) itemView.findViewById(R.id.txt_nus);
 		txtMeterNumber = (TextView) itemView.findViewById(R.id.txt_meter);
 		txtClientName = (TextView) itemView.findViewById(R.id.txt_client_name);
@@ -41,6 +45,11 @@ public class ReadingHolder extends SwappingHolder implements
 		this.reading = reading;
 		txtAccountNumber.setText(AccountFormatter.formatAccountNumber(reading
 				.getSupplyNumber()));
+		txtReadingStatus.setText(reading.getStatus().toString());
+		txtReadingStatus.setBackgroundColor(txtReadingStatus.getResources()
+				.getColor(
+						ReadingStatusColorPicker.getResourceColorId(reading
+								.getStatus())));
 		txtNUS.setText("" + reading.getSupplyId());
 		txtMeterNumber.setText(reading.getReadingMeter().getSerialNumber());
 		txtClientName.setText(WordUtils.capitalizeFully(reading.getName(),
