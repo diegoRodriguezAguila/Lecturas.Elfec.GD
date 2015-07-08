@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.presenter.ReadingsListPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.view.adapters.ReadingRecyclerViewAdapter;
+import com.elfec.lecturas.gd.view.adapters.ReadingStatusAdapter;
 import com.elfec.lecturas.gd.view.adapters.RouteAssignmentAdapter;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
@@ -81,11 +81,9 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				final ReadingStatusAdapter adapter = new ReadingStatusAdapter(
 						getActivity(),
-						R.layout.support_simple_spinner_dropdown_item,
-						getResources().getStringArray(
-								R.array.reading_status_array));
+						R.layout.support_simple_spinner_dropdown_item);
 				mHandler.post(new Runnable() {
 					@Override
 					public void run() {
@@ -106,7 +104,7 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 		collapsingToolbarLayout
 				.setTitle(getString(R.string.title_reading_list));
 		final Typeface tf = TypefaceUtils.load(getActivity().getAssets(),
-				"fonts/roboto_light.ttf");
+				"fonts/helvetica_neue_light.otf");
 		try {
 			final Field cthf = collapsingToolbarLayout.getClass()
 					.getDeclaredField("mCollapsingTextHelper");

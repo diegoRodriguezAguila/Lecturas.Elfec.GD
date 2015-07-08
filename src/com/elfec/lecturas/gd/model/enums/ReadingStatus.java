@@ -1,5 +1,8 @@
 package com.elfec.lecturas.gd.model.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Describe los estados de las lecturas
  * 
@@ -10,33 +13,39 @@ public enum ReadingStatus {
 	/**
 	 * Estado de lectura pendiente
 	 */
-	PENDING("Pendiente"),
+	PENDING("Pendiente", "Pendientes"),
 	/**
 	 * Estado de lectura leída
 	 */
-	READ("Leída"),
+	READ("Leída", "Leídas"),
 	/**
 	 * Estado de lectura impedida
 	 */
-	IMPEDED("Impedida"),
+	IMPEDED("Impedida", "Impedidas"),
 	/**
 	 * Estado de lectura postergada
 	 */
-	POSTPONED("Postergada"),
+	POSTPONED("Postergada", "Postergadas"),
 	/**
 	 * Estado de lectura puesta para reintentar
 	 */
-	RETRY("Reintentar");
+	RETRY("Reintentar", "Reintentar");
 
 	private String string;
+	private String pluralString;
 
-	private ReadingStatus(String string) {
+	private ReadingStatus(String string, String pluralString) {
 		this.string = string;
+		this.pluralString = pluralString;
 	}
 
 	@Override
 	public String toString() {
 		return string;
+	}
+
+	public String toPluralString() {
+		return pluralString;
 	}
 
 	/**
@@ -56,5 +65,22 @@ public enum ReadingStatus {
 	 */
 	public short toShort() {
 		return (short) this.ordinal();
+	}
+
+	/**
+	 * Obtiene una lista de estados de lecturas como cadenas en plurales. El
+	 * primer elemento de la lista es "Todas"
+	 * 
+	 * @return lsita de cadenas
+	 */
+	public static List<String> getReadingStatusPlurals() {
+		ReadingStatus[] readingStatuses = ReadingStatus.values();
+		List<String> readingStatusesStr = new ArrayList<String>(
+				readingStatuses.length + 1);
+		readingStatusesStr.add("Todas");
+		for (ReadingStatus status : readingStatuses) {
+			readingStatusesStr.add(status.pluralString);
+		}
+		return readingStatusesStr;
 	}
 }

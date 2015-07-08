@@ -11,7 +11,7 @@ public class ElfecApp extends Application {
 		super.onCreate();
 		AppPreferences.initialize(getApplicationContext());
 		CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-				.setDefaultFontPath("fonts/roboto_regular.ttf")
+				.setDefaultFontPath("fonts/helvetica_neue_roman.otf")
 				.setFontAttrId(R.attr.fontPath).build());
 	}
 

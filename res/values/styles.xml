@@ -2,11 +2,11 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="TextAppearance.CustomFont.Light" parent="TextAppearance.AppCompat">
-        <item name="fontPath">fonts/roboto_light.ttf</item>
+        <item name="fontPath">fonts/helvetica_neue_light.otf</item>
     </style>
     
     <style name="TextAppearance.CustomFont.Title" parent="TextAppearance.AppCompat">
-        <item name="fontPath">fonts/roboto_light.ttf</item>
+        <item name="fontPath">fonts/helvetica_neue_light.otf</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
     </style>
@@ -22,7 +22,7 @@
 
     <style name="AppStyle.ActionBar.TextStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@android:color/white</item>
-        <item name="fontPath">fonts/roboto_light.ttf</item>
+        <item name="fontPath">fonts/helvetica_neue_light.otf</item>
     </style>
     
     <style name="AppStyle.ActionMode" parent="Widget.AppCompat.ActionMode">
@@ -33,7 +33,7 @@
 
     <style name="AppStyle.Button" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@android:color/white</item>
-        <item name="fontPath">fonts/roboto_light.ttf</item>
+        <item name="fontPath">fonts/helvetica_neue_light.otf</item>
     </style>
 
     <style name="AppStyle.EditText" parent="Widget.AppCompat.EditText">
