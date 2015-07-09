@@ -1,5 +1,9 @@
 package com.elfec.lecturas.gd.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -19,8 +23,12 @@ import com.elfec.lecturas.gd.model.enums.ReadingStatus;
  *
  */
 @Table(name = "ReadingsGeneralInfo")
-public class ReadingGeneralInfo extends Model {
+public class ReadingGeneralInfo extends Model implements Serializable {
 
+	/**
+	 * Serial
+	 */
+	private static final long serialVersionUID = -7318814193344831496L;
 	/**
 	 * IDLECTURAGD en Oracle
 	 */
@@ -174,7 +182,8 @@ public class ReadingGeneralInfo extends Model {
 	/**
 	 * Guarda la información del medidor relacionado a esta lectura
 	 */
-	private ReadingMeter readingMeter;
+
+	private transient ReadingMeter readingMeter;
 
 	public ReadingGeneralInfo() {
 		super();
@@ -187,11 +196,64 @@ public class ReadingGeneralInfo extends Model {
 			short printPrompt, BigDecimal debtAmount, String owedMonths,
 			BigDecimal fELosses, BigDecimal cULosses, BigDecimal demandFactor,
 			int monthHours, short cleaningType,
-			BigDecimal publicCleaningPercentage, short publicLightingType,
+			BigDecimal publicLightingPercentage, short publicLightingType,
 			int contractedPeakPower, int contractedOffpeakPower,
 			DateTime outagePassibleDate, DateTime expirationDate,
 			ReadingStatus status) {
 		super();
+		initialize(readingRemoteId, year, month, day, routeId, clientId,
+				supplyId, supplyNumber, name, address, NIT, categoryId,
+				categoryDescription, meterId, printPrompt, debtAmount,
+				owedMonths, fELosses, cULosses, demandFactor, monthHours,
+				cleaningType, publicLightingPercentage, publicLightingType,
+				contractedPeakPower, contractedOffpeakPower,
+				outagePassibleDate, expirationDate, status.toShort());
+	}
+
+	// #region Initializer
+	/**
+	 * Inicializa los campos de la lectura
+	 * 
+	 * @param readingRemoteId
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param routeId
+	 * @param clientId
+	 * @param supplyId
+	 * @param supplyNumber
+	 * @param name
+	 * @param address
+	 * @param NIT
+	 * @param categoryId
+	 * @param categoryDescription
+	 * @param meterId
+	 * @param printPrompt
+	 * @param debtAmount
+	 * @param owedMonths
+	 * @param fELosses
+	 * @param cULosses
+	 * @param demandFactor
+	 * @param monthHours
+	 * @param cleaningType
+	 * @param publicCleaningPercentage
+	 * @param publicLightingType
+	 * @param contractedPeakPower
+	 * @param contractedOffpeakPower
+	 * @param outagePassibleDate
+	 * @param expirationDate
+	 * @param s
+	 */
+	public void initialize(long readingRemoteId, int year, short month,
+			short day, int routeId, int clientId, int supplyId,
+			String supplyNumber, String name, String address, String NIT,
+			String categoryId, String categoryDescription, int meterId,
+			short printPrompt, BigDecimal debtAmount, String owedMonths,
+			BigDecimal fELosses, BigDecimal cULosses, BigDecimal demandFactor,
+			int monthHours, short cleaningType,
+			BigDecimal publicLightingPercentage, short publicLightingType,
+			int contractedPeakPower, int contractedOffpeakPower,
+			DateTime outagePassibleDate, DateTime expirationDate, short s) {
 		this.readingRemoteId = readingRemoteId;
 		this.year = year;
 		this.month = month;
@@ -214,14 +276,16 @@ public class ReadingGeneralInfo extends Model {
 		this.demandFactor = demandFactor;
 		this.monthHours = monthHours;
 		this.cleaningType = cleaningType;
-		this.publicLightingPercentage = publicCleaningPercentage;
+		this.publicLightingPercentage = publicLightingPercentage;
 		this.publicLightingType = publicLightingType;
 		this.contractedPeakPower = contractedPeakPower;
 		this.contractedOffpeakPower = contractedOffpeakPower;
 		this.outagePassibleDate = outagePassibleDate;
 		this.expirationDate = expirationDate;
-		this.status = status.toShort();
+		this.status = s;
 	}
+
+	// #endregion
 
 	/**
 	 * Obtiene la información del medidor de la lectura lo cachéa en una
@@ -274,6 +338,70 @@ public class ReadingGeneralInfo extends Model {
 						+ routeAssignment.getFirstSupplyNumber() + " AND "
 						+ routeAssignment.getLastSupplyNumber()).execute();
 	}
+
+	// #region Serialization
+	/**
+	 * Metodo de serialización manual
+	 * 
+	 * @param out
+	 * @throws IOException
+	 */
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeLong(getId());
+		out.writeLong(readingRemoteId);
+		out.writeInt(year);
+		out.writeShort(month);
+		out.writeShort(day);
+		out.writeInt(routeId);
+		out.writeInt(clientId);
+		out.writeInt(supplyId);
+		out.writeUTF(supplyNumber);
+		out.writeUTF(name);
+		out.writeUTF(address);
+		out.writeUTF(NIT);
+		out.writeUTF(categoryId);
+		out.writeUTF(categoryDescription);
+		out.writeInt(meterId);
+		out.writeShort(printPrompt);
+		out.writeObject(debtAmount);
+		out.writeUTF(owedMonths);
+		out.writeObject(FELosses);
+		out.writeObject(CULosses);
+		out.writeObject(demandFactor);
+		out.writeInt(monthHours);
+		out.writeShort(cleaningType);
+		out.writeObject(publicLightingPercentage);
+		out.writeShort(publicLightingType);
+		out.writeInt(contractedPeakPower);
+		out.writeInt(contractedOffpeakPower);
+		out.writeObject(outagePassibleDate);
+		out.writeObject(expirationDate);
+		out.writeShort(status);
+	}
+
+	/**
+	 * Metodo de serialización manual
+	 * 
+	 * @param in
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void readObject(ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
+		setId(in.readLong());
+		initialize(in.readLong(), in.readInt(), in.readShort(), in.readShort(),
+				in.readInt(), in.readInt(), in.readInt(), in.readUTF(),
+				in.readUTF(), in.readUTF(), in.readUTF(), in.readUTF(),
+				in.readUTF(), in.readInt(), in.readShort(),
+				(BigDecimal) in.readObject(), in.readUTF(),
+				(BigDecimal) in.readObject(), (BigDecimal) in.readObject(),
+				(BigDecimal) in.readObject(), in.readInt(), in.readShort(),
+				(BigDecimal) in.readObject(), in.readShort(), in.readInt(),
+				in.readInt(), (DateTime) in.readObject(),
+				(DateTime) in.readObject(), in.readShort());
+	}
+
+	// #endregion
 
 	// #region Getters y Setters
 

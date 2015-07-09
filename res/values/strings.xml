@@ -51,6 +51,11 @@
     <string name="previous_reading">Lectura anterior</string>
     <string name="next_reading">Lectura siguiente</string>
     <string name="last_reading">Última lectura</string>
+    
+    <!-- Reading Take: Reading -->
+    <string name="title_client_info">Información del cliente</string>
+    <string name="lbl_category">Categoría: </string>
+    <string name="title_reading">Lectura</string>
 
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
@@ -66,6 +71,8 @@
 	<string name="sample_meter_number">6435122</string>
 	<string name="sample_reading_status">Leída</string>
 	<string name="sample_name">Fábrica de Leche PIL</string>
+	<string name="sample_address">C Colombia Sn</string>
+	<string name="sample_category">GE2/GDMT</string>
     
     <!-- Accesiblity -->
     <string name="img_importation">Importación de datos</string>

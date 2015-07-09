@@ -1,10 +1,11 @@
 package com.elfec.lecturas.gd.view;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
- import android.content.Context;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.elfec.lecturas.gd.R;
+import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
 
 public class ReadingTake extends AppCompatActivity {
 
@@ -22,13 +25,17 @@ public class ReadingTake extends AppCompatActivity {
 	private ActionBarDrawerToggle drawerToggle;
 	private Toolbar toolbar;
 	private ActionBar actionBar;
-	
+	private ViewPager readingsViewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_reading_take);
 		initializeActionBar();
+		readingsViewPager = (ViewPager) findViewById(R.id.readings_view_pager);
+		readingsViewPager.setAdapter(new ReadingPagerAdapter(
+				getSupportFragmentManager(), ReadingGeneralInfo
+						.getAllReadingsSorted()));
 	}
 
 	@Override
@@ -46,13 +53,13 @@ public class ReadingTake extends AppCompatActivity {
 			return true;
 		}
 		// Handle action buttons
-        switch(item.getItemId()) {
-        case R.id.menu_search:
-           
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
+		switch (item.getItemId()) {
+		case R.id.menu_search:
+
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -79,7 +86,7 @@ public class ReadingTake extends AppCompatActivity {
 		super.onBackPressed();
 		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 	}
-	
+
 	/**
 	 * Inicializa los valores de la barra de herramientas principal
 	 */
@@ -87,7 +94,7 @@ public class ReadingTake extends AppCompatActivity {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		actionBar = getSupportActionBar();
-		
+
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 		actionBar.setDisplayHomeAsUpEnabled(true);
