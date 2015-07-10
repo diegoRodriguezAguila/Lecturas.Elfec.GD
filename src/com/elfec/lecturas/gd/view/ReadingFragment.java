@@ -1,12 +1,14 @@
 package com.elfec.lecturas.gd.view;
 
 import org.apache.commons.lang.WordUtils;
+import org.joda.time.DateTime;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
@@ -16,6 +18,9 @@ import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.view.animations.HeightAnimation;
+import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 
 public class ReadingFragment extends Fragment {
 
@@ -25,6 +30,8 @@ public class ReadingFragment extends Fragment {
 	public static final String ARG_READING = "ReadingGeneralInfo";
 
 	private LinearLayout layoutClientInfo;
+	private ImprovedTextInputLayout txtInputReadingDate;
+	private ImprovedTextInputLayout txtInputReadingTime;
 
 	private ReadingGeneralInfo reading;
 	private boolean mClientInfoCollapsed;
@@ -59,8 +66,8 @@ public class ReadingFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_reading, container,
-				false);
+		final View rootView = inflater.inflate(R.layout.fragment_reading,
+				container, false);
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(ARG_READING)) {
 			reading = (ReadingGeneralInfo) savedInstanceState
@@ -83,8 +90,45 @@ public class ReadingFragment extends Fragment {
 				.getCategoryDescription());
 		layoutClientInfo = (LinearLayout) rootView
 				.findViewById(R.id.layout_client_info);
+		txtInputReadingDate = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reading_date));
+		final DateTime dateNow = DateTime.now();
+		txtInputReadingDate
+				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							showDatePicker(dateNow);
+						}
+					}
+
+				});
+		txtInputReadingDate.getEditText().setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						showDatePicker(dateNow);
+					}
+				});
+		txtInputReadingTime = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reading_time));
 		setLblClientInfoClickListener(rootView);
 		return rootView;
+	}
+
+	public void showDatePicker(final DateTime dateNow) {
+		DatePickerDialog dpd = DatePickerDialog.newInstance(
+				new OnDateSetListener() {
+					@Override
+					public void onDateSet(DatePickerDialog dpd, int year,
+							int month, int day) {
+						txtInputReadingDate.getEditText().setText(
+								new DateTime(year, month, day, 0, 0)
+										.toString("dd/MM/yyy"));
+					}
+				}, dateNow.getYear(), dateNow.getMonthOfYear(), dateNow
+						.getDayOfMonth());
+		dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
 	}
 
 	@Override

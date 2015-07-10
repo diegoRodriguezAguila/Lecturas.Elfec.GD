@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.elfec.lecturas.gd.R;
+import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.presenter.ReadingTakePresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingTakeView;
@@ -37,6 +38,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	private Toolbar toolbar;
 	private ActionBar actionBar;
 	private ViewPager readingsViewPager;
+
 	private int position;
 	private int lastReadingPos;
 
@@ -152,6 +154,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 			public void onDrawerOpened(View drawerView) {
 				// invalidateOptionsMenu(); // creates call to
 				// onPrepareOptionsMenu()
+				KeyboardHelper.hideKeyboard(drawerLayout);
 			}
 		};
 		drawerLayout.setDrawerListener(drawerToggle);

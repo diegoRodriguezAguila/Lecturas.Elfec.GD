@@ -34,7 +34,7 @@
 
     <!-- Reading Take -->
     <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
-    
+
     <!-- Reading Take: Navigation Panel -->
     <string name="drawer_open">Abrir panel de navegación</string>
     <string name="drawer_close">Cerrar panel de navegación</string>
@@ -44,18 +44,20 @@
     <string name="lbl_loading_readings">Espere, se estan cargando las lecturas&#8230;</string>
     <string name="lbl_no_readings">No se encontró ninguna lectura que coincida con los filtros solicitados.</string>
     <string name="lbl_no_readings_help">Si no utilizó ningún filtro, asegurese de haber cargado correctamente las lecturas al dispositivo.</string>
-    
+
     <!-- Reading Take: Bottom Toolbar -->
     <string name="search_reading">Buscar lecturas</string>
     <string name="first_reading">Primera lectura</string>
     <string name="previous_reading">Lectura anterior</string>
     <string name="next_reading">Lectura siguiente</string>
     <string name="last_reading">Última lectura</string>
-    
+
     <!-- Reading Take: Reading -->
     <string name="title_client_info">Información del cliente</string>
     <string name="lbl_category">Categoría: </string>
     <string name="title_reading">Lectura</string>
+    <string name="lbl_current_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha de lectura</string>
+    <string name="lbl_current_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora de lectura</string>
 
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
@@ -67,13 +69,14 @@
     <string name="sample_date">25 Mar 2015</string>
     <string name="sample_device_imei">331235343553633</string>
     <string name="sample_nus">321233</string>
-	<string name="sample_account_number" tools:ignore="TypographyDashes">37-222-563-23</string>
-	<string name="sample_meter_number">6435122</string>
-	<string name="sample_reading_status">Leída</string>
-	<string name="sample_name">Fábrica de Leche PIL</string>
-	<string name="sample_address">C Colombia Sn</string>
-	<string name="sample_category">GE2/GDMT</string>
-    
+    <string name="sample_account_number" tools:ignore="TypographyDashes">37-222-563-23</string>
+    <string name="sample_meter_number">6435122</string>
+    <string name="sample_reading_status">Leída</string>
+    <string name="sample_name">Fábrica de Leche PIL</string>
+    <string name="sample_address">C Colombia Sn</string>
+    <string name="sample_category">GE2/GDMT</string>
+    <string name="sample_short_date">01/07/2015</string>
+
     <!-- Accesiblity -->
     <string name="img_importation">Importación de datos</string>
 
