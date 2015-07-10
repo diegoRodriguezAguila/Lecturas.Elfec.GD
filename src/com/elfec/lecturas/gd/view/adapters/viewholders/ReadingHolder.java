@@ -60,7 +60,6 @@ public class ReadingHolder extends SwappingHolder implements
 	public void onClick(View itemView) {
 		if (reading == null)
 			return;
-		selector.tapSelection(this);
 		selector.setSelected(this, true);
 	}
 }

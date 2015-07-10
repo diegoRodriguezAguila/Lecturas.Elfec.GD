@@ -22,6 +22,7 @@
 
     <style name="AppStyle.ActionBar.TextStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">21sp</item>
         <item name="fontPath">fonts/helvetica_neue_light.otf</item>
     </style>
     

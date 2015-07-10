@@ -2,11 +2,11 @@ package com.elfec.lecturas.gd.view.adapters;
 
 import java.util.List;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bignerdranch.android.recyclerviewchoicemode.RecyclerViewChoiceAdapter;
 import com.bignerdranch.android.recyclerviewchoicemode.SingleSelector;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
@@ -19,10 +19,9 @@ import com.elfec.lecturas.gd.view.adapters.viewholders.ReadingHolder;
  *
  */
 public class ReadingRecyclerViewAdapter extends
-		RecyclerView.Adapter<ReadingHolder> {
+		RecyclerViewChoiceAdapter<ReadingHolder> {
 
 	private List<ReadingGeneralInfo> readings;
-	private SingleSelector singleSelector;
 
 	/**
 	 * Provide a suitable constructor (depends on the kind of dataset)
@@ -30,8 +29,8 @@ public class ReadingRecyclerViewAdapter extends
 	 * @param readings
 	 */
 	public ReadingRecyclerViewAdapter(List<ReadingGeneralInfo> readings) {
+		super(new SingleSelector());
 		this.readings = readings;
-		this.singleSelector = new SingleSelector();
 	}
 
 	/**
@@ -42,8 +41,7 @@ public class ReadingRecyclerViewAdapter extends
 		// Create a new view
 		View v = LayoutInflater.from(viewGroup.getContext()).inflate(
 				R.layout.reading_list_item, viewGroup, false);
-
-		ReadingHolder readingHolder = new ReadingHolder(v, singleSelector);
+		ReadingHolder readingHolder = new ReadingHolder(v, selector);
 		return readingHolder;
 	}
 

@@ -17,39 +17,42 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.presenter.ReadingsListPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
+import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingRecyclerViewAdapter;
 import com.elfec.lecturas.gd.view.adapters.ReadingStatusAdapter;
 import com.elfec.lecturas.gd.view.adapters.RouteAssignmentAdapter;
+import com.elfec.lecturas.gd.view.listeners.RecyclerItemClickListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 public class ReadingsListFragment extends Fragment implements IReadingsListView {
 
 	private ReadingsListPresenter presenter;
+	private IReadingListNotifier readingListNotifier;
 	private Handler mHandler;
 
 	private Spinner spinnerReadingStatus;
 	private Spinner spinnerRoutes;
 	private SuperRecyclerView readingsList;
+	private volatile ReadingRecyclerViewAdapter readingsAdapter;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
 	public ReadingsListFragment() {
+		mHandler = new Handler();
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		presenter = new ReadingsListPresenter(this);
-		mHandler = new Handler();
 	}
 
 	@Override
@@ -62,16 +65,51 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 		spinnerRoutes = (Spinner) view.findViewById(R.id.spinner_routes);
 		setCollapsableToolBarTitle((CollapsingToolbarLayout) view
 				.findViewById(R.id.collapsing_toolbar));
+		presenter.loadRoutes();
 		readingsList = (SuperRecyclerView) view
 				.findViewById(R.id.list_readings);
+
 		readingsList.setHasFixedSize(true);
 		readingsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+		if (readingsList.getAdapter() == null && readingsAdapter != null)
+			readingsList.setAdapter(readingsAdapter);
+		setDefaultSelected();
+		setReadingListItemClickListener();
 		setOnItemSelectedListeners();
 		setReadingStatusAdapter();
-		presenter.loadRoutes();
-		presenter.loadReadingsGeneralInfo();
 		return view;
+	}
+
+	/**
+	 * Asigna la primera lectura como seleccionada por defecto
+	 */
+	private void setDefaultSelected() {
+		mHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				setSelectedReading(0);
+			}
+		}, 500);
+	}
+
+	/**
+	 * Asigna el item click listener para la lista
+	 */
+	private void setReadingListItemClickListener() {
+		readingsList.addOnItemTouchListener(new RecyclerItemClickListener(
+				getActivity(), readingsList.getRecyclerView(),
+				new RecyclerItemClickListener.OnItemClickListener() {
+					@Override
+					public void onItemClick(View view, int position) {
+						if (readingListNotifier != null)
+							readingListNotifier.notifyReadingSelected(position,
+									ReadingsListFragment.this);
+					}
+
+					@Override
+					public void onItemLongClick(View view, int position) {
+					}
+				}));
 	}
 
 	/**
@@ -129,9 +167,7 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 					public void onItemSelected(AdapterView<?> adapter, View v,
 							int pos, long id) {
 						if (v != null) {
-							((TextView) v).setTextColor(getResources()
-									.getColor(android.R.color.white));
-							readingsList.setAdapter(null);
+							// readingsList.setAdapter(null);
 						}
 					}
 
@@ -144,8 +180,8 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 			@Override
 			public void onItemSelected(AdapterView<?> adapter, View v, int pos,
 					long id) {
-				if (v != null)
-					presenter.loadReadingsGeneralInfo();
+				// if (v != null)
+				// presenter.loadReadingsGeneralInfo();
 			}
 
 			@Override
@@ -170,13 +206,27 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 
 	@Override
 	public void setReadings(final List<ReadingGeneralInfo> readings) {
-		mHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				readingsList
-						.setAdapter(new ReadingRecyclerViewAdapter(readings));
-			}
-		});
+		readingsAdapter = new ReadingRecyclerViewAdapter(readings);
+		if (readingsList != null)
+			mHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					readingsList.setAdapter(readingsAdapter);
+				}
+			});
+	}
+
+	@Override
+	public void setReadingListNotifier(IReadingListNotifier listener) {
+		this.readingListNotifier = listener;
+	}
+
+	@Override
+	public void setSelectedReading(int position) {
+		if (readingsAdapter != null) {
+			readingsList.getLayoutManager().scrollToPosition(position);
+			readingsAdapter.setSelected(position, true);
+		}
 	}
 
 	// #endregion

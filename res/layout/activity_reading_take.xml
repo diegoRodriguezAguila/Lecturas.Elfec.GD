@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/arrow_first"
+                android:onClick="btnFirstReading"
                 app:fabSize="mini" />
 
             <android.support.design.widget.FloatingActionButton
@@ -56,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/arrow_left"
+                android:onClick="btnPreviousReading"
                 app:fabSize="mini" />
 
             <android.support.design.widget.FloatingActionButton
@@ -63,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/arrow_right"
+                android:onClick="btnNextReading"
                 app:fabSize="mini" />
 
             <android.support.design.widget.FloatingActionButton
@@ -70,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/arrow_last"
+                android:onClick="btnLastReading"
                 app:fabSize="mini" />
         </LinearLayout>
     </RelativeLayout>
@@ -82,7 +86,7 @@
     -->
 
     <fragment
-        android:id="@+id/left_drawer"
+        android:id="@+id/fragment_nav_reading_list"
         android:name="com.elfec.lecturas.gd.view.ReadingsListFragment"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
