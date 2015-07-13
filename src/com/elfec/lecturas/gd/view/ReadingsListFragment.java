@@ -108,6 +108,9 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 
 					@Override
 					public void onItemLongClick(View view, int position) {
+						if (readingListNotifier != null)
+							readingListNotifier.notifyReadingSelected(position,
+									ReadingsListFragment.this);
 					}
 				}));
 	}

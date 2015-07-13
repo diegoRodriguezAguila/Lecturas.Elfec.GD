@@ -53,6 +53,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 				.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int pos) {
+						KeyboardHelper.hideKeyboard(drawerLayout);
 						position = pos;
 						if (readingListNotifier != null)
 							readingListNotifier.notifyReadingSelected(position,

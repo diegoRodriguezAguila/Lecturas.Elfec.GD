@@ -58,6 +58,17 @@
     <string name="title_reading">Lectura</string>
     <string name="lbl_current_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha de lectura</string>
     <string name="lbl_current_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora de lectura</string>
+    <string name="title_active_energy">Energía <b>activa</b></string>
+    <string name="lbl_energy_rate_A">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate A (Pico)</string>
+    <string name="lbl_energy_rate_B">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate B (Resto)</string>
+    <string name="lbl_energy_rate_C">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate C (Valle)</string>
+    <string name="title_reactive_energy">Energía <b>reactiva</b></string>
+    <string name="title_energy_power_rate_A">Demanda máxima <b>rate A</b></string>
+    <string name="lbl_energy_power">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Demanda max.</string>
+    <string name="lbl_energy_power_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha Dem. max.</string>
+    <string name="lbl_energy_power_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora Dem. max.</string>
+    <string name="title_energy_power_rate_B">Demanda máxima <b>rate B</b></string>
+    <string name="title_energy_power_rate_C">Demanda máxima <b>rate C</b></string>
 
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>

@@ -10,4 +10,5 @@
 	<dimen name="nav_drawer_horizontal_padding">10dp</dimen>
 	<dimen name="list_margin_top">20dp</dimen>
 	<dimen name="col_width">220dp</dimen>
+	<dimen name="sub_separator_width">-1dp</dimen>
 </resources>
