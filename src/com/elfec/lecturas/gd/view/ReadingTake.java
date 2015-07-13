@@ -216,8 +216,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	}
 
 	@Override
-	public void setReadingListNotifier(IReadingListNotifier listener) {
-		this.readingListNotifier = listener;
+	public void setReadingListNotifier(IReadingListNotifier notifier) {
+		this.readingListNotifier = notifier;
 	}
 
 	@Override

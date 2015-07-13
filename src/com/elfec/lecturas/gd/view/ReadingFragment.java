@@ -21,6 +21,9 @@ import com.elfec.lecturas.gd.view.animations.HeightAnimation;
 import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
 public class ReadingFragment extends Fragment {
 
@@ -73,62 +76,22 @@ public class ReadingFragment extends Fragment {
 			reading = (ReadingGeneralInfo) savedInstanceState
 					.getSerializable(ARG_READING);
 		}
-		((TextView) rootView.findViewById(R.id.txt_account_number))
-				.setText(AccountFormatter.formatAccountNumber(reading
-						.getSupplyNumber()));
-		((TextView) rootView.findViewById(R.id.txt_nus)).setText(""
-				+ reading.getSupplyId());
-		((TextView) rootView.findViewById(R.id.txt_meter)).setText(reading
-				.getReadingMeter().getSerialNumber());
-		((TextView) rootView.findViewById(R.id.txt_client_name))
-				.setText(WordUtils.capitalizeFully(reading.getName(),
-						new char[] { '.', ' ' }));
-		((TextView) rootView.findViewById(R.id.txt_address))
-				.setText(WordUtils.capitalizeFully(reading.getAddress(),
-						new char[] { '.', ' ' }));
-		((TextView) rootView.findViewById(R.id.txt_category)).setText(reading
-				.getCategoryDescription());
+		initializeClientInfo(rootView);
 		layoutClientInfo = (LinearLayout) rootView
 				.findViewById(R.id.layout_client_info);
 		txtInputReadingDate = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_reading_date));
-		final DateTime dateNow = DateTime.now();
-		txtInputReadingDate
-				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							showDatePicker(dateNow);
-						}
-					}
-
-				});
-		txtInputReadingDate.getEditText().setOnClickListener(
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						showDatePicker(dateNow);
-					}
-				});
 		txtInputReadingTime = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_reading_time));
-		setLblClientInfoClickListener(rootView);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				setReadingDateListeners();
+				setReadingTimeListeners();
+				setLblClientInfoClickListener(rootView);
+			}
+		}).start();
 		return rootView;
-	}
-
-	public void showDatePicker(final DateTime dateNow) {
-		DatePickerDialog dpd = DatePickerDialog.newInstance(
-				new OnDateSetListener() {
-					@Override
-					public void onDateSet(DatePickerDialog dpd, int year,
-							int month, int day) {
-						txtInputReadingDate.getEditText().setText(
-								new DateTime(year, month, day, 0, 0)
-										.toString("dd/MM/yyy"));
-					}
-				}, dateNow.getYear(), dateNow.getMonthOfYear(), dateNow
-						.getDayOfMonth());
-		dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
 	}
 
 	@Override
@@ -147,12 +110,121 @@ public class ReadingFragment extends Fragment {
 	}
 
 	/**
+	 * Inicializa los valores de la lectura actual, utilizando la información en
+	 * la variable <b>reading</b>
+	 * 
+	 * @param rootView
+	 */
+	private void initializeClientInfo(final View rootView) {
+		((TextView) rootView.findViewById(R.id.txt_account_number))
+				.setText(AccountFormatter.formatAccountNumber(reading
+						.getSupplyNumber()));
+		((TextView) rootView.findViewById(R.id.txt_nus)).setText(""
+				+ reading.getSupplyId());
+		((TextView) rootView.findViewById(R.id.txt_meter)).setText(reading
+				.getReadingMeter().getSerialNumber());
+		((TextView) rootView.findViewById(R.id.txt_client_name))
+				.setText(WordUtils.capitalizeFully(reading.getName(),
+						new char[] { '.', ' ' }));
+		((TextView) rootView.findViewById(R.id.txt_address))
+				.setText(WordUtils.capitalizeFully(reading.getAddress(),
+						new char[] { '.', ' ' }));
+		((TextView) rootView.findViewById(R.id.txt_category)).setText(reading
+				.getCategoryDescription());
+	}
+
+	/**
+	 * Asigna los listeners de el textinput de la fecha actual de lectura
+	 */
+	private void setReadingDateListeners() {
+		txtInputReadingDate
+				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							showDatePicker();
+						}
+					}
+
+				});
+		txtInputReadingDate.getEditText().setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						showDatePicker();
+					}
+				});
+	}
+
+	/**
+	 * Muestra un datePicker
+	 */
+	private void showDatePicker() {
+		DateTime dateNow = DateTime.now();
+		DatePickerDialog dpd = DatePickerDialog.newInstance(
+				new OnDateSetListener() {
+					@Override
+					public void onDateSet(DatePickerDialog dpd, int year,
+							int month, int day) {
+						txtInputReadingDate.getEditText().setText(
+								new DateTime(year, month, day, 0, 0)
+										.toString("dd/MM/yyy"));
+					}
+				}, dateNow.getYear(), dateNow.getMonthOfYear(), dateNow
+						.getDayOfMonth());
+		dpd.show(getActivity().getFragmentManager(), "DatePickerdialog");
+	}
+
+	/**
+	 * Asigna los listeners de el textinput de la hora actual de lectura
+	 */
+	private void setReadingTimeListeners() {
+		txtInputReadingTime
+				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							showTimePicker();
+						}
+					}
+
+				});
+		txtInputReadingTime.getEditText().setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						showTimePicker();
+					}
+				});
+	}
+
+	/**
+	 * Muestra un timePicker
+	 */
+	private void showTimePicker() {
+		final DateTime dateNow = DateTime.now();
+		TimePickerDialog tpd = TimePickerDialog.newInstance(
+				new OnTimeSetListener() {
+					@Override
+					public void onTimeSet(RadialPickerLayout view,
+							int hourOfDay, int minute) {
+						txtInputReadingTime.getEditText().setText(
+								new DateTime(dateNow.getYear(), dateNow
+										.getMonthOfYear(), dateNow
+										.getDayOfMonth(), hourOfDay, minute)
+										.toString("HH:mm"));
+					}
+				}, dateNow.getHourOfDay(), dateNow.getMinuteOfHour(), true);
+		tpd.show(getActivity().getFragmentManager(), "TimePickerdialog");
+	}
+
+	/**
 	 * Asigna el listener de click al label de la información del cliente para
 	 * colapsarlo
 	 * 
 	 * @param rootView
 	 */
-	private void setLblClientInfoClickListener(View rootView) {
+	private void setLblClientInfoClickListener(final View rootView) {
 		rootView.findViewById(R.id.lbl_client_info).setOnClickListener(
 				new OnClickListener() {
 					@Override
@@ -163,7 +235,6 @@ public class ReadingFragment extends Fragment {
 							collapseClientInfo();
 					}
 				});
-
 	}
 
 	/**
@@ -180,7 +251,7 @@ public class ReadingFragment extends Fragment {
 	}
 
 	/**
-	 * muestra la información del cliente
+	 * Muestra la información del cliente
 	 */
 	private void expandClientInfo() {
 		mClientInfoCollapsed = false;

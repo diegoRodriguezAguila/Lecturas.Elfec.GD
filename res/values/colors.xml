@@ -10,4 +10,6 @@
     <color name="border_soft_gray">#B3B3B3</color>
     <color name="txt_hard_green">#1B484E</color>
     <color name="text_soft_gray">#757575</color>
+    <color name="mdtp_accent_color">@color/color_accent</color>
+	<color name="mdtp_accent_color_dark">@color/color_primary_dark</color>
 </resources>
