@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +36,12 @@ public class ReadingFragment extends Fragment {
 	private LinearLayout layoutClientInfo;
 	private ImprovedTextInputLayout txtInputReadingDate;
 	private ImprovedTextInputLayout txtInputReadingTime;
+	private TextView txtAccountNumber;
+	private TextView txtNUS;
+	private TextView txtMeter;
+	private TextView txtClientName;
+	private TextView txtAddress;
+	private TextView txtCategory;
 
 	private ReadingGeneralInfo reading;
 	private boolean mClientInfoCollapsed;
@@ -51,19 +58,31 @@ public class ReadingFragment extends Fragment {
 	 * Factory method for this fragment class. Constructs a new fragment for the
 	 * given reading.
 	 */
-	public static ReadingFragment create(ReadingGeneralInfo reading) {
+	public static ReadingFragment create() {
 		ReadingFragment fragment = new ReadingFragment();
-		Bundle args = new Bundle();
-		args.putSerializable(ARG_READING, reading);
-		fragment.setArguments(args);
 		return fragment;
+	}
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {
+			Log.i("ReadingFragment",
+					"Fragmento"
+							+ (reading != null ? reading.getSupplyId() : "")
+							+ " se hizo visible");
+		} /*
+		 * else Log.i("ReadingFragment", "Fragmento " + (reading != null ?
+		 * reading.getSupplyId() : "") + "se hizo invisible");
+		 */
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		reading = (ReadingGeneralInfo) getArguments().getSerializable(
-				ARG_READING);
+		if (getArguments() != null && getArguments().containsKey(ARG_READING))
+			reading = (ReadingGeneralInfo) getArguments().getSerializable(
+					ARG_READING);
 	}
 
 	@Override
@@ -116,21 +135,31 @@ public class ReadingFragment extends Fragment {
 	 * @param rootView
 	 */
 	private void initializeClientInfo(final View rootView) {
-		((TextView) rootView.findViewById(R.id.txt_account_number))
-				.setText(AccountFormatter.formatAccountNumber(reading
-						.getSupplyNumber()));
-		((TextView) rootView.findViewById(R.id.txt_nus)).setText(""
-				+ reading.getSupplyId());
-		((TextView) rootView.findViewById(R.id.txt_meter)).setText(reading
-				.getReadingMeter().getSerialNumber());
-		((TextView) rootView.findViewById(R.id.txt_client_name))
-				.setText(WordUtils.capitalizeFully(reading.getName(),
-						new char[] { '.', ' ' }));
-		((TextView) rootView.findViewById(R.id.txt_address))
-				.setText(WordUtils.capitalizeFully(reading.getAddress(),
-						new char[] { '.', ' ' }));
-		((TextView) rootView.findViewById(R.id.txt_category)).setText(reading
-				.getCategoryDescription());
+		txtAccountNumber = (TextView) rootView
+				.findViewById(R.id.txt_account_number);
+		txtNUS = (TextView) rootView.findViewById(R.id.txt_nus);
+		txtMeter = (TextView) rootView.findViewById(R.id.txt_meter);
+		txtClientName = (TextView) rootView.findViewById(R.id.txt_client_name);
+		txtAddress = (TextView) rootView.findViewById(R.id.txt_address);
+		txtCategory = (TextView) rootView.findViewById(R.id.txt_category);
+	}
+
+	/**
+	 * Asigna la información de la lectura al fragment
+	 * 
+	 * @param reading
+	 */
+	public void bindReadingInfo(ReadingGeneralInfo reading) {
+		this.reading = reading;
+		txtAccountNumber.setText(AccountFormatter.formatAccountNumber(reading
+				.getSupplyNumber()));
+		txtNUS.setText("" + reading.getSupplyId());
+		txtMeter.setText(reading.getReadingMeter().getSerialNumber());
+		txtClientName.setText(WordUtils.capitalizeFully(reading.getName(),
+				new char[] { '.', ' ' }));
+		txtAddress.setText(WordUtils.capitalizeFully(reading.getAddress(),
+				new char[] { '.', ' ' }));
+		txtCategory.setText(reading.getCategoryDescription());
 	}
 
 	/**

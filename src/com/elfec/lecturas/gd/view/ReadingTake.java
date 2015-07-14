@@ -223,7 +223,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 
 	@Override
 	public void setSelectedReading(int position) {
-		readingsViewPager.setCurrentItem(position, true);
+		readingsViewPager.setCurrentItem(position,
+				Math.abs(this.position - position) == 1);
 	}
 
 	// #endregion

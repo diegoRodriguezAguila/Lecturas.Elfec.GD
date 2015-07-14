@@ -2,14 +2,13 @@ package com.elfec.lecturas.gd.view.adapters;
 
 import java.util.List;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.view.ReadingFragment;
 
-public class ReadingPagerAdapter extends FragmentStatePagerAdapter {
+public class ReadingPagerAdapter extends
+		FragmentRecyclerPagerAdapter<ReadingFragment> {
 
 	private List<ReadingGeneralInfo> readings;
 
@@ -20,13 +19,18 @@ public class ReadingPagerAdapter extends FragmentStatePagerAdapter {
 	}
 
 	@Override
-	public Fragment getItem(int pos) {
-		return ReadingFragment.create(readings.get(pos));
+	public int getCount() {
+		return readings.size();
 	}
 
 	@Override
-	public int getCount() {
-		return readings.size();
+	public ReadingFragment getNewFragment() {
+		return ReadingFragment.create();
+	}
+
+	@Override
+	public void bindFragmentInfo(ReadingFragment fragment, int position) {
+		fragment.bindReadingInfo(readings.get(position));
 	}
 
 }
