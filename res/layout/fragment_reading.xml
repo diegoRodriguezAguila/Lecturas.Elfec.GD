@@ -39,7 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:gravity="center_vertical|start"
             android:orientation="@integer/list_item_orientation" >
 
@@ -60,8 +60,6 @@
                 android:id="@+id/txt_client_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/list_item_left_margin"
-                android:layout_marginStart="@dimen/list_item_left_margin"
                 android:drawableLeft="@drawable/client"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/client"
@@ -94,8 +92,6 @@
                 android:id="@+id/txt_meter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/list_item_left_margin"
-                android:layout_marginStart="@dimen/list_item_left_margin"
                 android:drawableLeft="@drawable/meter"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/meter"
@@ -127,8 +123,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/list_item_left_margin"
-                android:layout_marginStart="@dimen/list_item_left_margin"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -156,7 +150,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:paddingBottom="5dp"
         android:text="@string/title_reading"
@@ -185,19 +179,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:baselineAligned="false"
                 android:gravity="center_vertical|start"
                 android:orientation="@integer/list_item_orientation" >
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
                     android:id="@+id/txt_input_layout_reading_date"
-                    android:layout_width="@dimen/col_width"
-                    android:layout_height="wrap_content" >
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/calendar"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/calendar"
@@ -206,21 +200,20 @@
                         android:hint="@string/lbl_current_date"
                         android:inputType="none"
                         android:maxLength="10"
-                        android:textIsSelectable="true"/>
+                        android:textIsSelectable="true" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
                     android:id="@+id/txt_input_layout_reading_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/list_item_left_margin"
-                    android:layout_marginStart="@dimen/list_item_left_margin" >
+                    android:layout_marginStart="@dimen/list_item_left_margin"
+                    android:layout_weight="1" >
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/clock"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/clock"
@@ -229,14 +222,35 @@
                         android:hint="@string/lbl_current_time"
                         android:inputType="none"
                         android:maxLength="5"
-                        android:textIsSelectable="true"/>
+                        android:textIsSelectable="true" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/list_item_left_margin"
+                    android:layout_marginStart="@dimen/list_item_left_margin"
+                    android:layout_weight="1" >
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/reset_count"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/reset_count"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lbl_reset_count"
+                        android:inputType="number"
+                        android:maxLength="5" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
-		<!-- Energía activa -->
+            <!-- Energía activa -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -259,8 +273,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginTop="6dp"
+                android:baselineAligned="false"
                 android:gravity="center_vertical|start"
                 android:orientation="@integer/list_item_orientation" >
 
@@ -272,8 +286,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/active_peak"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/active_peak"
@@ -281,7 +293,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_rate_A"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -294,8 +306,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/active_rest"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/active_rest"
@@ -303,7 +313,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_rate_B"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -316,8 +326,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/active_valley"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/active_valley"
@@ -325,14 +333,15 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_rate_C"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Energía reactiva -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -355,8 +364,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginTop="6dp"
+                android:baselineAligned="false"
                 android:gravity="center_vertical|start"
                 android:orientation="@integer/list_item_orientation" >
 
@@ -368,8 +377,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/reactive_peak"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/reactive_peak"
@@ -377,7 +384,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_rate_A"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -390,8 +397,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/reactive_rest"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/reactive_rest"
@@ -399,7 +404,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_rate_B"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -412,8 +417,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/reactive_valley"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/reactive_valley"
@@ -421,14 +424,15 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_rate_C"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Demanda máxima rate A -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -451,8 +455,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginTop="6dp"
+                android:baselineAligned="false"
                 android:gravity="center_vertical|start"
                 android:orientation="@integer/list_item_orientation" >
 
@@ -464,16 +468,14 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
-                        android:drawableLeft="@drawable/active_peak"
+                        android:drawableLeft="@drawable/power_peak"
                         android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/active_peak"
+                        android:drawableStart="@drawable/power_peak"
                         android:ems="10"
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -486,8 +488,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/calendar"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/calendar"
@@ -495,7 +495,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power_date"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -508,8 +508,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/clock"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/clock"
@@ -517,14 +515,15 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power_time"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Demanda máxima rate A -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -547,8 +546,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginTop="6dp"
+                android:baselineAligned="false"
                 android:gravity="center_vertical|start"
                 android:orientation="@integer/list_item_orientation" >
 
@@ -560,16 +559,14 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
-                        android:drawableLeft="@drawable/active_peak"
+                        android:drawableLeft="@drawable/power_rest_offpeak"
                         android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/active_peak"
+                        android:drawableStart="@drawable/power_rest_offpeak"
                         android:ems="10"
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -582,8 +579,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/calendar"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/calendar"
@@ -591,7 +586,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power_date"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -604,8 +599,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/clock"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/clock"
@@ -613,14 +606,15 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power_time"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Demanda máxima rate A -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -643,8 +637,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginTop="6dp"
+                android:baselineAligned="false"
                 android:gravity="center_vertical|start"
                 android:orientation="@integer/list_item_orientation" >
 
@@ -656,16 +650,14 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
-                        android:drawableLeft="@drawable/active_peak"
+                        android:drawableLeft="@drawable/power_valley_offpeak"
                         android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/active_peak"
+                        android:drawableStart="@drawable/power_valley_offpeak"
                         android:ems="10"
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -678,8 +670,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/calendar"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/calendar"
@@ -687,7 +677,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power_date"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -700,8 +690,6 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/list_item_left_margin"
-                        android:layout_marginStart="@dimen/list_item_left_margin"
                         android:drawableLeft="@drawable/clock"
                         android:drawablePadding="5dp"
                         android:drawableStart="@drawable/clock"
@@ -709,7 +697,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power_time"
                         android:inputType="number"
-                        android:maxLength="10"/>
+                        android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
         </LinearLayout>

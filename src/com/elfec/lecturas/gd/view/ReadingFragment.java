@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,20 +60,6 @@ public class ReadingFragment extends Fragment {
 	public static ReadingFragment create() {
 		ReadingFragment fragment = new ReadingFragment();
 		return fragment;
-	}
-
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		super.setUserVisibleHint(isVisibleToUser);
-		if (isVisibleToUser) {
-			Log.i("ReadingFragment",
-					"Fragmento"
-							+ (reading != null ? reading.getSupplyId() : "")
-							+ " se hizo visible");
-		} /*
-		 * else Log.i("ReadingFragment", "Fragmento " + (reading != null ?
-		 * reading.getSupplyId() : "") + "se hizo invisible");
-		 */
 	}
 
 	@Override

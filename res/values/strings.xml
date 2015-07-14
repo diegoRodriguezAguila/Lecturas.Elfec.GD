@@ -58,6 +58,7 @@
     <string name="title_reading">Lectura</string>
     <string name="lbl_current_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha de lectura</string>
     <string name="lbl_current_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora de lectura</string>
+    <string name="lbl_reset_count">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Número de reset</string>
     <string name="title_active_energy">Energía <b>activa</b></string>
     <string name="lbl_energy_rate_A">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate A (Pico)</string>
     <string name="lbl_energy_rate_B">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate B (Resto)</string>

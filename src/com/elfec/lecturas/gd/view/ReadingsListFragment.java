@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 
+import com.bignerdranch.android.recyclerviewchoicemode.MultiSelector.OnItemClickListener;
+import com.bignerdranch.android.recyclerviewchoicemode.SwappingHolder;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
@@ -27,10 +29,10 @@ import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingRecyclerViewAdapter;
 import com.elfec.lecturas.gd.view.adapters.ReadingStatusAdapter;
 import com.elfec.lecturas.gd.view.adapters.RouteAssignmentAdapter;
-import com.elfec.lecturas.gd.view.listeners.RecyclerItemClickListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
-public class ReadingsListFragment extends Fragment implements IReadingsListView {
+public class ReadingsListFragment extends Fragment implements
+		IReadingsListView, OnItemClickListener {
 
 	private ReadingsListPresenter presenter;
 	private IReadingListNotifier readingListNotifier;
@@ -74,7 +76,6 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 		if (readingsList.getAdapter() == null && readingsAdapter != null)
 			readingsList.setAdapter(readingsAdapter);
 		setDefaultSelected();
-		setReadingListItemClickListener();
 		setOnItemSelectedListeners();
 		setReadingStatusAdapter();
 		return view;
@@ -90,29 +91,6 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 				setSelectedReading(0);
 			}
 		}, 500);
-	}
-
-	/**
-	 * Asigna el item click listener para la lista
-	 */
-	private void setReadingListItemClickListener() {
-		readingsList.addOnItemTouchListener(new RecyclerItemClickListener(
-				getActivity(), readingsList.getRecyclerView(),
-				new RecyclerItemClickListener.OnItemClickListener() {
-					@Override
-					public void onItemClick(View view, int position) {
-						if (readingListNotifier != null)
-							readingListNotifier.notifyReadingSelected(position,
-									ReadingsListFragment.this);
-					}
-
-					@Override
-					public void onItemLongClick(View view, int position) {
-						if (readingListNotifier != null)
-							readingListNotifier.notifyReadingSelected(position,
-									ReadingsListFragment.this);
-					}
-				}));
 	}
 
 	/**
@@ -210,6 +188,7 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 	@Override
 	public void setReadings(final List<ReadingGeneralInfo> readings) {
 		readingsAdapter = new ReadingRecyclerViewAdapter(readings);
+		readingsAdapter.setOnItemClickListener(ReadingsListFragment.this);
 		if (readingsList != null)
 			mHandler.post(new Runnable() {
 				@Override
@@ -230,6 +209,14 @@ public class ReadingsListFragment extends Fragment implements IReadingsListView 
 			readingsList.getLayoutManager().scrollToPosition(position);
 			readingsAdapter.setSelected(position, true);
 		}
+	}
+
+	@Override
+	public void onItemClick(SwappingHolder holder, View view, int position,
+			long id) {
+		if (readingListNotifier != null)
+			readingListNotifier.notifyReadingSelected(position,
+					ReadingsListFragment.this);
 	}
 
 	// #endregion

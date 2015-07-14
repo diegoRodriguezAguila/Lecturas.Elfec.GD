@@ -17,20 +17,18 @@ import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
  * need more than one view per item, and you provide access to all the vieews
  * for a data item in a view holder
  */
-public class ReadingHolder extends SwappingHolder implements
-		View.OnClickListener {
+public class ReadingHolder extends SwappingHolder {
 
 	public TextView txtAccountNumber;
 	public TextView txtReadingStatus;
 	public TextView txtNUS;
 	public TextView txtMeterNumber;
 	public TextView txtClientName;
-	private ReadingGeneralInfo reading;
-	private MultiSelector selector;
+
+	// private ReadingGeneralInfo reading;
 
 	public ReadingHolder(View itemView, MultiSelector selector) {
 		super(itemView, selector);
-		itemView.setOnClickListener(this);
 		txtAccountNumber = (TextView) itemView
 				.findViewById(R.id.txt_account_number);
 		txtReadingStatus = (TextView) itemView
@@ -38,11 +36,10 @@ public class ReadingHolder extends SwappingHolder implements
 		txtNUS = (TextView) itemView.findViewById(R.id.txt_nus);
 		txtMeterNumber = (TextView) itemView.findViewById(R.id.txt_meter);
 		txtClientName = (TextView) itemView.findViewById(R.id.txt_client_name);
-		this.selector = selector;
 	}
 
 	public void bindReading(ReadingGeneralInfo reading) {
-		this.reading = reading;
+		// this.reading = reading;
 		txtAccountNumber.setText(AccountFormatter.formatAccountNumber(reading
 				.getSupplyNumber()));
 		txtReadingStatus.setText(reading.getStatus().toString());
@@ -56,10 +53,4 @@ public class ReadingHolder extends SwappingHolder implements
 				new char[] { '.', ' ' }));
 	}
 
-	@Override
-	public void onClick(View itemView) {
-		if (reading == null)
-			return;
-		selector.setSelected(this, true);
-	}
 }
