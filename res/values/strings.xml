@@ -64,12 +64,12 @@
     <string name="lbl_energy_rate_B">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate B (Resto)</string>
     <string name="lbl_energy_rate_C">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate C (Valle)</string>
     <string name="title_reactive_energy">Energía <b>reactiva</b></string>
-    <string name="title_energy_power_rate_A">Demanda máxima <b>rate A</b></string>
-    <string name="lbl_energy_power">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Demanda max.</string>
-    <string name="lbl_energy_power_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha Dem. max.</string>
-    <string name="lbl_energy_power_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora Dem. max.</string>
-    <string name="title_energy_power_rate_B">Demanda máxima <b>rate B</b></string>
-    <string name="title_energy_power_rate_C">Demanda máxima <b>rate C</b></string>
+    <string name="title_energy_power_rate_A">Demanda máxima <b>rate A</b> (Punta)</string>
+    <string name="lbl_energy_power">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Demanda máxima</string>
+    <string name="lbl_energy_power_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha demanda max.</string>
+    <string name="lbl_energy_power_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora demanda max.</string>
+    <string name="title_energy_power_rate_B">Demanda máxima <b>rate B</b> (Fuera de punta)</string>
+    <string name="title_energy_power_rate_C">Demanda máxima <b>rate C</b> (Fuera de punta)</string>
 
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>

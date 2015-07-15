@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,15 +33,34 @@ public class ReadingFragment extends Fragment {
 	 */
 	public static final String ARG_READING = "ReadingGeneralInfo";
 
+	// Client Info
 	private LinearLayout layoutClientInfo;
-	private ImprovedTextInputLayout txtInputReadingDate;
-	private ImprovedTextInputLayout txtInputReadingTime;
 	private TextView txtAccountNumber;
 	private TextView txtNUS;
 	private TextView txtMeter;
 	private TextView txtClientName;
 	private TextView txtAddress;
 	private TextView txtCategory;
+
+	// Reading Fields
+	private ImprovedTextInputLayout txtInputReadingDate;
+	private ImprovedTextInputLayout txtInputReadingTime;
+	private ImprovedTextInputLayout txtInputResetCount;
+	private ImprovedTextInputLayout txtInputActivePeak;
+	private ImprovedTextInputLayout txtInputActiveRest;
+	private ImprovedTextInputLayout txtInputActiveValley;
+	private ImprovedTextInputLayout txtInputReactivePeak;
+	private ImprovedTextInputLayout txtInputReactiveRest;
+	private ImprovedTextInputLayout txtInputReactiveValley;
+	private ImprovedTextInputLayout txtInputPowerPeak;
+	private ImprovedTextInputLayout txtInputPowerPeakDate;
+	private ImprovedTextInputLayout txtInputPowerPeakTime;
+	private ImprovedTextInputLayout txtInputPowerRestOffpeak;
+	private ImprovedTextInputLayout txtInputPowerRestOffpeakDate;
+	private ImprovedTextInputLayout txtInputPowerRestOffpeakTime;
+	private ImprovedTextInputLayout txtInputPowerValleyOffpeak;
+	private ImprovedTextInputLayout txtInputPowerValleyOffpeakDate;
+	private ImprovedTextInputLayout txtInputPowerValleyOffpeakTime;
 
 	private ReadingGeneralInfo reading;
 	private boolean mClientInfoCollapsed;
@@ -54,20 +74,11 @@ public class ReadingFragment extends Fragment {
 	}
 
 	/**
-	 * Factory method for this fragment class. Constructs a new fragment for the
-	 * given reading.
+	 * Factory method for this fragment class
 	 */
 	public static ReadingFragment create() {
 		ReadingFragment fragment = new ReadingFragment();
 		return fragment;
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (getArguments() != null && getArguments().containsKey(ARG_READING))
-			reading = (ReadingGeneralInfo) getArguments().getSerializable(
-					ARG_READING);
 	}
 
 	@Override
@@ -81,17 +92,12 @@ public class ReadingFragment extends Fragment {
 					.getSerializable(ARG_READING);
 		}
 		initializeClientInfo(rootView);
-		layoutClientInfo = (LinearLayout) rootView
-				.findViewById(R.id.layout_client_info);
-		txtInputReadingDate = ((ImprovedTextInputLayout) rootView
-				.findViewById(R.id.txt_input_layout_reading_date));
-		txtInputReadingTime = ((ImprovedTextInputLayout) rootView
-				.findViewById(R.id.txt_input_layout_reading_time));
+		initializeReadingFields(rootView);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				setReadingDateListeners();
-				setReadingTimeListeners();
+				setDateListeners();
+				setTimeListeners();
 				setLblClientInfoClickListener(rootView);
 			}
 		}).start();
@@ -114,12 +120,13 @@ public class ReadingFragment extends Fragment {
 	}
 
 	/**
-	 * Inicializa los valores de la lectura actual, utilizando la información en
-	 * la variable <b>reading</b>
+	 * Inicializa los campos de texto de información del cliente
 	 * 
 	 * @param rootView
 	 */
 	private void initializeClientInfo(final View rootView) {
+		layoutClientInfo = (LinearLayout) rootView
+				.findViewById(R.id.layout_client_info);
 		txtAccountNumber = (TextView) rootView
 				.findViewById(R.id.txt_account_number);
 		txtNUS = (TextView) rootView.findViewById(R.id.txt_nus);
@@ -127,6 +134,50 @@ public class ReadingFragment extends Fragment {
 		txtClientName = (TextView) rootView.findViewById(R.id.txt_client_name);
 		txtAddress = (TextView) rootView.findViewById(R.id.txt_address);
 		txtCategory = (TextView) rootView.findViewById(R.id.txt_category);
+	}
+
+	/**
+	 * Inicializa los campos de lectura
+	 * 
+	 * @param rootView
+	 */
+	public void initializeReadingFields(final View rootView) {
+		txtInputReadingDate = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reading_date));
+		txtInputReadingTime = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reading_time));
+		txtInputResetCount = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reset_count));
+		txtInputActivePeak = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_active_peak));
+		txtInputActiveRest = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_active_rest));
+		txtInputActiveValley = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_active_valley));
+		txtInputReactivePeak = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reactive_peak));
+		txtInputReactiveRest = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reactive_rest));
+		txtInputReactiveValley = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reactive_valley));
+		txtInputPowerPeak = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_peak));
+		txtInputPowerPeakDate = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_peak_date));
+		txtInputPowerPeakTime = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_peak_time));
+		txtInputPowerRestOffpeak = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_rest_offpeak));
+		txtInputPowerRestOffpeakDate = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_rest_offpeak_date));
+		txtInputPowerRestOffpeakTime = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_rest_offpeak_time));
+		txtInputPowerValleyOffpeak = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_valley_offpeak));
+		txtInputPowerValleyOffpeakDate = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_valley_offpeak_date));
+		txtInputPowerValleyOffpeakTime = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_power_valley_offpeak_time));
 	}
 
 	/**
@@ -148,15 +199,31 @@ public class ReadingFragment extends Fragment {
 	}
 
 	/**
-	 * Asigna los listeners de el textinput de la fecha actual de lectura
+	 * Asigna los listeners de el textinput de la fecha actual a los campos de
+	 * fecha de la lectura
 	 */
-	private void setReadingDateListeners() {
-		txtInputReadingDate
+	private void setDateListeners() {
+		setTextInputDateListener(txtInputReadingDate);
+		setTextInputDateListener(txtInputPowerPeakDate);
+		setTextInputDateListener(txtInputPowerRestOffpeakDate);
+		setTextInputDateListener(txtInputPowerValleyOffpeakDate);
+	}
+
+	/**
+	 * Asigna el listener a para mostrar un DatePicker al textInputLayout
+	 * requerido
+	 * 
+	 * @param txtInputLayoutDate
+	 *            {@link ImprovedTextInputLayout}
+	 */
+	private void setTextInputDateListener(
+			final ImprovedTextInputLayout txtInputLayoutDate) {
+		txtInputLayoutDate
 				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
 					@Override
 					public void onFocusChange(View v, boolean hasFocus) {
 						if (hasFocus) {
-							showDatePicker();
+							showDatePicker(txtInputLayoutDate.getEditText());
 						}
 					}
 
@@ -165,71 +232,92 @@ public class ReadingFragment extends Fragment {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						showDatePicker();
+						showDatePicker(txtInputLayoutDate.getEditText());
 					}
 				});
 	}
 
 	/**
-	 * Muestra un datePicker
+	 * Muestra un DatePicker y llena la información en el texto provisto
+	 * 
+	 * @param txtToBindInfo
+	 *            {@link EditText}
 	 */
-	private void showDatePicker() {
+	private void showDatePicker(final EditText txtToBindInfo) {
 		DateTime dateNow = DateTime.now();
 		DatePickerDialog dpd = DatePickerDialog.newInstance(
 				new OnDateSetListener() {
 					@Override
 					public void onDateSet(DatePickerDialog dpd, int year,
 							int month, int day) {
-						txtInputReadingDate.getEditText().setText(
-								new DateTime(year, month, day, 0, 0)
-										.toString("dd/MM/yyy"));
+						txtToBindInfo.setText(new DateTime(year, month, day, 0,
+								0).toString("dd/MM/yyy"));
 					}
 				}, dateNow.getYear(), dateNow.getMonthOfYear(), dateNow
 						.getDayOfMonth());
-		dpd.show(getActivity().getFragmentManager(), "DatePickerdialog");
+		dpd.show(getActivity().getFragmentManager(), "DatePickerDialog");
 	}
 
 	/**
-	 * Asigna los listeners de el textinput de la hora actual de lectura
+	 * Asigna los listeners de el textinput de la hora actual a todos los campos
+	 * de hora de la lectura
 	 */
-	private void setReadingTimeListeners() {
-		txtInputReadingTime
+	private void setTimeListeners() {
+		setTextInputTimeListener(txtInputReadingTime);
+		setTextInputTimeListener(txtInputPowerPeakTime);
+		setTextInputTimeListener(txtInputPowerRestOffpeakTime);
+		setTextInputTimeListener(txtInputPowerValleyOffpeakTime);
+	}
+
+	/**
+	 * Asigna el listener a para mostrar un DatePicker al textInputLayout
+	 * requerido
+	 * 
+	 * @param txtInputLayoutTime
+	 *            {@link ImprovedTextInputLayout}
+	 */
+	private void setTextInputTimeListener(
+			final ImprovedTextInputLayout txtInputLayoutTime) {
+		txtInputLayoutTime
 				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
 					@Override
 					public void onFocusChange(View v, boolean hasFocus) {
 						if (hasFocus) {
-							showTimePicker();
+							showTimePicker(txtInputLayoutTime.getEditText());
 						}
 					}
 
 				});
-		txtInputReadingTime.getEditText().setOnClickListener(
+		txtInputLayoutTime.getEditText().setOnClickListener(
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						showTimePicker();
+						showTimePicker(txtInputLayoutTime.getEditText());
 					}
 				});
 	}
 
 	/**
-	 * Muestra un timePicker
+	 * Muestra un TimePicker que llenará la información en el respectivo campo
+	 * de texto
+	 * 
+	 * @param txtToBindInfo
+	 *            {@link EditText}
 	 */
-	private void showTimePicker() {
+	private void showTimePicker(final EditText txtToBindInfo) {
 		final DateTime dateNow = DateTime.now();
 		TimePickerDialog tpd = TimePickerDialog.newInstance(
 				new OnTimeSetListener() {
 					@Override
 					public void onTimeSet(RadialPickerLayout view,
 							int hourOfDay, int minute) {
-						txtInputReadingTime.getEditText().setText(
-								new DateTime(dateNow.getYear(), dateNow
-										.getMonthOfYear(), dateNow
+						txtToBindInfo.setText(new DateTime(dateNow.getYear(),
+								dateNow.getMonthOfYear(), dateNow
 										.getDayOfMonth(), hourOfDay, minute)
-										.toString("HH:mm"));
+								.toString("HH:mm"));
 					}
 				}, dateNow.getHourOfDay(), dateNow.getMinuteOfHour(), true);
-		tpd.show(getActivity().getFragmentManager(), "TimePickerdialog");
+		tpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
 	}
 
 	/**
