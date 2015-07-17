@@ -44,14 +44,15 @@ public abstract class FragmentRecyclerPagerAdapter<FT extends Fragment> extends
 	}
 
 	/**
-	 * Obtiene una nueva instancia del fragmento, este fragmento no debería
-	 * inicializar la información pero si sus vistas y campos para que el bindeo
-	 * sea más eficáz. Se llama solo el número de veces hasta que se llene el
-	 * pool de fragments
+	 * Obtiene una nueva instancia del fragmento, este fragmento solo
+	 * inicializará la información en la posición provista una única vez al ser
+	 * creado. Se llama solo el número de veces hasta que se llene el pool de
+	 * fragments.
 	 * 
+	 * @param position
 	 * @return {@link Fragment}
 	 */
-	public abstract FT getNewFragment();
+	public abstract FT getNewFragment(int position);
 
 	/**
 	 * Asigna la información respectiva de la posición a la instancia del
@@ -82,7 +83,7 @@ public abstract class FragmentRecyclerPagerAdapter<FT extends Fragment> extends
 			mCurTransaction = mFragmentManager.beginTransaction();
 		}
 
-		FT fragment = getNewFragment();
+		FT fragment = getNewFragment(position);
 		while (mFragmentPool.size() <= relativePos) {
 			mFragmentPool.add(null);
 		}

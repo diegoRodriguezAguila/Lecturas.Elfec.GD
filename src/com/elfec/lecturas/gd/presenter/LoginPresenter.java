@@ -33,10 +33,11 @@ public class LoginPresenter implements IDisposable {
 	public void login() {
 		String username = view.getUsername();
 		String password = view.getPassword();
-		VoidResult usernameValidationResult = LoginFieldsValidator
+		LoginFieldsValidator validator = new LoginFieldsValidator();
+		VoidResult usernameValidationResult = validator
 				.validateUsername(username);
 		view.setUsernameFieldErrors(usernameValidationResult.getErrors());
-		VoidResult passwordValidationResult = LoginFieldsValidator
+		VoidResult passwordValidationResult = validator
 				.validatePassword(password);
 		view.setPasswordFieldErrors(passwordValidationResult.getErrors());
 		if (!usernameValidationResult.hasErrors()
@@ -60,8 +61,8 @@ public class LoginPresenter implements IDisposable {
 			public void run() {
 				Looper.prepare();
 				view.showWaiting();
-				DataAccessResult<User> result = new ElfecUserManager().validateUser(
-						username, password, view.getIMEI());
+				DataAccessResult<User> result = new ElfecUserManager()
+						.validateUser(username, password, view.getIMEI());
 				view.clearPassword();
 				view.hideWaiting();
 				if (!result.hasErrors()) {

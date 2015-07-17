@@ -24,8 +24,8 @@ public class ReadingPagerAdapter extends
 	}
 
 	@Override
-	public ReadingFragment getNewFragment() {
-		return ReadingFragment.create();
+	public ReadingFragment getNewFragment(int position) {
+		return ReadingFragment.create(readings.get(position));
 	}
 
 	@Override

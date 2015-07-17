@@ -23,6 +23,26 @@ public class FieldValidator {
 
 	/**
 	 * Realiza la validación de un campo y recopila los mensajes de error
+	 * arrojados por cada una de las validaciones. Esta validación asume que no
+	 * hay parámetros para ninguna de las validaciones
+	 * 
+	 * @param fieldName
+	 * @param isMaleGender
+	 * @param fieldValue
+	 * @param validationRules
+	 * @param validationParams
+	 *            , la lista de reglas de validación
+	 * @return
+	 */
+	public static <T> List<Exception> validate(String fieldName,
+			boolean isMaleGender, T fieldValue,
+			List<IValidationRule<T>> validationRules) {
+		return validate(fieldName, isMaleGender, fieldValue, validationRules,
+				NO_VALIDATION_PARAMS);
+	}
+
+	/**
+	 * Realiza la validación de un campo y recopila los mensajes de error
 	 * arrojados por cada una de las validaciones
 	 * 
 	 * @param fieldName
@@ -59,8 +79,12 @@ public class FieldValidator {
 		List<Exception> validationErrors = new ArrayList<Exception>();
 		int size = validationRules.size();
 		for (int i = 0; i < size; i++) {
-			if (!validationRules.get(i).isValid(fieldValue,
-					validationParams[i] != null ? validationParams[i] : null)) {
+			if (!validationRules
+					.get(i)
+					.isValid(
+							fieldValue,
+							(i < validationParams.length && validationParams[i] != null) ? validationParams[i]
+									: null)) {
 				validationErrors.add(validationRules.get(i).getError(fieldName,
 						isMaleGender));
 			}

@@ -2,7 +2,7 @@ package com.elfec.lecturas.gd.model.validations;
 
 import com.elfec.lecturas.gd.model.exceptions.ValidationException;
 
-public class NotNullObject<T> implements IValidationRule<T> {
+public class NotNullObjectVR<T> implements IValidationRule<T> {
 
 	@Override
 	public boolean isValid(T objectToValidate, Object... params) {

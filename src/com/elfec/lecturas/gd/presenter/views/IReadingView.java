@@ -1,6 +1,7 @@
 package com.elfec.lecturas.gd.presenter.views;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -103,4 +104,51 @@ public interface IReadingView {
 	public DateTime getPowerValleyOffpeakTime();
 
 	public void setPowerValleyOffpeakTime(DateTime powerValleyOffpeakTime);
+
+	// #region Set Errors
+	public void setReadingDateErrors(List<Exception> errors);
+
+	public void setReadingTimeErrors(List<Exception> errors);
+
+	public void setResetCountErrors(List<Exception> errors);
+
+	public void setActiveDistributingErrors(List<Exception> errors);
+
+	public void setActivePeakErrors(List<Exception> errors);
+
+	public void setActiveRestErrors(List<Exception> errors);
+
+	public void setActiveValleyErrors(List<Exception> errors);
+
+	public void setReactiveDistributingErrors(List<Exception> errors);
+
+	public void setReactivePeakErrors(List<Exception> errors);
+
+	public void setReactiveRestErrors(List<Exception> errors);
+
+	public void setReactiveValleyErrors(List<Exception> errors);
+
+	public void setPowerPeakErrors(List<Exception> errors);
+
+	public void setPowerPeakDateErrors(List<Exception> errors);
+
+	public void setPowerPeakTimeErrors(List<Exception> errors);
+
+	public void setPowerRestOffpeakErrors(List<Exception> errors);
+
+	public void setPowerRestOffpeakDateErrors(List<Exception> errors);
+
+	public void setPowerRestOffpeakTimeErrors(List<Exception> errors);
+
+	public void setPowerValleyOffpeakErrors(List<Exception> errors);
+
+	public void setPowerValleyOffpeakDateErrors(List<Exception> errors);
+
+	public void setPowerValleyOffpeakTimeErrors(List<Exception> errors);
+
+	/**
+	 * Notifica al usuario que existen errores en los campos
+	 */
+	public void notifyErrorsInFields();
+	// #endregion
 }

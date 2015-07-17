@@ -72,12 +72,32 @@ public class ReadingPresenter {
 	public void bindReadingTaken() {
 		ReadingTaken readingTaken = reading.getReadingTaken();
 		if (readingTaken != null) {
+			// #region readingTaken view assignations
 			readingTaken.setReadingRemoteId(reading.getReadingRemoteId());
 			readingTaken.setSupplyId(reading.getSupplyId());
 			view.setReadingDate(readingTaken.getReadingDate());
 			view.setReadingTime(readingTaken.getReadingDate());
 			view.setResetCount(readingTaken.getResetCount());
-			view.setActiveDistributing(readingTaken.getReactiveDistributing());
+			view.setActiveDistributing(readingTaken.getActiveDistributing());
+			view.setActivePeak(readingTaken.getActivePeak());
+			view.setActiveRest(readingTaken.getActiveRest());
+			view.setActiveValley(readingTaken.getActiveValley());
+			view.setReactiveDistributing(readingTaken.getReactiveDistributing());
+			view.setReactivePeak(readingTaken.getReactivePeak());
+			view.setReactiveRest(readingTaken.getReactiveRest());
+			view.setReactiveValley(readingTaken.getReactiveValley());
+			view.setPowerPeak(readingTaken.getPowerPeak());
+			view.setPowerPeakDate(readingTaken.getPowerPeakDate());
+			view.setPowerPeakTime(readingTaken.getPowerPeakDate());
+			view.setPowerRestOffpeak(readingTaken.getPowerRestOffpeak());
+			view.setPowerRestOffpeakDate(readingTaken.getPowerRestOffpeakDate());
+			view.setPowerRestOffpeakTime(readingTaken.getPowerRestOffpeakDate());
+			view.setPowerValleyOffpeak(readingTaken.getPowerValleyOffpeak());
+			view.setPowerValleyOffpeakDate(readingTaken
+					.getPowerValleyOffpeakDate());
+			view.setPowerValleyOffpeakTime(readingTaken
+					.getPowerValleyOffpeakDate());
+			// #endregion
 		}
 	}
 
@@ -85,8 +105,46 @@ public class ReadingPresenter {
 	 * Inicia el proceso de validación y guardado de la lectura
 	 */
 	public void saveReading() {
-		VoidResult result = ReadingFieldsValidator.validateActiveDistributing(
-				view.getActivePeak(), view.getActivePeak(),
-				view.getActiveRest(), view.getActiveValley());
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (validateFields()) {
+					// DO STUFF
+				} else
+					view.notifyErrorsInFields();
+			}
+		}).start();
+	}
+
+	public boolean validateFields() {
+		ReadingFieldsValidator validator = new ReadingFieldsValidator();
+		boolean allAreValid = true;
+		VoidResult result;
+
+		result = validator.validateDateTime(view.getReadingDate(),
+				"fecha de lectura");
+		view.setReadingDateErrors(result.getErrors());
+		allAreValid = allAreValid && !result.hasErrors();
+
+		result = validator.validateDateTime(view.getReadingTime(),
+				"hora de lectura");
+		view.setReadingTimeErrors(result.getErrors());
+		allAreValid = allAreValid && !result.hasErrors();
+
+		result = validator.validateResetCount(view.getResetCount());
+		view.setResetCountErrors(result.getErrors());
+		allAreValid = allAreValid && !result.hasErrors();
+
+		result = validator.validateResetCount(view.getResetCount());
+		view.setResetCountErrors(result.getErrors());
+		allAreValid = allAreValid && !result.hasErrors();
+
+		result = validator.validateActiveDistributing(view.getActivePeak(),
+				view.getActivePeak(), view.getActiveRest(),
+				view.getActiveValley());
+		view.setActiveDistributingErrors(result.getErrors());
+		allAreValid = allAreValid && !result.hasErrors();
+
+		return allAreValid;
 	}
 }

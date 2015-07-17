@@ -40,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="center_vertical|start"
+            android:gravity="top|start"
+            android:baselineAligned="false"
             android:orientation="@integer/list_item_orientation" >
 
             <TextView
@@ -51,7 +52,6 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/account_number"
                 android:gravity="center_vertical"
-                android:text="@string/sample_account_number"
                 android:textAppearance="@style/TextAppearance.CustomFont.Light"
                 android:textColor="@color/background_material_dark"
                 android:textSize="20sp" />
@@ -64,7 +64,6 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/client"
                 android:gravity="center_vertical"
-                android:text="@string/sample_name"
                 android:textColor="@color/background_material_dark"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -73,7 +72,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="center_vertical|start"
+            android:gravity="top|start"
+            android:baselineAligned="false"
             android:orientation="@integer/list_item_orientation" >
 
             <TextView
@@ -84,7 +84,6 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/nus"
                 android:gravity="center_vertical"
-                android:text="@string/sample_nus"
                 android:textColor="@color/background_material_dark"
                 android:textSize="18sp" />
 
@@ -96,7 +95,6 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/meter"
                 android:gravity="center_vertical"
-                android:text="@string/sample_meter_number"
                 android:textColor="@color/background_material_dark"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -105,7 +103,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="center_vertical|start"
+            android:gravity="top|start"
+            android:baselineAligned="false"
             android:orientation="@integer/list_item_orientation" >
 
             <TextView
@@ -116,7 +115,6 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/client_address"
                 android:gravity="center_vertical"
-                android:text="@string/sample_address"
                 android:textColor="@color/background_material_dark"
                 android:textSize="18sp" />
 
@@ -140,7 +138,6 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
                     android:gravity="center_vertical"
-                    android:text="@string/sample_category"
                     android:textColor="@color/background_material_dark"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -180,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:baselineAligned="false"
-                android:gravity="center_vertical|start"
+                android:gravity="top|start"
                 android:orientation="@integer/list_item_orientation" >
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -277,7 +274,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:baselineAligned="false"
-                android:gravity="center_vertical|start"
+                android:gravity="top|start"
                 android:orientation="@integer/list_item_orientation" >
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -377,7 +374,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:baselineAligned="false"
-                android:gravity="center_vertical|start"
+                android:gravity="top|start"
                 android:orientation="@integer/list_item_orientation" >
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -477,7 +474,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:baselineAligned="false"
-                android:gravity="center_vertical|start"
+                android:gravity="top|start"
                 android:orientation="@integer/list_item_orientation" >
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -574,7 +571,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:baselineAligned="false"
-                android:gravity="center_vertical|start"
+                android:gravity="top|start"
                 android:orientation="@integer/list_item_orientation" >
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -670,7 +667,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:baselineAligned="false"
-                android:gravity="center_vertical|start"
+                android:gravity="top|start"
                 android:orientation="@integer/list_item_orientation" >
 
                 <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
@@ -736,10 +733,11 @@
                         android:textIsSelectable="true" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
+
             <View
                 android:id="@+id/view_to_allow_scroll"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"/>
+                android:layout_height="68dp" />
         </LinearLayout>
     </ScrollView>
 

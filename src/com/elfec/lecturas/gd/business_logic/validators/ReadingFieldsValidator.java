@@ -10,7 +10,7 @@ import com.elfec.lecturas.gd.model.exceptions.ValidationException;
 import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.model.validations.BigDecimalSumatoryVR;
 import com.elfec.lecturas.gd.model.validations.IValidationRule;
-import com.elfec.lecturas.gd.model.validations.NotNullObject;
+import com.elfec.lecturas.gd.model.validations.NotNullObjectVR;
 
 /**
  * Se encarga de las validaciones de los campos de la vista de Lecturas
@@ -20,30 +20,27 @@ import com.elfec.lecturas.gd.model.validations.NotNullObject;
  */
 public class ReadingFieldsValidator {
 
-	private static List<IValidationRule<DateTime>> dateTimeValidationRules;
-	private static List<IValidationRule<BigDecimal>> bigDecimalValidationRules;
+	private List<IValidationRule<DateTime>> dateTimeValidationRules;
+	private List<IValidationRule<BigDecimal>> bigDecimalValidationRules;
 
-	static {
+	public ReadingFieldsValidator() {
 		dateTimeValidationRules = new ArrayList<>();
-		dateTimeValidationRules.add(new NotNullObject<DateTime>());
+		dateTimeValidationRules.add(new NotNullObjectVR<DateTime>());
 		bigDecimalValidationRules = new ArrayList<>();
-		bigDecimalValidationRules.add(new NotNullObject<BigDecimal>());
+		bigDecimalValidationRules.add(new NotNullObjectVR<BigDecimal>());
 	}
 
 	/**
 	 * Valida cualquier campo de fecha u hora de la lectura
 	 * 
-	 * @param dateOrTime
-	 * @param isDate
-	 *            true si es una fecha, false si es una hora
+	 * @param dateTime
+	 * @param fieldName
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public static VoidResult validateDateOrTime(DateTime dateOrTime,
-			boolean isDate) {
+	public VoidResult validateDateTime(DateTime dateTime, String fieldName) {
 		VoidResult result = new VoidResult();
-		result.addErrors(FieldValidator.validate(isDate ? "fecha de lectura"
-				: "hora de lectura", false, dateOrTime,
-				dateTimeValidationRules, FieldValidator.NO_VALIDATION_PARAMS));
+		result.addErrors(FieldValidator.validate(fieldName, false, dateTime,
+				dateTimeValidationRules));
 		return result;
 	}
 
@@ -53,7 +50,7 @@ public class ReadingFieldsValidator {
 	 * @param resetCount
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public static VoidResult validateResetCount(int resetCount) {
+	public VoidResult validateResetCount(int resetCount) {
 		VoidResult result = new VoidResult();
 		if (resetCount == -1)
 			result.addError(new ValidationException(
@@ -70,9 +67,9 @@ public class ReadingFieldsValidator {
 	 * @param activeValley
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public static VoidResult validateActiveDistributing(
-			BigDecimal activeDistributing, BigDecimal activePeak,
-			BigDecimal activeRest, BigDecimal activeValley) {
+	public VoidResult validateActiveDistributing(BigDecimal activeDistributing,
+			BigDecimal activePeak, BigDecimal activeRest,
+			BigDecimal activeValley) {
 		List<IValidationRule<BigDecimal>> validationRules = new ArrayList<>(
 				bigDecimalValidationRules);
 		validationRules.add(new BigDecimalSumatoryVR(
@@ -92,11 +89,11 @@ public class ReadingFieldsValidator {
 	 * @param fieldName
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public static VoidResult validateActiveEnergyField(BigDecimal value,
+	public VoidResult validateActiveEnergyField(BigDecimal value,
 			String fieldName) {
 		VoidResult result = new VoidResult();
 		result.addErrors(FieldValidator.validate(fieldName, false, value,
-				bigDecimalValidationRules, FieldValidator.NO_VALIDATION_PARAMS));
+				bigDecimalValidationRules));
 		return result;
 	}
 }
