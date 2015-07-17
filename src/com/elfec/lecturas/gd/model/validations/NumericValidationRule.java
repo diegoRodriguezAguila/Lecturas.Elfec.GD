@@ -11,7 +11,7 @@ import com.elfec.lecturas.gd.model.exceptions.ValidationException;
 public class NumericValidationRule implements IValidationRule<String> {
 
 	@Override
-	public boolean isValid(String objectToValidate, String... params) {
+	public boolean isValid(String objectToValidate, Object... params) {
 		try {
 			Integer.parseInt(objectToValidate);
 		} catch (NumberFormatException e) {
@@ -22,8 +22,8 @@ public class NumericValidationRule implements IValidationRule<String> {
 
 	@Override
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
-		return new ValidationException((isMaleGender ? "El " : "La ")
-				+ fieldName + " tiene que ser "
+		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
+				+ fieldName + "</b> tiene que ser "
 				+ (isMaleGender ? "numérico-" : "numérica."));
 	}
 

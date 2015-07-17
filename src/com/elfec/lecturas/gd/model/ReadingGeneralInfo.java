@@ -182,8 +182,11 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	/**
 	 * Guarda la información del medidor relacionado a esta lectura
 	 */
-
 	private transient ReadingMeter readingMeter;
+	/**
+	 * Guarda la información de la lectura tomada por el lector
+	 */
+	private transient ReadingTaken readingTaken;
 
 	public ReadingGeneralInfo() {
 		super();
@@ -288,8 +291,8 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	// #endregion
 
 	/**
-	 * Obtiene la información del medidor de la lectura lo cachéa en una
-	 * variable
+	 * Obtiene la información del medidor de la lectura. Cachéa esta consulta en
+	 * una variable
 	 * 
 	 * @return {@link ReadingMeter}
 	 */
@@ -299,6 +302,24 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 					.where("ReadingRemoteId = ?", readingRemoteId)
 					.executeSingle();
 		return readingMeter;
+	}
+
+	/**
+	 * Obtiene la información de la lectura tomada por el lector. Cachéa esta
+	 * consulta en una variable. Esta consulta depende del estado de la lectura
+	 * si está en {@link ReadingStatus#READ} o {@link ReadingStatus#IMPEDED}
+	 * hace la consulta a la base de datos, caso contrario devuelve null.
+	 * 
+	 * @return {@link ReadingTaken} la lectura tomada, o null en caso de no
+	 *         haberse tomado la lectura aún
+	 */
+	public ReadingTaken getReadingTaken() {
+		if (readingTaken == null
+				&& (getStatus() == ReadingStatus.READ || getStatus() == ReadingStatus.IMPEDED))
+			readingTaken = new Select().from(ReadingTaken.class)
+					.where("ReadingRemoteId = ?", readingRemoteId)
+					.executeSingle();
+		return readingTaken;
 	}
 
 	/**

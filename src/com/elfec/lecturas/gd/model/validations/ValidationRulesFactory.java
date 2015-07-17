@@ -47,7 +47,7 @@ public class ValidationRulesFactory {
 		List<IValidationRule<T>> objectValidationRules = new ArrayList<IValidationRule<T>>();
 		validationRules = validationRules.replace(" ", "");
 		String[] rules = validationRules.split(";");
-		String[] params = new String[rules.length];
+		String[][] params = new String[rules.length][];
 		int indParams;
 		String param;
 		for (int i = 0; i < rules.length; i++) {
@@ -57,7 +57,7 @@ public class ValidationRulesFactory {
 				param = rules[i].substring(indParams + 1, rules[i].length());
 				rules[i] = rules[i].substring(0, indParams);
 			}
-			params[i] = param;
+			params[i] = param == null ? null : param.split(",");
 			objectValidationRules
 					.add((IValidationRule<T>) getValidationRule(rules[i]));
 		}

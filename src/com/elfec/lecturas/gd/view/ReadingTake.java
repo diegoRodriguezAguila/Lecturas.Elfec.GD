@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.elfec.lecturas.gd.R;
+import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
 import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.presenter.ReadingTakePresenter;
@@ -27,6 +28,7 @@ import com.elfec.lecturas.gd.presenter.views.IReadingTakeView;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
+import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 
 public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 
@@ -199,6 +201,18 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	 */
 	public void btnLastReading(View v) {
 		setSelectedReading(lastReadingPos - 1);
+	}
+
+	/**
+	 * Manejador de click del boton de guardar lectura
+	 * 
+	 * @param v
+	 */
+	public void btnSaveReading(View v) {
+		if (ButtonClicksHelper.canClickButton())
+			((OnReadingSaveClickListener) readingsViewPager.getAdapter()
+					.instantiateItem(readingsViewPager, position))
+					.readingSaveClicked(v);
 	}
 
 	// #region Interface Methods

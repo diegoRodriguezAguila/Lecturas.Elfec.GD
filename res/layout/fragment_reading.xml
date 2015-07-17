@@ -496,7 +496,7 @@
                         android:ems="10"
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -592,7 +592,7 @@
                         android:ems="10"
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -688,7 +688,7 @@
                         android:ems="10"
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_energy_power"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:maxLength="10" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -736,6 +736,10 @@
                         android:textIsSelectable="true" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
+            <View
+                android:id="@+id/view_to_allow_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"/>
         </LinearLayout>
     </ScrollView>
 

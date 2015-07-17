@@ -9,6 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+/**
+ * {@link TextInputLayout} mejorado, arregla el bug de que los hints no se
+ * muestran en edittexts que estan dentro de fragmentos. Provee también de un
+ * metodo {@link #setEditTextOnFocusChangeListener(OnFocusChangeListener)} para
+ * agregar un {@link OnFocusChangeListener} al EditText sin sobre escribir la
+ * funcionalidad de la animación del hint
+ * 
+ * @author drodriguez
+ *
+ */
 public class ImprovedTextInputLayout extends TextInputLayout {
 
 	private boolean mIsHintSet;

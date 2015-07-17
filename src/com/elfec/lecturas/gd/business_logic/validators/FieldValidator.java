@@ -17,6 +17,11 @@ import com.elfec.lecturas.gd.model.validations.ValidationsAndParams;
  */
 public class FieldValidator {
 	/**
+	 * Constante que indica que no se requieren parametros para una validación
+	 */
+	public static final Object[][] NO_VALIDATION_PARAMS = new Object[][] {};
+
+	/**
 	 * Realiza la validación de un campo y recopila los mensajes de error
 	 * arrojados por cada una de las validaciones
 	 * 
@@ -30,7 +35,7 @@ public class FieldValidator {
 	 */
 	public static <T> List<Exception> validate(String fieldName,
 			boolean isMaleGender, T fieldValue,
-			IValidationRule<T>[] validationRules, String[] validationParams) {
+			IValidationRule<T>[] validationRules, Object[][] validationParams) {
 		return validate(fieldName, isMaleGender, fieldValue,
 				Arrays.asList(validationRules), validationParams);
 	}
@@ -49,14 +54,13 @@ public class FieldValidator {
 	 */
 	public static <T> List<Exception> validate(String fieldName,
 			boolean isMaleGender, T fieldValue,
-			List<IValidationRule<T>> validationRules, String[] validationParams) {
+			List<IValidationRule<T>> validationRules,
+			Object[][] validationParams) {
 		List<Exception> validationErrors = new ArrayList<Exception>();
 		int size = validationRules.size();
 		for (int i = 0; i < size; i++) {
-			if (!validationRules.get(i).isValid(
-					fieldValue,
-					validationParams[i] != null ? validationParams[i]
-							.split(",") : null)) {
+			if (!validationRules.get(i).isValid(fieldValue,
+					validationParams[i] != null ? validationParams[i] : null)) {
 				validationErrors.add(validationRules.get(i).getError(fieldName,
 						isMaleGender));
 			}
@@ -75,9 +79,9 @@ public class FieldValidator {
 	 *            , las reglas de validación pero como cadena
 	 * @return
 	 */
-	public static List<Exception> validate(String fieldName,
-			boolean fieldIsMaleGender, String fieldValue, String validationRules) {
-		ValidationsAndParams<String> validationRulesAndParams = ValidationRulesFactory
+	public static <T> List<Exception> validate(String fieldName,
+			boolean fieldIsMaleGender, T fieldValue, String validationRules) {
+		ValidationsAndParams<T> validationRulesAndParams = ValidationRulesFactory
 				.createValidationRulesWithParams(validationRules);
 		return FieldValidator.validate(fieldName, fieldIsMaleGender,
 				fieldValue, validationRulesAndParams.getValidationRules(),

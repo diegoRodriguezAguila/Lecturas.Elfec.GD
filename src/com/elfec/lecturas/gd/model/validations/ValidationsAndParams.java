@@ -12,10 +12,10 @@ import java.util.List;
 public class ValidationsAndParams<T> {
 
 	private List<IValidationRule<T>> validationRules;
-	private String[] params;
+	private Object[][] params;
 
 	public ValidationsAndParams(List<IValidationRule<T>> validationRules,
-			String[] params) {
+			Object[][] params) {
 		super();
 		this.validationRules = validationRules;
 		this.params = params;
@@ -25,7 +25,7 @@ public class ValidationsAndParams<T> {
 		return validationRules;
 	}
 
-	public String[] getParams() {
+	public Object[][] getParams() {
 		return params;
 	}
 

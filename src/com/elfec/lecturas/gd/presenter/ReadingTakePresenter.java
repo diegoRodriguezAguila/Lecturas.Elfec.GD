@@ -61,5 +61,4 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 			currentPosition = position;
 		}
 	}
-
 }

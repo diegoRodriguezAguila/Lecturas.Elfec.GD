@@ -18,7 +18,7 @@ public interface IValidationRule<T> {
 	 * @param objectToValidate
 	 * @return
 	 */
-	public boolean isValid(T objectToValidate, String... params);
+	public boolean isValid(T objectToValidate, Object... params);
 
 	/**
 	 * Devuelve una cadena que describe el error en caso de incumplimiento de la

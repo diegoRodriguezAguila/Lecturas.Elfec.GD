@@ -14,16 +14,16 @@ public class MaxLenghtValidationRule implements IValidationRule<String> {
 	private int maxLenght = 0;
 
 	@Override
-	public boolean isValid(String objectToValidate, String... params) {
-		maxLenght = Integer.parseInt(params[0]);
+	public boolean isValid(String objectToValidate, Object... params) {
+		maxLenght = Integer.parseInt(params[0].toString());
 		return objectToValidate != null
 				&& objectToValidate.length() <= maxLenght;
 	}
 
 	@Override
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
-		return new ValidationException((isMaleGender ? "El " : "La ")
-				+ fieldName + " tiene que tener menos de " + maxLenght
+		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
+				+ fieldName + "</b> tiene que tener menos de " + maxLenght
 				+ " caracteres.");
 	}
 

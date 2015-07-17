@@ -14,16 +14,16 @@ public class MinLenghtValidationRule implements IValidationRule<String> {
 	private int minLenght = 0;
 
 	@Override
-	public boolean isValid(String objectToValidate, String... params) {
-		minLenght = Integer.parseInt(params[0]);
+	public boolean isValid(String objectToValidate, Object... params) {
+		minLenght = Integer.parseInt(params[0].toString());
 		return objectToValidate != null
 				&& objectToValidate.length() >= minLenght;
 	}
 
 	@Override
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
-		return new ValidationException((isMaleGender ? "El " : "La ")
-				+ fieldName + " tiene que ser de al menos " + minLenght
+		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
+				+ fieldName + "</b> tiene que ser de al menos " + minLenght
 				+ " caracteres.");
 	}
 

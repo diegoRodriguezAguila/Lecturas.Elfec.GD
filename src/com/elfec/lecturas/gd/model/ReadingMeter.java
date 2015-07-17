@@ -101,13 +101,13 @@ public class ReadingMeter extends Model {
 	/**
 	 * TAG_POT_PUNTA en Oracle
 	 */
-	@Column(name = "TagPeakPower")
-	private BigDecimal tagPeakPower;
+	@Column(name = "TagPowerPeak")
+	private BigDecimal tagPowerPeak;
 	/**
 	 * TAG_POT_FPUNTA en Oracle
 	 */
-	@Column(name = "TagOffpeakPower")
-	private BigDecimal tagOffpeakPower;
+	@Column(name = "TagPowerOffpeak")
+	private BigDecimal tagPowerOffpeak;
 	/**
 	 * LEC_ANT_ACTIVO_DISTRIBUIR en Oracle
 	 */
@@ -161,13 +161,13 @@ public class ReadingMeter extends Model {
 	/**
 	 * POT_PUNTA_ARRASTRE en Oracle
 	 */
-	@Column(name = "DraggedPeakPower")
-	private BigDecimal draggedPeakPower;
+	@Column(name = "DraggedPowerPeak")
+	private BigDecimal draggedPowerPeak;
 	/**
 	 * POT_FPUNTA_ARRASTRE en Oracle
 	 */
-	@Column(name = "DraggedOffpeakPower")
-	private BigDecimal draggedOffpeakPower;
+	@Column(name = "DraggedPowerOffpeak")
+	private BigDecimal draggedPowerOffpeak;
 
 	public ReadingMeter() {
 		super();
@@ -179,14 +179,14 @@ public class ReadingMeter extends Model {
 			BigDecimal tagActivePeak, BigDecimal tagActiveRest,
 			BigDecimal tagActiveValey, BigDecimal tagReactiveDistributing,
 			BigDecimal tagReactivePeak, BigDecimal tagReactiveRest,
-			BigDecimal tagReactiveValey, BigDecimal tagPeakPower,
-			BigDecimal tagOffpeakPower, BigDecimal lastActiveDistributing,
+			BigDecimal tagReactiveValey, BigDecimal tagPowerPeak,
+			BigDecimal tagPowerOffpeak, BigDecimal lastActiveDistributing,
 			BigDecimal lastActivePeak, BigDecimal lastActiveRest,
 			BigDecimal lastActiveValey, BigDecimal lastReactiveDistributing,
 			BigDecimal lastReactivePeak, BigDecimal lastReactiveRest,
 			BigDecimal lastReactiveValey, int averageActiveConsumption,
-			int averageReactiveConsumption, BigDecimal draggedPeakPower,
-			BigDecimal draggedOffpeakPower) {
+			int averageReactiveConsumption, BigDecimal draggedPowerPeak,
+			BigDecimal draggedPowerOffpeak) {
 		super();
 		this.readingRemoteId = readingRemoteId;
 		this.meterId = meterId;
@@ -204,8 +204,8 @@ public class ReadingMeter extends Model {
 		this.tagReactivePeak = tagReactivePeak;
 		this.tagReactiveRest = tagReactiveRest;
 		this.tagReactiveValey = tagReactiveValey;
-		this.tagPeakPower = tagPeakPower;
-		this.tagOffpeakPower = tagOffpeakPower;
+		this.tagPowerPeak = tagPowerPeak;
+		this.tagPowerOffpeak = tagPowerOffpeak;
 		this.lastActiveDistributing = lastActiveDistributing;
 		this.lastActivePeak = lastActivePeak;
 		this.lastActiveRest = lastActiveRest;
@@ -216,8 +216,8 @@ public class ReadingMeter extends Model {
 		this.lastReactiveValey = lastReactiveValey;
 		this.averageActiveConsumption = averageActiveConsumption;
 		this.averageReactiveConsumption = averageReactiveConsumption;
-		this.draggedPeakPower = draggedPeakPower;
-		this.draggedOffpeakPower = draggedOffpeakPower;
+		this.draggedPowerPeak = draggedPowerPeak;
+		this.draggedPowerOffpeak = draggedPowerOffpeak;
 	}
 
 	/**
@@ -362,20 +362,20 @@ public class ReadingMeter extends Model {
 		this.tagReactiveValey = tagReactiveValey;
 	}
 
-	public BigDecimal getTagPeakPower() {
-		return tagPeakPower;
+	public BigDecimal getTagPowerPeak() {
+		return tagPowerPeak;
 	}
 
-	public void setTagPeakPower(BigDecimal tagPeakPower) {
-		this.tagPeakPower = tagPeakPower;
+	public void setTagPowerPeak(BigDecimal tagPowerPeak) {
+		this.tagPowerPeak = tagPowerPeak;
 	}
 
-	public BigDecimal getTagOffpeakPower() {
-		return tagOffpeakPower;
+	public BigDecimal getTagPowerOffpeak() {
+		return tagPowerOffpeak;
 	}
 
-	public void setTagOffpeakPower(BigDecimal tagOffpeakPower) {
-		this.tagOffpeakPower = tagOffpeakPower;
+	public void setTagPowerOffpeak(BigDecimal tagPowerOffpeak) {
+		this.tagPowerOffpeak = tagPowerOffpeak;
 	}
 
 	public BigDecimal getLastActiveDistributing() {
@@ -458,20 +458,20 @@ public class ReadingMeter extends Model {
 		this.averageReactiveConsumption = averageReactiveConsumption;
 	}
 
-	public BigDecimal getDraggedPeakPower() {
-		return draggedPeakPower;
+	public BigDecimal getDraggedPowerPeak() {
+		return draggedPowerPeak;
 	}
 
-	public void setDraggedPeakPower(BigDecimal draggedPeakPower) {
-		this.draggedPeakPower = draggedPeakPower;
+	public void setDraggedPowerPeak(BigDecimal draggedPowerPeak) {
+		this.draggedPowerPeak = draggedPowerPeak;
 	}
 
-	public BigDecimal getDraggedOffpeakPower() {
-		return draggedOffpeakPower;
+	public BigDecimal getDraggedPowerOffpeak() {
+		return draggedPowerOffpeak;
 	}
 
-	public void setDraggedOffpeakPower(BigDecimal draggedOffpeakPower) {
-		this.draggedOffpeakPower = draggedOffpeakPower;
+	public void setDraggedPowerOffpeak(BigDecimal draggedPowerOffpeak) {
+		this.draggedPowerOffpeak = draggedPowerOffpeak;
 	}
 
 	// #endregion

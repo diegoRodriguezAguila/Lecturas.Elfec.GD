@@ -1,6 +1,8 @@
 package com.elfec.lecturas.gd.view;
 
-import org.apache.commons.lang.WordUtils;
+import java.math.BigDecimal;
+
+import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
 
 import android.os.Bundle;
@@ -16,22 +18,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elfec.lecturas.gd.R;
-import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
+import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.presenter.ReadingPresenter;
+import com.elfec.lecturas.gd.presenter.views.IReadingView;
 import com.elfec.lecturas.gd.view.animations.HeightAnimation;
 import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
+import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
-public class ReadingFragment extends Fragment {
+public class ReadingFragment extends Fragment implements IReadingView,
+		OnReadingSaveClickListener {
 
-	/**
-	 * la Key para obtener la lectura en este fragmento
-	 */
-	public static final String ARG_READING = "ReadingGeneralInfo";
+	private ReadingPresenter presenter;
 
 	// Client Info
 	private LinearLayout layoutClientInfo;
@@ -62,7 +65,6 @@ public class ReadingFragment extends Fragment {
 	private ImprovedTextInputLayout txtInputPowerValleyOffpeakDate;
 	private ImprovedTextInputLayout txtInputPowerValleyOffpeakTime;
 
-	private ReadingGeneralInfo reading;
 	private boolean mClientInfoCollapsed;
 	private int mClientInfoHeight;
 
@@ -71,6 +73,7 @@ public class ReadingFragment extends Fragment {
 	 * fragment (e.g. upon screen orientation changes).
 	 */
 	public ReadingFragment() {
+		presenter = new ReadingPresenter(this);
 	}
 
 	/**
@@ -86,12 +89,7 @@ public class ReadingFragment extends Fragment {
 			Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.fragment_reading,
 				container, false);
-		if (savedInstanceState != null
-				&& savedInstanceState.containsKey(ARG_READING)) {
-			reading = (ReadingGeneralInfo) savedInstanceState
-					.getSerializable(ARG_READING);
-		}
-		initializeClientInfo(rootView);
+		initializeClientInfoFields(rootView);
 		initializeReadingFields(rootView);
 		new Thread(new Runnable() {
 			@Override
@@ -104,27 +102,12 @@ public class ReadingFragment extends Fragment {
 		return rootView;
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		if (reading != null) {
-			// Serialize and persist the reading.
-			outState.putSerializable(ARG_READING, reading);
-		}
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		reading = null;
-	}
-
 	/**
 	 * Inicializa los campos de texto de información del cliente
 	 * 
 	 * @param rootView
 	 */
-	private void initializeClientInfo(final View rootView) {
+	private void initializeClientInfoFields(final View rootView) {
 		layoutClientInfo = (LinearLayout) rootView
 				.findViewById(R.id.layout_client_info);
 		txtAccountNumber = (TextView) rootView
@@ -186,16 +169,7 @@ public class ReadingFragment extends Fragment {
 	 * @param reading
 	 */
 	public void bindReadingInfo(ReadingGeneralInfo reading) {
-		this.reading = reading;
-		txtAccountNumber.setText(AccountFormatter.formatAccountNumber(reading
-				.getSupplyNumber()));
-		txtNUS.setText("" + reading.getSupplyId());
-		txtMeter.setText(reading.getReadingMeter().getSerialNumber());
-		txtClientName.setText(WordUtils.capitalizeFully(reading.getName(),
-				new char[] { '.', ' ' }));
-		txtAddress.setText(WordUtils.capitalizeFully(reading.getAddress(),
-				new char[] { '.', ' ' }));
-		txtCategory.setText(reading.getCategoryDescription());
+		presenter.setCurrentReading(reading);
 	}
 
 	/**
@@ -222,23 +196,24 @@ public class ReadingFragment extends Fragment {
 				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
 					@Override
 					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
+						if (hasFocus && ButtonClicksHelper.canClickButton())
 							showDatePicker(txtInputLayoutDate.getEditText());
-						}
 					}
 
 				});
-		txtInputReadingDate.getEditText().setOnClickListener(
+		txtInputLayoutDate.getEditText().setOnClickListener(
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						showDatePicker(txtInputLayoutDate.getEditText());
+						if (ButtonClicksHelper.canClickButton())
+							showDatePicker(txtInputLayoutDate.getEditText());
 					}
 				});
 	}
 
 	/**
-	 * Muestra un DatePicker y llena la información en el texto provisto
+	 * Muestra un DatePicker y llena la información en el texto provisto y su
+	 * tag con el objeto de {@link DateTime}
 	 * 
 	 * @param txtToBindInfo
 	 *            {@link EditText}
@@ -250,8 +225,9 @@ public class ReadingFragment extends Fragment {
 					@Override
 					public void onDateSet(DatePickerDialog dpd, int year,
 							int month, int day) {
-						txtToBindInfo.setText(new DateTime(year, month, day, 0,
-								0).toString("dd/MM/yyy"));
+						DateTime date = new DateTime(year, month, day, 0, 0);
+						txtToBindInfo.setText(date.toString("dd/MM/yyy"));
+						txtToBindInfo.setTag(date);
 					}
 				}, dateNow.getYear(), dateNow.getMonthOfYear(), dateNow
 						.getDayOfMonth());
@@ -282,9 +258,8 @@ public class ReadingFragment extends Fragment {
 				.setEditTextOnFocusChangeListener(new OnFocusChangeListener() {
 					@Override
 					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
+						if (hasFocus && ButtonClicksHelper.canClickButton())
 							showTimePicker(txtInputLayoutTime.getEditText());
-						}
 					}
 
 				});
@@ -292,14 +267,15 @@ public class ReadingFragment extends Fragment {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						showTimePicker(txtInputLayoutTime.getEditText());
+						if (ButtonClicksHelper.canClickButton())
+							showTimePicker(txtInputLayoutTime.getEditText());
 					}
 				});
 	}
 
 	/**
 	 * Muestra un TimePicker que llenará la información en el respectivo campo
-	 * de texto
+	 * de texto y su tag con el objeto de {@link DateTime}
 	 * 
 	 * @param txtToBindInfo
 	 *            {@link EditText}
@@ -311,10 +287,11 @@ public class ReadingFragment extends Fragment {
 					@Override
 					public void onTimeSet(RadialPickerLayout view,
 							int hourOfDay, int minute) {
-						txtToBindInfo.setText(new DateTime(dateNow.getYear(),
-								dateNow.getMonthOfYear(), dateNow
-										.getDayOfMonth(), hourOfDay, minute)
-								.toString("HH:mm"));
+						DateTime time = new DateTime(dateNow.getYear(), dateNow
+								.getMonthOfYear(), dateNow.getDayOfMonth(),
+								hourOfDay, minute);
+						txtToBindInfo.setText(time.toString("HH:mm"));
+						txtToBindInfo.setTag(time);
 					}
 				}, dateNow.getHourOfDay(), dateNow.getMinuteOfHour(), true);
 		tpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
@@ -362,4 +339,311 @@ public class ReadingFragment extends Fragment {
 		anim.setDuration(400);
 		layoutClientInfo.startAnimation(anim);
 	}
+
+	// #region Interface Methods
+
+	@Override
+	public void setAccountNumber(String accountNumber) {
+		txtAccountNumber.setText(accountNumber);
+	}
+
+	@Override
+	public void setNUS(int NUS) {
+		txtNUS.setText(NUS != -1 ? ("" + NUS) : "");
+	}
+
+	@Override
+	public void setMeterSerialNumber(String serialNumber) {
+		txtMeter.setText(serialNumber);
+	}
+
+	@Override
+	public void setClientName(String name) {
+		txtClientName.setText(name);
+	}
+
+	@Override
+	public void setAddress(String address) {
+		txtAddress.setText(address);
+	}
+
+	@Override
+	public void setCategory(String category) {
+		txtCategory.setText(category);
+	}
+
+	@Override
+	public DateTime getReadingDate() {
+		return (DateTime) txtInputReadingDate.getEditText().getTag();
+	}
+
+	@Override
+	public void setReadingDate(DateTime date) {
+		txtInputReadingDate.getEditText().setText(
+				date != null ? date.toString("dd/MM/yyy") : null);
+		txtInputReadingDate.getEditText().setTag(date);
+	}
+
+	@Override
+	public DateTime getReadingTime() {
+		return (DateTime) txtInputReadingTime.getEditText().getTag();
+	}
+
+	@Override
+	public void setReadingTime(DateTime time) {
+		txtInputReadingTime.getEditText().setText(
+				time != null ? time.toString("HH:mm") : null);
+		txtInputReadingTime.getEditText().setTag(time);
+	}
+
+	@Override
+	public int getResetCount() {
+		return NumberUtils.toInt(txtInputResetCount.getEditText().getText()
+				.toString(), -1);
+	}
+
+	@Override
+	public void setResetCount(int resetCount) {
+		txtInputResetCount.getEditText().setText(
+				resetCount != -1 ? ("" + resetCount) : null);
+	}
+
+	@Override
+	public BigDecimal getActiveDistributing() {
+		String activeDistributing = txtInputActivePeak.getEditText().getText()
+				.toString();
+		if (activeDistributing == null || activeDistributing.isEmpty())
+			return null;
+		return new BigDecimal(activeDistributing);
+	}
+
+	@Override
+	public void setActiveDistributing(BigDecimal activeDistributing) {
+		txtInputActivePeak.getEditText().setText(
+				activeDistributing != null ? activeDistributing.toPlainString()
+						: null);
+		;
+	}
+
+	@Override
+	public BigDecimal getActivePeak() {
+		String activePeak = txtInputActivePeak.getEditText().getText()
+				.toString();
+		if (activePeak == null || activePeak.isEmpty())
+			return null;
+		return new BigDecimal(activePeak);
+	}
+
+	@Override
+	public BigDecimal getActiveRest() {
+		String activeRest = txtInputActiveRest.getEditText().getText()
+				.toString();
+		if (activeRest == null || activeRest.isEmpty())
+			return null;
+		return new BigDecimal(activeRest);
+	}
+
+	@Override
+	public BigDecimal getActiveValley() {
+		String activeValley = txtInputActiveValley.getEditText().getText()
+				.toString();
+		if (activeValley == null || activeValley.isEmpty())
+			return null;
+		return new BigDecimal(activeValley);
+	}
+
+	@Override
+	public BigDecimal getReactiveDistributing() {
+		String reactivePeak = txtInputReactivePeak.getEditText().getText()
+				.toString();
+		if (reactivePeak == null || reactivePeak.isEmpty())
+			return null;
+		return new BigDecimal(reactivePeak);
+	}
+
+	@Override
+	public BigDecimal getReactivePeak() {
+		String reactivePeak = txtInputReactivePeak.getEditText().getText()
+				.toString();
+		if (reactivePeak == null || reactivePeak.isEmpty())
+			return null;
+		return new BigDecimal(reactivePeak);
+	}
+
+	@Override
+	public BigDecimal getReactiveRest() {
+		String reactiveRest = txtInputReactiveRest.getEditText().getText()
+				.toString();
+		if (reactiveRest == null || reactiveRest.isEmpty())
+			return null;
+		return new BigDecimal(reactiveRest);
+	}
+
+	@Override
+	public BigDecimal getReactiveValley() {
+		String reactiveValley = txtInputReactiveValley.getEditText().getText()
+				.toString();
+		if (reactiveValley == null || reactiveValley.isEmpty())
+			return null;
+		return new BigDecimal(reactiveValley);
+	}
+
+	@Override
+	public BigDecimal getPowerPeak() {
+		String powerPeak = txtInputPowerPeak.getEditText().getText().toString();
+		if (powerPeak == null || powerPeak.isEmpty())
+			return null;
+		return new BigDecimal(powerPeak);
+	}
+
+	@Override
+	public DateTime getPowerPeakDate() {
+		return (DateTime) txtInputPowerPeakDate.getEditText().getTag();
+	}
+
+	@Override
+	public DateTime getPowerPeakTime() {
+		return (DateTime) txtInputPowerPeakTime.getEditText().getTag();
+	}
+
+	@Override
+	public BigDecimal getPowerRestOffpeak() {
+		String powerRestOffpeak = txtInputPowerRestOffpeak.getEditText()
+				.getText().toString();
+		if (powerRestOffpeak == null || powerRestOffpeak.isEmpty())
+			return null;
+		return new BigDecimal(powerRestOffpeak);
+	}
+
+	@Override
+	public DateTime getPowerRestOffpeakDate() {
+		return (DateTime) txtInputPowerRestOffpeakDate.getEditText().getTag();
+	}
+
+	@Override
+	public DateTime getPowerRestOffpeakTime() {
+		return (DateTime) txtInputPowerRestOffpeakTime.getEditText().getTag();
+	}
+
+	@Override
+	public BigDecimal getPowerValleyOffpeak() {
+		String powerValleyOffpeak = txtInputPowerValleyOffpeak.getEditText()
+				.getText().toString();
+		if (powerValleyOffpeak == null || powerValleyOffpeak.isEmpty())
+			return null;
+		return new BigDecimal(powerValleyOffpeak);
+	}
+
+	@Override
+	public DateTime getPowerValleyOffpeakDate() {
+		return (DateTime) txtInputPowerValleyOffpeakDate.getEditText().getTag();
+	}
+
+	@Override
+	public DateTime getPowerValleyOffpeakTime() {
+		return (DateTime) txtInputPowerValleyOffpeakTime.getEditText().getTag();
+	}
+
+	@Override
+	public void readingSaveClicked(View v) {
+		presenter.saveReading();
+	}
+
+	@Override
+	public void setActivePeak(BigDecimal activePeak) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setActiveRest(BigDecimal activeRest) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setActiveValley(BigDecimal activeValley) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setReactiveDistributing(BigDecimal reactiveDistributing) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setReactivePeak(BigDecimal reactivePeak) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setReactiveRest(BigDecimal reactiveRest) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setReactiveValley(BigDecimal reactiveValley) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerPeak(BigDecimal powerPeak) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerPeakDate(DateTime powerPeakDate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerPeakTime(DateTime powerPeakTime) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerRestOffpeak(BigDecimal powerRestOffpeak) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerRestOffpeakDate(DateTime powerRestOffpeakDate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerRestOffpeakTime(DateTime powerRestOffpeakTime) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerValleyOffpeak(BigDecimal powerValleyOffpeak) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerValleyOffpeakDate(DateTime powerValleyOffpeakDate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPowerValleyOffpeakTime(DateTime powerValleyOffpeakTime) {
+		// TODO Auto-generated method stub
+
+	}
+
+	// #endregion
 }
