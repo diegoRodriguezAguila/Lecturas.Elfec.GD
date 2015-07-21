@@ -105,6 +105,11 @@ public interface IReadingView {
 
 	public void setPowerValleyOffpeakTime(DateTime powerValleyOffpeakTime);
 
+	/**
+	 * Limpia todos los campos y sus errores
+	 */
+	public void clearAllFieldsAndErrors();
+
 	// #region Set Errors
 	public void setReadingDateErrors(List<Exception> errors);
 

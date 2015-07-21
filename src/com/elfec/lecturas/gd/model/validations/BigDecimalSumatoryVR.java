@@ -36,7 +36,7 @@ public class BigDecimalSumatoryVR implements IValidationRule<BigDecimal> {
 		BigDecimal summatory = BigDecimal.ZERO;
 		for (Object sum : params) {
 			if (sum != null && sum instanceof BigDecimal)
-				summatory.add((BigDecimal) sum);
+				summatory = summatory.add((BigDecimal) sum);
 		}
 		return total.equals(summatory);
 	}

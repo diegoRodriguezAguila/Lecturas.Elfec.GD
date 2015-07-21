@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
@@ -8,7 +9,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_top_margin" >
+    android:paddingTop="@dimen/activity_vertical_top_margin"
+    tools:ignore="TooManyViews" >
 
     <TextView
         android:id="@+id/lbl_client_info"
@@ -40,8 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="top|start"
             android:baselineAligned="false"
+            android:gravity="top|start"
             android:orientation="@integer/list_item_orientation" >
 
             <TextView
@@ -72,8 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="top|start"
             android:baselineAligned="false"
+            android:gravity="top|start"
             android:orientation="@integer/list_item_orientation" >
 
             <TextView
@@ -103,8 +105,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="top|start"
             android:baselineAligned="false"
+            android:gravity="top|start"
             android:orientation="@integer/list_item_orientation" >
 
             <TextView
@@ -241,7 +243,7 @@
                         android:hint="@string/lbl_reset_count"
                         android:inputType="number"
                         android:maxLength="2"
-                        android:nextFocusDown="@+id/txt_active_peak" />
+                        android:nextFocusDown="@+id/txt_active_total" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Energía activa -->
@@ -249,19 +251,42 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:gravity="top"
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="22dp"
                     android:text="@string/title_active_energy"
                     android:textAppearance="@style/TextAppearance.CustomFont.Light"
                     android:textColor="@color/background_material_dark"
                     android:textSize="20sp" />
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_active_total"
+                    android:layout_width="222dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" >
+
+                    <EditText
+                        android:id="@+id/txt_active_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/active_energy"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/active_energy"
+                        android:ems="10"
+                        android:hint="@string/lbl_total_active_energy"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_active_peak" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
 
             <View
@@ -341,7 +366,7 @@
                         android:hint="@string/lbl_energy_rate_C"
                         android:inputType="number"
                         android:maxLength="10"
-                        android:nextFocusDown="@+id/txt_reactive_peak" />
+                        android:nextFocusDown="@+id/txt_reactive_total" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Energía reactiva -->
@@ -349,19 +374,41 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:gravity="top"
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="22dp"
                     android:text="@string/title_reactive_energy"
                     android:textAppearance="@style/TextAppearance.CustomFont.Light"
                     android:textColor="@color/background_material_dark"
                     android:textSize="20sp" />
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_reactive_total"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" >
+
+                    <EditText
+                        android:id="@+id/txt_reactive_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/reactive_energy"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/reactive_energy"
+                        android:ems="10"
+                        android:hint="@string/lbl_total_reactive_energy"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_reactive_peak" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
 
             <View

@@ -20,10 +20,10 @@ import com.elfec.lecturas.gd.model.validations.NotNullObjectVR;
  */
 public class ReadingFieldsValidator {
 
-	private List<IValidationRule<DateTime>> dateTimeValidationRules;
-	private List<IValidationRule<BigDecimal>> bigDecimalValidationRules;
+	private static List<IValidationRule<DateTime>> dateTimeValidationRules;
+	private static List<IValidationRule<BigDecimal>> bigDecimalValidationRules;
 
-	public ReadingFieldsValidator() {
+	static {
 		dateTimeValidationRules = new ArrayList<>();
 		dateTimeValidationRules.add(new NotNullObjectVR<DateTime>());
 		bigDecimalValidationRules = new ArrayList<>();
@@ -37,7 +37,8 @@ public class ReadingFieldsValidator {
 	 * @param fieldName
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public VoidResult validateDateTime(DateTime dateTime, String fieldName) {
+	public static VoidResult validateDateTime(DateTime dateTime,
+			String fieldName) {
 		VoidResult result = new VoidResult();
 		result.addErrors(FieldValidator.validate(fieldName, false, dateTime,
 				dateTimeValidationRules));
@@ -50,11 +51,11 @@ public class ReadingFieldsValidator {
 	 * @param resetCount
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public VoidResult validateResetCount(int resetCount) {
+	public static VoidResult validateResetCount(int resetCount) {
 		VoidResult result = new VoidResult();
 		if (resetCount == -1)
 			result.addError(new ValidationException(
-					"El número de reset no puede estar vacío"));
+					"El <b>número de reset</b> no puede estar vacío"));
 		return result;
 	}
 
@@ -67,18 +68,18 @@ public class ReadingFieldsValidator {
 	 * @param activeValley
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public VoidResult validateActiveDistributing(BigDecimal activeDistributing,
-			BigDecimal activePeak, BigDecimal activeRest,
-			BigDecimal activeValley) {
+	public static VoidResult validateActiveDistributing(
+			BigDecimal activeDistributing, BigDecimal activePeak,
+			BigDecimal activeRest, BigDecimal activeValley) {
 		List<IValidationRule<BigDecimal>> validationRules = new ArrayList<>(
 				bigDecimalValidationRules);
 		validationRules.add(new BigDecimalSumatoryVR(
-				"energía activa rate A, rate B y rate C"));
-		Object[][] params = new Object[1][];
-		params[0] = new Object[] { activePeak, activeRest, activeValley };
+				"energía activa Rate A, Rate B y Rate C"));
+		Object[][] params = new Object[2][];
+		params[1] = new Object[] { activePeak, activeRest, activeValley };
 		VoidResult result = new VoidResult();
 		result.addErrors(FieldValidator.validate("energía activa total", false,
-				activeDistributing, bigDecimalValidationRules, params));
+				activeDistributing, validationRules, params));
 		return result;
 	}
 
@@ -89,11 +90,66 @@ public class ReadingFieldsValidator {
 	 * @param fieldName
 	 * @return {@link VoidResult} resultado de la validación
 	 */
-	public VoidResult validateActiveEnergyField(BigDecimal value,
+	public static VoidResult validateActiveEnergyField(BigDecimal value,
 			String fieldName) {
 		VoidResult result = new VoidResult();
 		result.addErrors(FieldValidator.validate(fieldName, false, value,
 				bigDecimalValidationRules));
 		return result;
 	}
+
+	/**
+	 * Valida la energía reactiva a distribuir
+	 * 
+	 * @param reactiveDistributing
+	 * @param reactivePeak
+	 * @param reactiveRest
+	 * @param reactiveValley
+	 * @return {@link VoidResult} resultado de la validación
+	 */
+	public static VoidResult validateReactiveDistributing(
+			BigDecimal reactiveDistributing, BigDecimal reactivePeak,
+			BigDecimal reactiveRest, BigDecimal reactiveValley) {
+		List<IValidationRule<BigDecimal>> validationRules = new ArrayList<>(
+				bigDecimalValidationRules);
+		validationRules.add(new BigDecimalSumatoryVR(
+				"energía reactiva Rate A, Rate B y Rate C"));
+		Object[][] params = new Object[2][];
+		params[1] = new Object[] { reactivePeak, reactiveRest, reactiveValley };
+		VoidResult result = new VoidResult();
+		result.addErrors(FieldValidator.validate("energía reactiva total",
+				false, reactiveDistributing, validationRules, params));
+		return result;
+	}
+
+	/**
+	 * Valida cualquier campo de la energía reactiva
+	 * 
+	 * @param value
+	 * @param fieldName
+	 * @return {@link VoidResult} resultado de la validación
+	 */
+	public static VoidResult validateReactiveEnergyField(BigDecimal value,
+			String fieldName) {
+		VoidResult result = new VoidResult();
+		result.addErrors(FieldValidator.validate(fieldName, false, value,
+				bigDecimalValidationRules));
+		return result;
+	}
+
+	/**
+	 * Valida cualquier campo de la demanda de energía
+	 * 
+	 * @param value
+	 * @param fieldName
+	 * @return {@link VoidResult} resultado de la validación
+	 */
+	public static VoidResult validateEnergyPowerField(BigDecimal value,
+			String fieldName) {
+		VoidResult result = new VoidResult();
+		result.addErrors(FieldValidator.validate(fieldName, false, value,
+				bigDecimalValidationRules));
+		return result;
+	}
+
 }

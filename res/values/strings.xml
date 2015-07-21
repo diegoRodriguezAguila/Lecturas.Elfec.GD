@@ -6,8 +6,8 @@
 
     <!-- Login -->
     <string name="title_login">&#160;&#160;Ingreso al sistema</string>
-    <string name="hint_user">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Usuario</string>
-    <string name="hint_password">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Contraseña</string>
+    <string name="hint_user">Usuario</string>
+    <string name="hint_password">Contraseña</string>
     <string name="btn_login">Ingresar</string>
     <string name="errors_in_fields">Los campos tienen errores, reviselos para poder continuar</string>
     <string name="msg_login_waiting">Validando la información del usuario, espere por favor&#8230;</string>
@@ -56,18 +56,20 @@
     <string name="title_client_info">Información del cliente</string>
     <string name="lbl_category">Categoría: </string>
     <string name="title_reading">Lectura</string>
-    <string name="lbl_current_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha de lectura</string>
-    <string name="lbl_current_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora de lectura</string>
-    <string name="lbl_reset_count">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Número de reset</string>
+    <string name="lbl_current_date">Fecha de lectura</string>
+    <string name="lbl_current_time">Hora de lectura</string>
+    <string name="lbl_reset_count">Número de reset</string>
     <string name="title_active_energy">Energía <b>activa</b></string>
-    <string name="lbl_energy_rate_A">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate A (Pico)</string>
-    <string name="lbl_energy_rate_B">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate B (Resto)</string>
-    <string name="lbl_energy_rate_C">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rate C (Valle)</string>
+    <string name="lbl_total_active_energy">Total energía activa</string>
+    <string name="lbl_total_reactive_energy">Total energía reactiva</string>
+    <string name="lbl_energy_rate_A">Rate A (Pico)</string>
+    <string name="lbl_energy_rate_B">Rate B (Resto)</string>
+    <string name="lbl_energy_rate_C">Rate C (Valle)</string>
     <string name="title_reactive_energy">Energía <b>reactiva</b></string>
     <string name="title_energy_power_rate_A">Demanda máxima <b>rate A</b> (Punta)</string>
-    <string name="lbl_energy_power">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Demanda máxima</string>
-    <string name="lbl_energy_power_date">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Fecha demanda max.</string>
-    <string name="lbl_energy_power_time">&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hora demanda max.</string>
+    <string name="lbl_energy_power">Demanda máxima</string>
+    <string name="lbl_energy_power_date">Fecha demanda max.</string>
+    <string name="lbl_energy_power_time">Hora demanda max.</string>
     <string name="title_energy_power_rate_B">Demanda máxima <b>rate B</b> (Fuera de punta)</string>
     <string name="title_energy_power_rate_C">Demanda máxima <b>rate C</b> (Fuera de punta)</string>
     <string name="error_in_reading_fields">Los campos tienen errores, corríjalos para poder guardar la lectura!</string>

@@ -1,6 +1,7 @@
 package com.elfec.lecturas.gd.view;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -12,6 +13,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +52,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	private Handler mHandler;
 	private Runnable snackBarRunnable;
+	private Runnable clearAllRunnable;
+	private boolean needsToClear;
+	private boolean isClearing;
+
+	private Snackbar snackbar;
 
 	// Client Info
 	private LinearLayout layoutClientInfo;
@@ -63,9 +71,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private ImprovedTextInputLayout txtInputReadingDate;
 	private ImprovedTextInputLayout txtInputReadingTime;
 	private ImprovedTextInputLayout txtInputResetCount;
+	private ImprovedTextInputLayout txtInputActiveDistributing;
 	private ImprovedTextInputLayout txtInputActivePeak;
 	private ImprovedTextInputLayout txtInputActiveRest;
 	private ImprovedTextInputLayout txtInputActiveValley;
+	private ImprovedTextInputLayout txtInputReactiveDistributing;
 	private ImprovedTextInputLayout txtInputReactivePeak;
 	private ImprovedTextInputLayout txtInputReactiveRest;
 	private ImprovedTextInputLayout txtInputReactiveValley;
@@ -78,6 +88,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private ImprovedTextInputLayout txtInputPowerValleyOffpeak;
 	private ImprovedTextInputLayout txtInputPowerValleyOffpeakDate;
 	private ImprovedTextInputLayout txtInputPowerValleyOffpeakTime;
+
+	private List<ImprovedTextInputLayout> listedFields;
 
 	private CoordinatorLayout snackBarPosition;
 
@@ -94,20 +106,22 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		snackBarRunnable = new Runnable() {
 			@Override
 			public void run() {
-				Snackbar snackbar = Snackbar.make(snackBarPosition,
-						R.string.error_in_reading_fields, Snackbar.LENGTH_LONG)
-						.setAction(R.string.btn_ok, new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-							}
-						});
-				((TextView) snackbar.getView().findViewById(
-						android.support.design.R.id.snackbar_text))
-						.setMaxLines(3);
 				snackbar.show();
 			}
 		};
-
+		clearAllRunnable = new Runnable() {
+			@Override
+			public void run() {
+				isClearing = true;
+				for (ImprovedTextInputLayout txtField : listedFields) {
+					txtField.getEditText().setTag(null);
+					txtField.getEditText().setText(null);
+					txtField.setErrorEnabled(false);
+				}
+				isClearing = false;
+				needsToClear = false;
+			}
+		};
 	}
 
 	/**
@@ -137,6 +151,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				}
 				snackBarPosition = (CoordinatorLayout) getActivity()
 						.findViewById(R.id.snackbar_position);
+				initializeSnackbar();
 				initializeClientInfoFields(rootView);
 				initializeReadingFields(rootView);
 				mHandler.post(new Runnable() {
@@ -147,12 +162,29 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						presenter.bindReadingTaken();
 					}
 				});
+				initializeFieldList();
+				setFieldValidationListeners();
 				setDateListeners();
 				setTimeListeners();
 				setLblClientInfoClickListener(rootView);
 			}
 		}).start();
 		return rootView;
+	}
+
+	/**
+	 * Inicializa el snackbar
+	 */
+	private void initializeSnackbar() {
+		snackbar = Snackbar.make(snackBarPosition,
+				R.string.error_in_reading_fields, Snackbar.LENGTH_LONG)
+				.setAction(R.string.btn_ok, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+					}
+				});
+		((TextView) snackbar.getView().findViewById(
+				android.support.design.R.id.snackbar_text)).setMaxLines(3);
 	}
 
 	/**
@@ -184,12 +216,16 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				.findViewById(R.id.txt_input_layout_reading_time));
 		txtInputResetCount = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_reset_count));
+		txtInputActiveDistributing = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_active_total));
 		txtInputActivePeak = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_active_peak));
 		txtInputActiveRest = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_active_rest));
 		txtInputActiveValley = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_active_valley));
+		txtInputReactiveDistributing = ((ImprovedTextInputLayout) rootView
+				.findViewById(R.id.txt_input_layout_reactive_total));
 		txtInputReactivePeak = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_reactive_peak));
 		txtInputReactiveRest = ((ImprovedTextInputLayout) rootView
@@ -223,6 +259,73 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 */
 	public void bindReadingInfo(ReadingGeneralInfo reading) {
 		presenter.setCurrentReading(reading);
+	}
+
+	/**
+	 * Agrega los campos a una lista para su uso al inicializar listeners
+	 */
+	private void initializeFieldList() {
+		listedFields = new ArrayList<>();
+		listedFields.add(txtInputReadingDate);
+		listedFields.add(txtInputReadingTime);
+		listedFields.add(txtInputResetCount);
+		listedFields.add(txtInputActiveDistributing);
+		listedFields.add(txtInputActivePeak);
+		listedFields.add(txtInputActiveRest);
+		listedFields.add(txtInputActiveValley);
+		listedFields.add(txtInputReactiveDistributing);
+		listedFields.add(txtInputReactivePeak);
+		listedFields.add(txtInputReactiveRest);
+		listedFields.add(txtInputReactiveValley);
+		listedFields.add(txtInputPowerPeak);
+		listedFields.add(txtInputPowerPeakDate);
+		listedFields.add(txtInputPowerPeakTime);
+		listedFields.add(txtInputPowerRestOffpeak);
+		listedFields.add(txtInputPowerRestOffpeakDate);
+		listedFields.add(txtInputPowerRestOffpeakTime);
+		listedFields.add(txtInputPowerValleyOffpeak);
+		listedFields.add(txtInputPowerValleyOffpeakDate);
+		listedFields.add(txtInputPowerValleyOffpeakTime);
+	}
+
+	/**
+	 * Asigna los listeners que disparan validaciones a todos los campos de la
+	 * vista
+	 */
+	private void setFieldValidationListeners() {
+		int size = listedFields.size();
+		for (int i = 0; i < size; i++) {
+			setFieldValidationListener(listedFields.get(i), i);
+		}
+	}
+
+	/**
+	 * Asigna los listeners que disparan validaciones para el campo indicado
+	 * 
+	 * @param txtField
+	 * @param fieldNum
+	 */
+	private void setFieldValidationListener(
+			final ImprovedTextInputLayout txtField, final int fieldNum) {
+		FieldListener listener = new FieldListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					presenter.validateFieldByNumber(fieldNum);
+					needsToClear = true;
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!isClearing) {
+					presenter.validateFieldByNumber(fieldNum);
+					needsToClear = true;
+				}
+			}
+		};
+		txtField.setEditTextOnFocusChangeListener(listener);
+		txtField.getEditText().addTextChangedListener(listener);
 	}
 
 	/**
@@ -272,15 +375,16 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 *            {@link EditText}
 	 */
 	private void showDatePicker(final EditText txtToBindInfo) {
-		DateTime dateNow = DateTime.now();
+		DateTime dateNow = txtToBindInfo.getTag() == null ? DateTime.now()
+				: (DateTime) txtToBindInfo.getTag();
 		DatePickerDialog dpd = DatePickerDialog.newInstance(
 				new OnDateSetListener() {
 					@Override
 					public void onDateSet(DatePickerDialog dpd, int year,
 							int month, int day) {
 						DateTime date = new DateTime(year, month, day, 0, 0);
-						txtToBindInfo.setText(date.toString("dd/MM/yyy"));
 						txtToBindInfo.setTag(date);
+						txtToBindInfo.setText(date.toString("dd/MM/yyy"));
 					}
 				}, dateNow.getYear(), dateNow.getMonthOfYear(), dateNow
 						.getDayOfMonth());
@@ -334,7 +438,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 *            {@link EditText}
 	 */
 	private void showTimePicker(final EditText txtToBindInfo) {
-		final DateTime dateNow = DateTime.now();
+		final DateTime dateNow = txtToBindInfo.getTag() == null ? DateTime
+				.now() : (DateTime) txtToBindInfo.getTag();
 		TimePickerDialog tpd = TimePickerDialog.newInstance(
 				new OnTimeSetListener() {
 					@Override
@@ -343,8 +448,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						DateTime time = new DateTime(dateNow.getYear(), dateNow
 								.getMonthOfYear(), dateNow.getDayOfMonth(),
 								hourOfDay, minute);
-						txtToBindInfo.setText(time.toString("HH:mm"));
 						txtToBindInfo.setTag(time);
+						txtToBindInfo.setText(time.toString("HH:mm"));
 					}
 				}, dateNow.getHourOfDay(), dateNow.getMinuteOfHour(), true);
 		tpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
@@ -450,7 +555,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (errors.size() > 0)
+				if (errors != null && errors.size() > 0)
 					txtInputField.setError(MessageListFormatter
 							.fotmatHTMLFromErrors(errors));
 				else
@@ -509,7 +614,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public BigDecimal getActiveDistributing() {
-		return getBigDecimalFromField(txtInputActivePeak.getEditText());
+		return getBigDecimalFromField(txtInputActiveDistributing.getEditText());
 	}
 
 	@Override
@@ -529,7 +634,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public BigDecimal getReactiveDistributing() {
-		return getBigDecimalFromField(txtInputReactivePeak.getEditText());
+		return getBigDecimalFromField(txtInputReactiveDistributing
+				.getEditText());
 	}
 
 	@Override
@@ -615,7 +721,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public void setActiveDistributing(BigDecimal activeDistributing) {
-		setBigDecimalToField(txtInputActivePeak.getEditText(),
+		setBigDecimalToField(txtInputActiveDistributing.getEditText(),
 				activeDistributing);
 	}
 
@@ -636,7 +742,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public void setReactiveDistributing(BigDecimal reactiveDistributing) {
-		setBigDecimalToField(txtInputReactivePeak.getEditText(),
+		setBigDecimalToField(txtInputReactiveDistributing.getEditText(),
 				reactiveDistributing);
 	}
 
@@ -724,7 +830,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public void setActiveDistributingErrors(List<Exception> errors) {
-		setErrorsOnField(txtInputActivePeak, errors);
+		setErrorsOnField(txtInputActiveDistributing, errors);
 	}
 
 	@Override
@@ -744,7 +850,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public void setReactiveDistributingErrors(List<Exception> errors) {
-		setErrorsOnField(txtInputReactivePeak, errors);
+		setErrorsOnField(txtInputReactiveDistributing, errors);
 	}
 
 	@Override
@@ -813,5 +919,35 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	}
 
+	@Override
+	public void clearAllFieldsAndErrors() {
+		if (needsToClear)
+			mHandler.postDelayed(clearAllRunnable, 40);
+	}
+
 	// #endregion
+
+	/**
+	 * Clase para asignar listeners a un campo de la vista
+	 * 
+	 * @author drodriguez
+	 *
+	 */
+	private static abstract class FieldListener implements
+			OnFocusChangeListener, TextWatcher {
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 }

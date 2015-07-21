@@ -112,6 +112,16 @@ public abstract class FragmentRecyclerPagerAdapter<FT extends Fragment> extends
 		}
 	}
 
+	/**
+	 * Obtiene el item que actualmente esta visendosé, aquel señalado como
+	 * Primary
+	 * 
+	 * @return
+	 */
+	public Fragment getCurrentItem() {
+		return mCurrentPrimaryItem;
+	}
+
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 	}

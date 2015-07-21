@@ -46,6 +46,7 @@ public class ReadingPresenter {
 		this.reading = reading;
 		if (bind) {
 			bindClientInfo();
+			view.clearAllFieldsAndErrors();
 			bindReadingTaken();
 		}
 	}
@@ -116,35 +117,381 @@ public class ReadingPresenter {
 		}).start();
 	}
 
+	/**
+	 * Valida todos los campos de la lectura
+	 * 
+	 * @return
+	 */
 	public boolean validateFields() {
-		ReadingFieldsValidator validator = new ReadingFieldsValidator();
 		boolean allAreValid = true;
-		VoidResult result;
+		allAreValid = validateReadingDate() && allAreValid;
+		allAreValid = validateReadingTime() && allAreValid;
+		allAreValid = validateResetCount() && allAreValid;
 
-		result = validator.validateDateTime(view.getReadingDate(),
-				"fecha de lectura");
-		view.setReadingDateErrors(result.getErrors());
-		allAreValid = allAreValid && !result.hasErrors();
-
-		result = validator.validateDateTime(view.getReadingTime(),
-				"hora de lectura");
-		view.setReadingTimeErrors(result.getErrors());
-		allAreValid = allAreValid && !result.hasErrors();
-
-		result = validator.validateResetCount(view.getResetCount());
-		view.setResetCountErrors(result.getErrors());
-		allAreValid = allAreValid && !result.hasErrors();
-
-		result = validator.validateResetCount(view.getResetCount());
-		view.setResetCountErrors(result.getErrors());
-		allAreValid = allAreValid && !result.hasErrors();
-
-		result = validator.validateActiveDistributing(view.getActivePeak(),
-				view.getActivePeak(), view.getActiveRest(),
-				view.getActiveValley());
-		view.setActiveDistributingErrors(result.getErrors());
-		allAreValid = allAreValid && !result.hasErrors();
-
+		allAreValid = validateActiveEnergyFields() && allAreValid;
+		allAreValid = validateReactiveEnergyFields() && allAreValid;
+		allAreValid = validateEnergyPowerFields() && allAreValid;
 		return allAreValid;
+	}
+
+	// #region validaciones de lectura
+	/**
+	 * Valida el campo de fecha de lectura
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateReadingDate() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getReadingDate(), "fecha de lectura");
+		view.setReadingDateErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de hora de lectura
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateReadingTime() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getReadingTime(), "hora de lectura");
+		view.setReadingTimeErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de número de reset
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateResetCount() {
+		VoidResult result = ReadingFieldsValidator.validateResetCount(view
+				.getResetCount());
+		view.setResetCountErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	// #endregion
+
+	// #region validaciones energía activa
+
+	/**
+	 * Valida los campos de enrgía activa
+	 * 
+	 * @param allAreValid
+	 * @return true si todos los campos son validos
+	 */
+	private boolean validateActiveEnergyFields() {
+		boolean allAreValid = true;
+		allAreValid = validateActiveDistributing() && allAreValid;
+		allAreValid = validateActivePeak() && allAreValid;
+		allAreValid = validateActiveRest() && allAreValid;
+		allAreValid = validateActiveValley() && allAreValid;
+		return allAreValid;
+	}
+
+	/**
+	 * Valida el campo de energía activa a distirbuir/total
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateActiveDistributing() {
+		VoidResult result = ReadingFieldsValidator.validateActiveDistributing(
+				view.getActiveDistributing(), view.getActivePeak(),
+				view.getActiveRest(), view.getActiveValley());
+		view.setActiveDistributingErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de energía activa pico (Rate A)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateActivePeak() {
+		VoidResult result = ReadingFieldsValidator.validateActiveEnergyField(
+				view.getActivePeak(), "energía activa Rate A");
+		view.setActivePeakErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de energía activa resto (Rate B)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateActiveRest() {
+		VoidResult result = ReadingFieldsValidator.validateActiveEnergyField(
+				view.getActiveRest(), "energía activa Rate B");
+		view.setActiveRestErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de energía activa valle (Rate C)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateActiveValley() {
+		VoidResult result = ReadingFieldsValidator.validateActiveEnergyField(
+				view.getActiveValley(), "energía activa Rate C");
+		view.setActiveValleyErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	// #endregion
+
+	// #region validaciones energía reactiva
+
+	/**
+	 * Valida los campos de energía reactiva
+	 * 
+	 * @param allAreValid
+	 * @return true si todos los campos son validos
+	 */
+	private boolean validateReactiveEnergyFields() {
+		boolean allAreValid = true;
+		allAreValid = validateReactiveDistributing() && allAreValid;
+		allAreValid = validateReactivePeak() && allAreValid;
+		allAreValid = validateReactiveRest() && allAreValid;
+		allAreValid = validateReactiveValley() && allAreValid;
+		return allAreValid;
+	}
+
+	/**
+	 * Valida el campo de energía reactiva a distirbuir/total
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateReactiveDistributing() {
+		VoidResult result = ReadingFieldsValidator
+				.validateReactiveDistributing(view.getReactiveDistributing(),
+						view.getReactivePeak(), view.getReactiveRest(),
+						view.getReactiveValley());
+		view.setReactiveDistributingErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de energía reactiva pico (Rate A)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateReactivePeak() {
+		VoidResult result = ReadingFieldsValidator.validateReactiveEnergyField(
+				view.getReactivePeak(), "energía reactiva Rate A");
+		view.setReactivePeakErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de energía reactiva resto (Rate B)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateReactiveRest() {
+		VoidResult result = ReadingFieldsValidator.validateReactiveEnergyField(
+				view.getReactiveRest(), "energía reactiva Rate B");
+		view.setReactiveRestErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de energía reactiva valle (Rate C)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validateReactiveValley() {
+		VoidResult result = ReadingFieldsValidator.validateReactiveEnergyField(
+				view.getReactiveValley(), "energía reactiva Rate C");
+		view.setReactiveValleyErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	// #endregion
+
+	// #region validaciones demanda máxima
+
+	/**
+	 * Valida los campos de la demanda máxima
+	 * 
+	 * @param allAreValid
+	 * @return true si todos los campos son validos
+	 */
+	private boolean validateEnergyPowerFields() {
+		boolean allAreValid = true;
+		allAreValid = validatePowerPeak() && allAreValid;
+		allAreValid = validatePowerPeakDate() && allAreValid;
+		allAreValid = validatePowerPeakTime() && allAreValid;
+
+		allAreValid = validatePowerRestOffpeak() && allAreValid;
+		allAreValid = validatePowerRestOffpeakDate() && allAreValid;
+		allAreValid = validatePowerRestOffpeakTime() && allAreValid;
+
+		allAreValid = validatePowerValleyOffpeak() && allAreValid;
+		allAreValid = validatePowerValleyOffpeakDate() && allAreValid;
+		allAreValid = validatePowerValleyOffpeakTime() && allAreValid;
+		return allAreValid;
+	}
+
+	/**
+	 * Valida el campo de demanda máxima punta (Rate A)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerPeak() {
+		VoidResult result = ReadingFieldsValidator.validateEnergyPowerField(
+				view.getPowerPeak(), "demanda máxima Rate A");
+		view.setPowerPeakErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de la fecha de la demanda máxima punta (Rate A)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerPeakDate() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getPowerPeakDate(), "fecha demanda máx. Rate A");
+		view.setPowerPeakDateErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de la hora de la demanda máxima punta (Rate A)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerPeakTime() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getPowerPeakTime(), "hora demanda máx. Rate A");
+		view.setPowerPeakTimeErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de demanda máxima fuera de punta resto (Rate B)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerRestOffpeak() {
+		VoidResult result = ReadingFieldsValidator.validateEnergyPowerField(
+				view.getPowerRestOffpeak(), "demanda máxima Rate B");
+		view.setPowerRestOffpeakErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de la fecha de la demanda máxima fuera de punta resto
+	 * (Rate B)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerRestOffpeakDate() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getPowerRestOffpeakDate(), "fecha demanda máx. Rate B");
+		view.setPowerRestOffpeakDateErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de la hora de la demanda máxima fuera de punta resto
+	 * (Rate B)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerRestOffpeakTime() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getPowerRestOffpeakTime(), "hora demanda máx. Rate B");
+		view.setPowerRestOffpeakTimeErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de demanda máxima fuera de punta valle (Rate C)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerValleyOffpeak() {
+		VoidResult result = ReadingFieldsValidator.validateEnergyPowerField(
+				view.getPowerValleyOffpeak(), "demanda máxima Rate C");
+		view.setPowerValleyOffpeakErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de la fecha de la demanda máxima fuera de punta valle
+	 * (Rate C)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerValleyOffpeakDate() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getPowerValleyOffpeakDate(), "fecha demanda máx. Rate C");
+		view.setPowerValleyOffpeakDateErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	/**
+	 * Valida el campo de la hora de la demanda máxima fuera de punta valle
+	 * (Rate C)
+	 * 
+	 * @return true si es válido
+	 */
+	public boolean validatePowerValleyOffpeakTime() {
+		VoidResult result = ReadingFieldsValidator.validateDateTime(
+				view.getPowerValleyOffpeakTime(), "hora demanda máx. Rate C");
+		view.setPowerValleyOffpeakTimeErrors(result.getErrors());
+		return !result.hasErrors();
+	}
+
+	// #endregion
+
+	public boolean validateFieldByNumber(int fieldNumber) {
+		switch (fieldNumber) {
+		case 0:
+			return validateReadingDate();
+		case 1:
+			return validateReadingTime();
+		case 2:
+			return validateResetCount();
+		case 3:
+			return validateActiveDistributing();
+		case 4:
+			return validateActivePeak();
+		case 5:
+			return validateActiveRest();
+		case 6:
+			return validateActiveValley();
+		case 7:
+			return validateReactiveDistributing();
+		case 8:
+			return validateReactivePeak();
+		case 9:
+			return validateReactiveRest();
+		case 10:
+			return validateReactiveValley();
+		case 11:
+			return validatePowerPeak();
+		case 12:
+			return validatePowerPeakDate();
+		case 13:
+			return validatePowerPeakTime();
+		case 14:
+			return validatePowerRestOffpeak();
+		case 15:
+			return validatePowerRestOffpeakDate();
+		case 16:
+			return validatePowerRestOffpeakTime();
+		case 17:
+			return validatePowerValleyOffpeak();
+		case 18:
+			return validatePowerValleyOffpeakDate();
+		case 19:
+			return validatePowerValleyOffpeakTime();
+		default:
+			return false;
+		}
 	}
 }

@@ -61,6 +61,18 @@ public class ImprovedTextInputLayout extends TextInputLayout {
 		}
 	}
 
+	@Override
+	public void setError(CharSequence error) {
+		super.setError(error);
+		getEditText().setActivated((error != null && error.length() > 0));
+	}
+
+	@Override
+	public void setErrorEnabled(boolean enabled) {
+		super.setErrorEnabled(enabled);
+		getEditText().setActivated(enabled);
+	}
+
 	/**
 	 * Asigna el focus change listener al texto sin afectar al actual
 	 * 

@@ -210,9 +210,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	 */
 	public void btnSaveReading(View v) {
 		if (ButtonClicksHelper.canClickButton())
-			((OnReadingSaveClickListener) readingsViewPager.getAdapter()
-					.instantiateItem(readingsViewPager, position))
-					.readingSaveClicked(v);
+			((OnReadingSaveClickListener) ((ReadingPagerAdapter) readingsViewPager
+					.getAdapter()).getCurrentItem()).readingSaveClicked(v);
 	}
 
 	// #region Interface Methods

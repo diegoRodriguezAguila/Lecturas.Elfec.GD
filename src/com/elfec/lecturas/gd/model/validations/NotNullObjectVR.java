@@ -12,8 +12,6 @@ public class NotNullObjectVR<T> implements IValidationRule<T> {
 	@Override
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
 		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
-				+ fieldName + "</b> es "
-				+ (isMaleGender ? "obligatorio" : "obligatoria")
-				+ ", debe llenar este campo");
+				+ fieldName + "</b> es un campo obligatorio");
 	}
 }
