@@ -152,6 +152,7 @@
         android:layout_marginTop="12dp"
         android:baselineAligned="false"
         android:paddingBottom="5dp"
+        android:gravity="start|bottom"
         android:orientation="horizontal" >
 
         <TextView
