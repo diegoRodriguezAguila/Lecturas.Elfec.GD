@@ -28,9 +28,14 @@ public class ReadingTaken extends Model {
 	@Column(name = "SupplyId", notNull = true)
 	private int supplyId;
 	/**
-	 * LEC_ACTIVO_DISTRIBUIR en Oracle
+	 * FECHA_GUARDADA en Oracle
 	 */
-	@Column(name = "ReadingDate", notNull = true)
+	@Column(name = "SaveDate")
+	private DateTime saveDate;
+	/**
+	 * LEC_FECHA en Oracle
+	 */
+	@Column(name = "ReadingDate")
 	private DateTime readingDate;
 	/**
 	 * NUMERO_RESET en Oracle
@@ -105,14 +110,14 @@ public class ReadingTaken extends Model {
 	/**
 	 * FECHA_POT_FPUNTA_VALLE en Oracle
 	 */
-	@Column(name = "powerValleyOffpeakDate")
+	@Column(name = "PowerValleyOffpeakDate")
 	private DateTime powerValleyOffpeakDate;
 
 	public ReadingTaken() {
 		super();
 	}
 
-	public ReadingTaken(long readingRemoteId, int supplyId,
+	public ReadingTaken(long readingRemoteId, int supplyId, DateTime saveDate,
 			DateTime readingDate, int resetCount,
 			BigDecimal activeDistributing, BigDecimal activePeak,
 			BigDecimal activeRest, BigDecimal activeValley,
@@ -124,6 +129,7 @@ public class ReadingTaken extends Model {
 		super();
 		this.readingRemoteId = readingRemoteId;
 		this.supplyId = supplyId;
+		this.saveDate = saveDate;
 		this.readingDate = readingDate;
 		this.resetCount = resetCount;
 		this.activeDistributing = activeDistributing;
@@ -143,18 +149,13 @@ public class ReadingTaken extends Model {
 	}
 
 	/**
-	 * Obtiene una instancia nula de una lectura tomada. Por instancia nula se
-	 * entiende un objeto que tiene los valores nulos y por defecto en todos sus
-	 * campos
+	 * Copia el Id de una lectura tomada a la instancia actual. Este método es
+	 * útil para reemplazar en la base de datos una lectura tomada por otra
 	 * 
-	 * @return Instancia de {@link ReadingTaken} con valores nulos y por defecto
+	 * @param readingToCopyId
 	 */
-	public static ReadingTaken instanceNullReadingTaken() {
-		ReadingTaken readingTaken = new ReadingTaken();
-		readingTaken.readingRemoteId = -1;
-		readingTaken.resetCount = -1;
-		readingTaken.supplyId = -1;
-		return readingTaken;
+	public void assignId(ReadingTaken readingToCopyId) {
+		setId(readingToCopyId.getId());
 	}
 
 	// #region Getters y Setters
@@ -173,6 +174,14 @@ public class ReadingTaken extends Model {
 
 	public void setSupplyId(int supplyId) {
 		this.supplyId = supplyId;
+	}
+
+	public DateTime getSaveDate() {
+		return saveDate;
+	}
+
+	public void setSaveDate(DateTime saveDate) {
+		this.saveDate = saveDate;
 	}
 
 	public DateTime getReadingDate() {

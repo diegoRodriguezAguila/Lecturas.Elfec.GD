@@ -305,6 +305,33 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	}
 
 	/**
+	 * Asigna a la lectura la lectura tomada y el estado indicado.
+	 * Posteriormente se guarda esta lectura con el nuevo estado. Es necesario
+	 * llamar a {@link #save()} para que los cambios surtan efecto
+	 * 
+	 * @param readingTaken
+	 *            La lectura tomada, es necesario haber llamado a
+	 *            {@link #save()}, es decir que esté guardada en la base de
+	 *            datos antes de asignarla caso contrario lanza excepción
+	 *            {@link IllegalArgumentException}
+	 * @param status
+	 *            {@link ReadingStatus#READ} o {@link ReadingStatus#IMPEDED}
+	 *            caso contrario lanza excepción
+	 *            {@link IllegalArgumentException}
+	 */
+	public void assignReadingTaken(ReadingTaken readingTaken,
+			ReadingStatus status) {
+		if (status != ReadingStatus.READ && status != ReadingStatus.IMPEDED)
+			throw new IllegalArgumentException(
+					"La lectura solo puede asignar como tomada con los estados: LEIDA o IMPEDIDA!");
+		if (readingTaken == null || readingTaken.getId() == null)
+			throw new IllegalArgumentException(
+					"La lectura tomada tiene que haberse guardado en la base de datos antes de asignarla a la lectura");
+		this.readingTaken = readingTaken;
+		setStatus(status);
+	}
+
+	/**
 	 * Obtiene la información de la lectura tomada por el lector. Cachéa esta
 	 * consulta en una variable. Esta consulta depende del estado de la lectura
 	 * si está en {@link ReadingStatus#READ} o {@link ReadingStatus#IMPEDED}
@@ -314,8 +341,10 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	 *         haberse tomado la lectura aún
 	 */
 	public ReadingTaken getReadingTaken() {
-		if (readingTaken == null
-				&& (getStatus() == ReadingStatus.READ || getStatus() == ReadingStatus.IMPEDED))
+		if (getStatus() != ReadingStatus.READ
+				&& getStatus() != ReadingStatus.IMPEDED)
+			return null;
+		if (readingTaken == null)
 			readingTaken = new Select().from(ReadingTaken.class)
 					.where("ReadingRemoteId = ?", readingRemoteId)
 					.executeSingle();

@@ -1,11 +1,17 @@
 package com.elfec.lecturas.gd.presenter;
 
-import org.apache.commons.lang.WordUtils;
+import java.math.BigDecimal;
 
+import org.apache.commons.lang.WordUtils;
+import org.joda.time.DateTime;
+
+import com.elfec.lecturas.gd.business_logic.ReadingTakenManager;
 import com.elfec.lecturas.gd.business_logic.validators.ReadingFieldsValidator;
 import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.model.ReadingMeter;
 import com.elfec.lecturas.gd.model.ReadingTaken;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.presenter.views.IReadingView;
 
@@ -46,7 +52,8 @@ public class ReadingPresenter {
 		this.reading = reading;
 		if (bind) {
 			bindClientInfo();
-			view.clearAllFieldsAndErrors();
+			bindFieldsVisibility();
+			view.clearAllFieldsAndErrors(reading.getReadingTaken() != null);
 			bindReadingTaken();
 		}
 	}
@@ -68,14 +75,30 @@ public class ReadingPresenter {
 	}
 
 	/**
+	 * Asigna a la vista la visibilidad de campos requerida según el tipo de
+	 * medidor
+	 */
+	public void bindFieldsVisibility() {
+		ReadingMeter readingMeter = reading.getReadingMeter();
+		view.setActiveDistributionVisible(!readingMeter.getTagActivePeak()
+				.equals(BigDecimal.ZERO));
+		view.setReactiveEnergyVisible(!readingMeter
+				.getTagReactiveDistributing().equals(BigDecimal.ZERO)
+				|| !readingMeter.getTagReactivePeak().equals(BigDecimal.ZERO));
+		view.setReactiveDistributionVisible(!readingMeter.getTagReactivePeak()
+				.equals(BigDecimal.ZERO));
+		view.setEnergyPowerVisible(!readingMeter.getTagPowerPeak().equals(
+				BigDecimal.ZERO));
+	}
+
+	/**
 	 * Asigna a la vista la información de la lectura tomada
 	 */
 	public void bindReadingTaken() {
 		ReadingTaken readingTaken = reading.getReadingTaken();
 		if (readingTaken != null) {
+			view.setReadOnly(true);
 			// #region readingTaken view assignations
-			readingTaken.setReadingRemoteId(reading.getReadingRemoteId());
-			readingTaken.setSupplyId(reading.getSupplyId());
 			view.setReadingDate(readingTaken.getReadingDate());
 			view.setReadingTime(readingTaken.getReadingDate());
 			view.setResetCount(readingTaken.getResetCount());
@@ -99,7 +122,8 @@ public class ReadingPresenter {
 			view.setPowerValleyOffpeakTime(readingTaken
 					.getPowerValleyOffpeakDate());
 			// #endregion
-		}
+		} else
+			view.setReadOnly(false);
 	}
 
 	/**
@@ -110,7 +134,38 @@ public class ReadingPresenter {
 			@Override
 			public void run() {
 				if (validateFields()) {
-					// DO STUFF
+					VoidResult result = ReadingTakenManager.registerReadingTaken(
+							reading,
+							new ReadingTaken(reading.getReadingRemoteId(),
+									reading.getSupplyId(), DateTime.now(),
+									joinDateAndTime(view.getReadingDate(),
+											view.getReadingTime()), view
+											.getResetCount(), view
+											.getActiveDistributing(), view
+											.getActivePeak(), view
+											.getActiveRest(), view
+											.getActiveValley(), view
+											.getReactiveDistributing(), view
+											.getReactivePeak(), view
+											.getReactiveRest(), view
+											.getReactiveValley(), view
+											.getPowerPeak(), joinDateAndTime(
+											view.getPowerPeakDate(),
+											view.getPowerPeakTime()), view
+											.getPowerRestOffpeak(),
+									joinDateAndTime(
+											view.getPowerRestOffpeakDate(),
+											view.getPowerRestOffpeakTime()),
+									view.getPowerValleyOffpeak(),
+									joinDateAndTime(
+											view.getPowerValleyOffpeakDate(),
+											view.getPowerValleyOffpeakTime())),
+							ReadingStatus.READ);
+					view.showReadingSaveErrors(result.getErrors());
+					if (!result.hasErrors()) {
+						view.notifyReadingSavedSuccessfully();
+						view.setReadOnly(true);
+					}
 				} else
 					view.notifyErrorsInFields();
 			}
@@ -118,11 +173,24 @@ public class ReadingPresenter {
 	}
 
 	/**
+	 * Junta un campo de fecha y de hora en un solo objeto
+	 * 
+	 * @param date
+	 * @param time
+	 * @return fecha y hora juntadas
+	 */
+	private DateTime joinDateAndTime(DateTime date, DateTime time) {
+		return new DateTime(date.getYear(), date.getMonthOfYear(),
+				date.getDayOfMonth(), time.getHourOfDay(),
+				time.getMinuteOfHour());
+	}
+
+	/**
 	 * Valida todos los campos de la lectura
 	 * 
 	 * @return
 	 */
-	public boolean validateFields() {
+	private boolean validateFields() {
 		boolean allAreValid = true;
 		allAreValid = validateReadingDate() && allAreValid;
 		allAreValid = validateReadingTime() && allAreValid;

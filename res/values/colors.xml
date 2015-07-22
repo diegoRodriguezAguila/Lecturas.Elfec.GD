@@ -12,4 +12,6 @@
     <color name="text_soft_gray">#757575</color>
     <color name="mdtp_accent_color">@color/color_accent</color>
 	<color name="mdtp_accent_color_dark">@color/color_primary_dark</color>
+	<color name="blue_normal">#0099CC</color>
+	<color name="blue_activated">#0085B9</color>
 </resources>

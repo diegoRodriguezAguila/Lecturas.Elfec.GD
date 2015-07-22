@@ -107,8 +107,32 @@ public interface IReadingView {
 
 	/**
 	 * Limpia todos los campos y sus errores
+	 * 
+	 * @param clearOnlyErrors
+	 *            true si solo se deben limpiar errores, false para errores y
+	 *            campos
 	 */
-	public void clearAllFieldsAndErrors();
+	public void clearAllFieldsAndErrors(boolean clearOnlyErrors);
+
+	/**
+	 * Notifica al usuario que la lectura se guardó satisfactoriamente
+	 */
+	public void notifyReadingSavedSuccessfully();
+
+	/**
+	 * Muestra al usuario posibles errores que pudieron haber ocurrido al
+	 * guardar la lectura
+	 * 
+	 * @param errors
+	 */
+	public void showReadingSaveErrors(List<Exception> errors);
+
+	/**
+	 * Hace que todos los campos de la vista sean de solo lectura o editables
+	 * 
+	 * @param isReadOnly
+	 */
+	public void setReadOnly(boolean isReadOnly);
 
 	// #region Set Errors
 	public void setReadingDateErrors(List<Exception> errors);
@@ -155,5 +179,37 @@ public interface IReadingView {
 	 * Notifica al usuario que existen errores en los campos
 	 */
 	public void notifyErrorsInFields();
+
+	// #endregion
+
+	// #region visibility
+	/**
+	 * Define la visibilidad de la energía activa en pico, resto y valle
+	 * 
+	 * @param isVisible
+	 */
+	public void setActiveDistributionVisible(boolean isVisible);
+
+	/**
+	 * Define la visibilidad de la energía reactiva total, en pico, resto y
+	 * valle
+	 * 
+	 * @param isVisible
+	 */
+	public void setReactiveEnergyVisible(boolean isVisible);
+
+	/**
+	 * Define la visibilidad de la energía reactiva en pico, resto y valle
+	 * 
+	 * @param isVisible
+	 */
+	public void setReactiveDistributionVisible(boolean isVisible);
+
+	/**
+	 * Define la visibilidad de la demanda máxima en punta y fuera de punta
+	 * 
+	 * @param isVisible
+	 */
+	public void setEnergyPowerVisible(boolean isVisible);
 	// #endregion
 }

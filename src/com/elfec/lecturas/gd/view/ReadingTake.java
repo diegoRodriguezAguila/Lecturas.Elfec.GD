@@ -7,6 +7,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -21,8 +22,10 @@ import android.view.View;
 
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
+import com.elfec.lecturas.gd.helpers.ui.FloatingActionButtonAnimator;
 import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.model.ReadingTaken;
 import com.elfec.lecturas.gd.presenter.ReadingTakePresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingTakeView;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
@@ -40,6 +43,9 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	private Toolbar toolbar;
 	private ActionBar actionBar;
 	private ViewPager readingsViewPager;
+	private ReadingPagerAdapter readingPagerAdapter;
+	private FloatingActionButton btnSaveReading;
+	private FloatingActionButton btnEditReading;
 
 	private int position;
 	private int lastReadingPos;
@@ -56,6 +62,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 					@Override
 					public void onPageSelected(int pos) {
 						KeyboardHelper.hideKeyboard(drawerLayout);
+						setFloatingButtonsVisibility(pos);
 						position = pos;
 						if (readingListNotifier != null)
 							readingListNotifier.notifyReadingSelected(position,
@@ -66,6 +73,10 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 				(IReadingsListView) getSupportFragmentManager()
 						.findFragmentById(R.id.fragment_nav_reading_list)));
 		presenter.loadReadingsGeneralInfo();
+		btnSaveReading = (FloatingActionButton) findViewById(R.id.btn_save_reading);
+		btnEditReading = (FloatingActionButton) findViewById(R.id.btn_edit_reading);
+		btnEditReading.setBackgroundTintList(getResources().getColorStateList(
+				R.color.blue_btn_color));
 	}
 
 	@Override
@@ -204,14 +215,45 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	}
 
 	/**
+	 * Identifica si es que es necesario cambiar de boton según los estados de
+	 * la lectura anterior y de la lectura actual
+	 * 
+	 * @param pos
+	 *            posición de la lectura actual
+	 */
+	private void setFloatingButtonsVisibility(int pos) {
+		ReadingTaken lastReading = readingPagerAdapter.getReadingAt(position)
+				.getReadingTaken();
+		ReadingTaken currentReading = readingPagerAdapter.getReadingAt(pos)
+				.getReadingTaken();
+		if (lastReading == null && currentReading != null)
+			FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
+					btnEditReading);
+		if (lastReading != null && currentReading == null)
+			FloatingActionButtonAnimator.hideAndShow(btnEditReading,
+					btnSaveReading);
+	}
+
+	/**
 	 * Manejador de click del boton de guardar lectura
 	 * 
 	 * @param v
 	 */
 	public void btnSaveReading(View v) {
 		if (ButtonClicksHelper.canClickButton())
-			((OnReadingSaveClickListener) ((ReadingPagerAdapter) readingsViewPager
-					.getAdapter()).getCurrentItem()).readingSaveClicked(v);
+			((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
+					.readingSaveClicked(v);
+	}
+
+	/**
+	 * Manejador de click del boton de editar la lectura
+	 * 
+	 * @param v
+	 */
+	public void btnEditReading(View v) {
+		if (ButtonClicksHelper.canClickButton())
+			((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
+					.readingSaveClicked(v);
 	}
 
 	// #region Interface Methods
@@ -223,8 +265,9 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 			public void run() {
 				lastReadingPos = readings.size();
 				position = 0;
-				readingsViewPager.setAdapter(new ReadingPagerAdapter(
-						getSupportFragmentManager(), readings));
+				readingPagerAdapter = new ReadingPagerAdapter(
+						getSupportFragmentManager(), readings);
+				readingsViewPager.setAdapter(readingPagerAdapter);
 			}
 		});
 	}

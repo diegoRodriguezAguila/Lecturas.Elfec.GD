@@ -61,52 +61,52 @@ public class ReadingMeter extends Model {
 	/**
 	 * TAG_ACTIVO_DISTRIBUIR en Oracle
 	 */
-	@Column(name = "TagActiveDistributing")
+	@Column(name = "TagActiveDistributing", notNull = true)
 	private BigDecimal tagActiveDistributing;
 	/**
 	 * TAG_ACTIVO_PICO en Oracle
 	 */
-	@Column(name = "TagActivePeak")
+	@Column(name = "TagActivePeak", notNull = true)
 	private BigDecimal tagActivePeak;
 	/**
 	 * TAG_ACTIVO_RESTO en Oracle
 	 */
-	@Column(name = "TagActiveRest")
+	@Column(name = "TagActiveRest", notNull = true)
 	private BigDecimal tagActiveRest;
 	/**
 	 * TAG_ACTIVO_VALLE en Oracle
 	 */
-	@Column(name = "TagActiveValey")
-	private BigDecimal tagActiveValey;
+	@Column(name = "TagActiveValley", notNull = true)
+	private BigDecimal tagActiveValley;
 	/**
 	 * TAG_REACTIVO_DISTRIBUIR en Oracle
 	 */
-	@Column(name = "TagReactiveDistributing")
+	@Column(name = "TagReactiveDistributing", notNull = true)
 	private BigDecimal tagReactiveDistributing;
 	/**
 	 * TAG_REACTIVO_PICO en Oracle
 	 */
-	@Column(name = "TagReactivePeak")
+	@Column(name = "TagReactivePeak", notNull = true)
 	private BigDecimal tagReactivePeak;
 	/**
 	 * TAG_REACTIVO_RESTO en Oracle
 	 */
-	@Column(name = "TagReactiveRest")
+	@Column(name = "TagReactiveRest", notNull = true)
 	private BigDecimal tagReactiveRest;
 	/**
 	 * TAG_REACTIVO_VALLE en Oracle
 	 */
-	@Column(name = "TagReactiveValey")
-	private BigDecimal tagReactiveValey;
+	@Column(name = "TagReactiveValley", notNull = true)
+	private BigDecimal tagReactiveValley;
 	/**
 	 * TAG_POT_PUNTA en Oracle
 	 */
-	@Column(name = "TagPowerPeak")
+	@Column(name = "TagPowerPeak", notNull = true)
 	private BigDecimal tagPowerPeak;
 	/**
 	 * TAG_POT_FPUNTA en Oracle
 	 */
-	@Column(name = "TagPowerOffpeak")
+	@Column(name = "TagPowerOffpeak", notNull = true)
 	private BigDecimal tagPowerOffpeak;
 	/**
 	 * LEC_ANT_ACTIVO_DISTRIBUIR en Oracle
@@ -126,8 +126,8 @@ public class ReadingMeter extends Model {
 	/**
 	 * LEC_ANT_ACTIVO_VALLE en Oracle
 	 */
-	@Column(name = "LastActiveValey")
-	private BigDecimal lastActiveValey;
+	@Column(name = "LastActiveValley")
+	private BigDecimal lastActiveValley;
 	/**
 	 * LEC_ANT_REACTIVO_DISTRIBUIR en Oracle
 	 */
@@ -146,8 +146,8 @@ public class ReadingMeter extends Model {
 	/**
 	 * LEC_ANT_REACTIVO_VALLE en Oracle
 	 */
-	@Column(name = "LastReactiveValey")
-	private BigDecimal lastReactiveValey;
+	@Column(name = "LastReactiveValley")
+	private BigDecimal lastReactiveValley;
 	/**
 	 * CONSUMO_PROM_ACT en Oracle
 	 */
@@ -177,14 +177,14 @@ public class ReadingMeter extends Model {
 			short meterTypeId, short digits, int supplyId, DateTime lastDate,
 			DateTime currentDate, BigDecimal tagActiveDistributing,
 			BigDecimal tagActivePeak, BigDecimal tagActiveRest,
-			BigDecimal tagActiveValey, BigDecimal tagReactiveDistributing,
+			BigDecimal tagActiveValley, BigDecimal tagReactiveDistributing,
 			BigDecimal tagReactivePeak, BigDecimal tagReactiveRest,
-			BigDecimal tagReactiveValey, BigDecimal tagPowerPeak,
+			BigDecimal tagReactiveValley, BigDecimal tagPowerPeak,
 			BigDecimal tagPowerOffpeak, BigDecimal lastActiveDistributing,
 			BigDecimal lastActivePeak, BigDecimal lastActiveRest,
-			BigDecimal lastActiveValey, BigDecimal lastReactiveDistributing,
+			BigDecimal lastActiveValley, BigDecimal lastReactiveDistributing,
 			BigDecimal lastReactivePeak, BigDecimal lastReactiveRest,
-			BigDecimal lastReactiveValey, int averageActiveConsumption,
+			BigDecimal lastReactiveValley, int averageActiveConsumption,
 			int averageReactiveConsumption, BigDecimal draggedPowerPeak,
 			BigDecimal draggedPowerOffpeak) {
 		super();
@@ -199,21 +199,21 @@ public class ReadingMeter extends Model {
 		this.tagActiveDistributing = tagActiveDistributing;
 		this.tagActivePeak = tagActivePeak;
 		this.tagActiveRest = tagActiveRest;
-		this.tagActiveValey = tagActiveValey;
+		this.tagActiveValley = tagActiveValley;
 		this.tagReactiveDistributing = tagReactiveDistributing;
 		this.tagReactivePeak = tagReactivePeak;
 		this.tagReactiveRest = tagReactiveRest;
-		this.tagReactiveValey = tagReactiveValey;
+		this.tagReactiveValley = tagReactiveValley;
 		this.tagPowerPeak = tagPowerPeak;
 		this.tagPowerOffpeak = tagPowerOffpeak;
 		this.lastActiveDistributing = lastActiveDistributing;
 		this.lastActivePeak = lastActivePeak;
 		this.lastActiveRest = lastActiveRest;
-		this.lastActiveValey = lastActiveValey;
+		this.lastActiveValley = lastActiveValley;
 		this.lastReactiveDistributing = lastReactiveDistributing;
 		this.lastReactivePeak = lastReactivePeak;
 		this.lastReactiveRest = lastReactiveRest;
-		this.lastReactiveValey = lastReactiveValey;
+		this.lastReactiveValley = lastReactiveValley;
 		this.averageActiveConsumption = averageActiveConsumption;
 		this.averageReactiveConsumption = averageReactiveConsumption;
 		this.draggedPowerPeak = draggedPowerPeak;
@@ -322,12 +322,12 @@ public class ReadingMeter extends Model {
 		this.tagActiveRest = tagActiveRest;
 	}
 
-	public BigDecimal getTagActiveValey() {
-		return tagActiveValey;
+	public BigDecimal getTagActiveValley() {
+		return tagActiveValley;
 	}
 
-	public void setTagActiveValey(BigDecimal tagActiveValey) {
-		this.tagActiveValey = tagActiveValey;
+	public void setTagActiveValley(BigDecimal tagActiveValley) {
+		this.tagActiveValley = tagActiveValley;
 	}
 
 	public BigDecimal getTagReactiveDistributing() {
@@ -354,12 +354,12 @@ public class ReadingMeter extends Model {
 		this.tagReactiveRest = tagReactiveRest;
 	}
 
-	public BigDecimal getTagReactiveValey() {
-		return tagReactiveValey;
+	public BigDecimal getTagReactiveValley() {
+		return tagReactiveValley;
 	}
 
-	public void setTagReactiveValey(BigDecimal tagReactiveValey) {
-		this.tagReactiveValey = tagReactiveValey;
+	public void setTagReactiveValley(BigDecimal tagReactiveValley) {
+		this.tagReactiveValley = tagReactiveValley;
 	}
 
 	public BigDecimal getTagPowerPeak() {
@@ -402,12 +402,12 @@ public class ReadingMeter extends Model {
 		this.lastActiveRest = lastActiveRest;
 	}
 
-	public BigDecimal getLastActiveValey() {
-		return lastActiveValey;
+	public BigDecimal getLastActiveValley() {
+		return lastActiveValley;
 	}
 
-	public void setLastActiveValey(BigDecimal lastActiveValey) {
-		this.lastActiveValey = lastActiveValey;
+	public void setLastActiveValley(BigDecimal lastActiveValley) {
+		this.lastActiveValley = lastActiveValley;
 	}
 
 	public BigDecimal getLastReactiveDistributing() {
@@ -434,12 +434,12 @@ public class ReadingMeter extends Model {
 		this.lastReactiveRest = lastReactiveRest;
 	}
 
-	public BigDecimal getLastReactiveValey() {
-		return lastReactiveValey;
+	public BigDecimal getLastReactiveValley() {
+		return lastReactiveValley;
 	}
 
-	public void setLastReactiveValey(BigDecimal lastReactiveValey) {
-		this.lastReactiveValey = lastReactiveValey;
+	public void setLastReactiveValley(BigDecimal lastReactiveValley) {
+		this.lastReactiveValley = lastReactiveValley;
 	}
 
 	public int getAverageActiveConsumption() {

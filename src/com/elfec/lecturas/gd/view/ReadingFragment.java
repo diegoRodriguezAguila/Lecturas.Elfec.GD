@@ -13,6 +13,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
@@ -53,10 +55,13 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private Handler mHandler;
 	private Runnable snackBarRunnable;
 	private Runnable clearAllRunnable;
+	private Runnable readingSavedRunnable;
+	private Runnable setReadOnlyRunnable;
+
 	private boolean needsToClear;
 	private boolean isClearing;
-
-	private Snackbar snackbar;
+	private boolean isReadOnly;
+	private boolean clearOnlyErrors;
 
 	// Client Info
 	private LinearLayout layoutClientInfo;
@@ -66,6 +71,12 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private TextView txtClientName;
 	private TextView txtAddress;
 	private TextView txtCategory;
+
+	// Field groups
+	private LinearLayout layoutActiveDistribution;
+	private LinearLayout layoutReactiveEnergy;
+	private LinearLayout layoutReactiveDistribution;
+	private LinearLayout layoutEnergyPowerVisible;
 
 	// Reading Fields
 	private ImprovedTextInputLayout txtInputReadingDate;
@@ -106,6 +117,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		snackBarRunnable = new Runnable() {
 			@Override
 			public void run() {
+				Snackbar snackbar = createSnackbar();
 				snackbar.show();
 			}
 		};
@@ -114,12 +126,28 @@ public class ReadingFragment extends Fragment implements IReadingView,
 			public void run() {
 				isClearing = true;
 				for (ImprovedTextInputLayout txtField : listedFields) {
-					txtField.getEditText().setTag(null);
-					txtField.getEditText().setText(null);
+					if (!clearOnlyErrors) {
+						txtField.getEditText().setTag(null);
+						txtField.getEditText().setText(null);
+					}
 					txtField.setErrorEnabled(false);
 				}
 				isClearing = false;
 				needsToClear = false;
+			}
+		};
+		readingSavedRunnable = new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getActivity(),
+						R.string.msg_reading_saved_successfully,
+						Toast.LENGTH_LONG).show();
+			}
+		};
+		setReadOnlyRunnable = new Runnable() {
+			@Override
+			public void run() {
+				setReadOnlyFields();
 			}
 		};
 	}
@@ -151,7 +179,6 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				}
 				snackBarPosition = (CoordinatorLayout) getActivity()
 						.findViewById(R.id.snackbar_position);
-				initializeSnackbar();
 				initializeClientInfoFields(rootView);
 				initializeReadingFields(rootView);
 				mHandler.post(new Runnable() {
@@ -159,6 +186,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 					@Override
 					public void run() {
 						presenter.bindClientInfo();
+						presenter.bindFieldsVisibility();
 						presenter.bindReadingTaken();
 					}
 				});
@@ -173,10 +201,10 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Inicializa el snackbar
+	 * Crea una snackbar modificada, para que soporte mas de 2 líneas de texto
 	 */
-	private void initializeSnackbar() {
-		snackbar = Snackbar.make(snackBarPosition,
+	private Snackbar createSnackbar() {
+		Snackbar snackbar = Snackbar.make(snackBarPosition,
 				R.string.error_in_reading_fields, Snackbar.LENGTH_LONG)
 				.setAction(R.string.btn_ok, new OnClickListener() {
 					@Override
@@ -185,6 +213,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				});
 		((TextView) snackbar.getView().findViewById(
 				android.support.design.R.id.snackbar_text)).setMaxLines(3);
+		return snackbar;
 	}
 
 	/**
@@ -210,6 +239,15 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 * @param rootView
 	 */
 	public void initializeReadingFields(final View rootView) {
+		layoutActiveDistribution = (LinearLayout) rootView
+				.findViewById(R.id.layout_active_distribution);
+		layoutReactiveEnergy = (LinearLayout) rootView
+				.findViewById(R.id.layout_reactive_energy);
+		layoutReactiveDistribution = (LinearLayout) rootView
+				.findViewById(R.id.layout_reactive_distribution);
+		layoutEnergyPowerVisible = (LinearLayout) rootView
+				.findViewById(R.id.layout_energy_power);
+
 		txtInputReadingDate = ((ImprovedTextInputLayout) rootView
 				.findViewById(R.id.txt_input_layout_reading_date));
 		txtInputReadingTime = ((ImprovedTextInputLayout) rootView
@@ -318,10 +356,10 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (!isClearing) {
+				if (!isClearing && !isReadOnly) {
 					presenter.validateFieldByNumber(fieldNum);
-					needsToClear = true;
 				}
+				needsToClear = true;
 			}
 		};
 		txtField.setEditTextOnFocusChangeListener(listener);
@@ -518,8 +556,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 * @param date
 	 */
 	private void setDateToField(EditText textField, DateTime date) {
-		textField.setText(date != null ? date.toString("dd/MM/yyy") : null);
 		textField.setTag(date);
+		textField.setText(date != null ? date.toString("dd/MM/yyy") : null);
 	}
 
 	/**
@@ -529,8 +567,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 * @param time
 	 */
 	private void setTimeToField(EditText textField, DateTime time) {
-		textField.setText(time != null ? time.toString("HH:mm") : null);
 		textField.setTag(time);
+		textField.setText(time != null ? time.toString("HH:mm") : null);
 	}
 
 	/**
@@ -562,6 +600,15 @@ public class ReadingFragment extends Fragment implements IReadingView,
 					txtInputField.setErrorEnabled(false);
 			}
 		});
+	}
+
+	/**
+	 * Pone todos los campos editables como solo lectura
+	 */
+	private void setReadOnlyFields() {
+		for (ImprovedTextInputLayout txtInputLayout : listedFields) {
+			txtInputLayout.getEditText().setEnabled(!isReadOnly);
+		}
 	}
 
 	// #region Interface Methods
@@ -700,6 +747,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public void readingSaveClicked(View v) {
+		needsToClear = true;
 		presenter.saveReading();
 	}
 
@@ -920,9 +968,63 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	@Override
-	public void clearAllFieldsAndErrors() {
-		if (needsToClear)
+	public void clearAllFieldsAndErrors(boolean clearOnlyErrors) {
+		if (needsToClear) {
+			this.clearOnlyErrors = clearOnlyErrors;
 			mHandler.postDelayed(clearAllRunnable, 40);
+		}
+	}
+
+	@Override
+	public void setActiveDistributionVisible(boolean isVisible) {
+		layoutActiveDistribution.setVisibility(isVisible ? View.VISIBLE
+				: View.GONE);
+	}
+
+	@Override
+	public void setReactiveEnergyVisible(boolean isVisible) {
+		layoutReactiveEnergy
+				.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+	}
+
+	@Override
+	public void setReactiveDistributionVisible(boolean isVisible) {
+		layoutReactiveDistribution.setVisibility(isVisible ? View.VISIBLE
+				: View.GONE);
+	}
+
+	@Override
+	public void setEnergyPowerVisible(boolean isVisible) {
+		layoutEnergyPowerVisible.setVisibility(isVisible ? View.VISIBLE
+				: View.GONE);
+	}
+
+	@Override
+	public void notifyReadingSavedSuccessfully() {
+		mHandler.post(readingSavedRunnable);
+	}
+
+	@Override
+	public void showReadingSaveErrors(final List<Exception> errors) {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (errors.size() > 0) {
+					new AlertDialog.Builder(getActivity())
+							.setTitle(R.string.title_reading_save_errors)
+							.setMessage(
+									MessageListFormatter
+											.fotmatHTMLFromErrors(errors))
+							.setPositiveButton(R.string.btn_ok, null).show();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void setReadOnly(boolean isReadOnly) {
+		this.isReadOnly = isReadOnly;
+		mHandler.post(setReadOnlyRunnable);
 	}
 
 	// #endregion
@@ -939,15 +1041,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 }

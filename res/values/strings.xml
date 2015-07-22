@@ -73,7 +73,9 @@
     <string name="title_energy_power_rate_B">Demanda máxima <b>rate B</b> (Fuera de punta)</string>
     <string name="title_energy_power_rate_C">Demanda máxima <b>rate C</b> (Fuera de punta)</string>
     <string name="error_in_reading_fields">Los campos tienen errores, corríjalos para poder guardar la lectura!</string>
-
+    
+    <string name="msg_reading_saved_successfully">Se guardó la lectura exitosamente!</string>
+	<string name="title_reading_save_errors">Error al guardar la lectura</string>
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
     <string name="btn_cancel">Cancelar</string>
