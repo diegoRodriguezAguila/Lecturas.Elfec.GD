@@ -29,8 +29,10 @@ import android.widget.Toast;
 
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
+import com.elfec.lecturas.gd.helpers.ui.ReadingStatusColorPicker;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.ReadingPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingView;
 import com.elfec.lecturas.gd.view.animations.HeightAnimation;
@@ -71,6 +73,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private TextView txtClientName;
 	private TextView txtAddress;
 	private TextView txtCategory;
+	private TextView txtReadingStatus;
 
 	// Field groups
 	private LinearLayout layoutActiveDistribution;
@@ -231,6 +234,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		txtClientName = (TextView) rootView.findViewById(R.id.txt_client_name);
 		txtAddress = (TextView) rootView.findViewById(R.id.txt_address);
 		txtCategory = (TextView) rootView.findViewById(R.id.txt_category);
+		txtReadingStatus = (TextView) rootView
+				.findViewById(R.id.txt_reading_status);
 	}
 
 	/**
@@ -641,6 +646,13 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	@Override
 	public void setCategory(String category) {
 		txtCategory.setText(category);
+	}
+
+	@Override
+	public void setReadingStatus(ReadingStatus status) {
+		txtReadingStatus.setText(status.toString());
+		txtReadingStatus.setBackgroundColor(txtReadingStatus.getResources()
+				.getColor(ReadingStatusColorPicker.getResourceColorId(status)));
 	}
 
 	@Override

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
+
 /**
  * Abstracción de la vista de lectura
  * 
@@ -24,6 +26,8 @@ public interface IReadingView {
 	public void setAddress(String address);
 
 	public void setCategory(String category);
+
+	public void setReadingStatus(ReadingStatus status);
 
 	public DateTime getReadingDate();
 

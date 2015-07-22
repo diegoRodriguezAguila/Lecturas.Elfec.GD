@@ -72,6 +72,7 @@ public class ReadingPresenter {
 		view.setAddress(WordUtils.capitalizeFully(reading.getAddress(),
 				new char[] { '.', ' ' }));
 		view.setCategory(reading.getCategoryDescription());
+		view.setReadingStatus(reading.getStatus());
 	}
 
 	/**
