@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_reading_search"
+        android:textAppearance="@style/TextAppearance.CustomFont.Light"
+        android:textSize="20sp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="10dp" >
+
+        <com.elfec.lecturas.gd.view.controls.MaskedEditText
+            android:id="@+id/txt_account_number"
+            style="@style/AppStyle.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/account_number"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/account_number"
+            android:hint="@string/lbl_account_number"
+            android:inputType="number"
+            app:mask="@string/mask_account_number" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="10dp" >
+
+        <EditText
+            android:id="@+id/txt_meter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ0123456789-"
+            android:drawableLeft="@drawable/meter"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/meter"
+            android:ems="10"
+            android:hint="@string/lbl_meter"
+            android:inputType="text"
+            android:maxLength="20" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="10dp" >
+
+        <EditText
+            android:id="@+id/txt_nus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/nus"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/nus"
+            android:ems="10"
+            android:hint="@string/lbl_nus"
+            android:inputType="number"
+            android:maxLength="8" />
+    </android.support.design.widget.TextInputLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/search"
+        android:drawableRight="@drawable/search"
+        android:text="@string/btn_search" />
+
+</LinearLayout>

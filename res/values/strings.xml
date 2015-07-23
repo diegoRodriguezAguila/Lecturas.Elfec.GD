@@ -76,6 +76,16 @@
     
     <string name="msg_reading_saved_successfully">Se guardó la lectura exitosamente!</string>
 	<string name="title_reading_save_errors">Error al guardar la lectura</string>
+	
+	
+	<!-- Reading Take: Reading Search -->
+	<string name="title_reading_search">Búsqueda de lecturas</string>
+	<string name="lbl_account_number">Número de cuenta</string>
+	<string name="mask_account_number">##-###-###-##</string>
+	<string name="lbl_meter">Serie medidor</string>
+	<string name="lbl_nus">Número suministro</string>
+	<string name="btn_search">Buscar</string>
+	
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
     <string name="btn_cancel">Cancelar</string>

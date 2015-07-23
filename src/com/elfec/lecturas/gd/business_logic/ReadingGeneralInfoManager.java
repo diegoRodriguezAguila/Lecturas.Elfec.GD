@@ -92,4 +92,18 @@ public class ReadingGeneralInfoManager {
 				});
 		return result;
 	}
+
+	public TypedResult<ReadingGeneralInfo> searchReading(String accountNumber,
+			String meter, int nus) {
+		TypedResult<ReadingGeneralInfo> result = new TypedResult<>();
+		try {
+			// TODO search logic
+		} catch (Exception e) {
+			Log.error(ReadingGeneralInfoManager.class, e);
+			e.printStackTrace();
+			result.addError(e);
+		}
+		return result;
+	}
+
 }

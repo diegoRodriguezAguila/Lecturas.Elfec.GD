@@ -97,9 +97,11 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 		// Handle action buttons
 		switch (item.getItemId()) {
 		case R.id.menu_search:
-			KeyboardHelper.hideKeyboard(drawerLayout);
-			new ReadingSearchPopupService(findViewById(item.getItemId()))
-					.show();
+			if (ButtonClicksHelper.canClickButton()) {
+				KeyboardHelper.hideKeyboard(drawerLayout);
+				new ReadingSearchPopupService(this,
+						findViewById(item.getItemId())).show();
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
