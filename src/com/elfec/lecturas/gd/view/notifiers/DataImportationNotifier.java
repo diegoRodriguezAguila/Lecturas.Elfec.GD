@@ -1,4 +1,4 @@
-package com.elfec.lecturas.gd.view.notifications;
+package com.elfec.lecturas.gd.view.notifiers;
 
 import java.util.List;
 

@@ -26,7 +26,7 @@ import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.presenter.StartPresenter;
 import com.elfec.lecturas.gd.presenter.views.IStartView;
 import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
-import com.elfec.lecturas.gd.view.notifications.DataImportationNotifier;
+import com.elfec.lecturas.gd.view.notifiers.DataImportationNotifier;
 
 public class Start extends AppCompatActivity implements IStartView {
 

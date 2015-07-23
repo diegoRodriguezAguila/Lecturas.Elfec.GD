@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <style name="PopupAnimation" parent="android:Animation" mce_bogus="1">      
+         <item name="android:windowEnterAnimation">@anim/abc_fade_in</item>  
+        <item name="android:windowExitAnimation">@anim/abc_fade_out</item>  
+    </style>  
 
     <style name="TextAppearance.CustomFont.Light" parent="TextAppearance.AppCompat">
         <item name="fontPath">fonts/helvetica_neue_light.otf</item>
