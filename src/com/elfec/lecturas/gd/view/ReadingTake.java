@@ -33,6 +33,7 @@ import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
+import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService.OnReadingFoundListener;
 
 public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 
@@ -100,7 +101,14 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 			if (ButtonClicksHelper.canClickButton()) {
 				KeyboardHelper.hideKeyboard(drawerLayout);
 				new ReadingSearchPopupService(this,
-						findViewById(item.getItemId())).show();
+						findViewById(item.getItemId()),
+						new OnReadingFoundListener() {
+							@Override
+							public void onReadingFound(
+									ReadingGeneralInfo reading) {
+								presenter.processFoundReading(reading);
+							}
+						}).show();
 			}
 			return true;
 		default:

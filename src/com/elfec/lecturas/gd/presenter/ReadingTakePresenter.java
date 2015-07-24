@@ -12,6 +12,7 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 	@SuppressWarnings("unused")
 	private IReadingTakeView view;
 	private List<IReadingListObserver> observers;
+	private List<ReadingGeneralInfo> shownReadings;
 
 	public ReadingTakePresenter(IReadingTakeView view,
 			List<IReadingListObserver> observers) {
@@ -42,10 +43,9 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				List<ReadingGeneralInfo> readings = ReadingGeneralInfo
-						.getAllReadingsSorted();
+				shownReadings = ReadingGeneralInfo.getAllReadingsSorted();
 				for (IReadingListObserver obs : observers) {
-					obs.setReadings(readings);
+					obs.setReadings(shownReadings);
 				}
 			}
 		}).start();
@@ -59,6 +59,24 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 					obs.setSelectedReading(position);
 			}
 			currentPosition = position;
+		}
+	}
+
+	/**
+	 * Procesa la lectura encontrada, para notificar a todos los observadores
+	 * que deben mostrarla. En caso de no existir en la lista actual, se vuelve
+	 * a obtener absoultamente todas las lecturas de la base de datos y se la
+	 * selecciona.
+	 * 
+	 * @param reading
+	 */
+	public void processFoundReading(ReadingGeneralInfo reading) {
+		int position = shownReadings.indexOf(reading);
+		if (position != -1) {// Lectura se encuentra en lista actual
+			notifyReadingSelected(position, null);
+		} else {
+			// TODO recuperar de bd TODAS las lecturas y poner esta como pre
+			// seleccionada
 		}
 	}
 }
