@@ -43,14 +43,16 @@ public interface IReadingSearchView {
 	public void notifySearchStarted();
 
 	/**
-	 * Muestra al usuario la lectura encontrada
+	 * Muestra al usuario la lectura encontrada. Esta llamada debería finalizar
+	 * cualquier espera de búsqueda.
 	 * 
 	 * @param reading
 	 */
 	public void showReadingFound(ReadingGeneralInfo reading);
 
 	/**
-	 * Muestra los errores que podrían haber ocurrido durante la búsqueda
+	 * Muestra los errores que podrían haber ocurrido durante la búsqueda. Esta
+	 * llamada debería finalizar cualquier espera de búsqueda.
 	 * 
 	 * @param errors
 	 */

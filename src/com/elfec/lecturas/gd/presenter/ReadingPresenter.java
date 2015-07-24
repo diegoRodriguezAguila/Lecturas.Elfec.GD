@@ -6,6 +6,7 @@ import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
 
 import com.elfec.lecturas.gd.business_logic.ReadingTakenManager;
+import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.business_logic.validators.ReadingFieldsValidator;
 import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
@@ -139,6 +140,7 @@ public class ReadingPresenter {
 							reading,
 							new ReadingTaken(reading.getReadingRemoteId(),
 									reading.getSupplyId(), DateTime.now(),
+									SessionManager.getLoggedInUsername(),
 									joinDateAndTime(view.getReadingDate(),
 											view.getReadingTime()), view
 											.getResetCount(), view

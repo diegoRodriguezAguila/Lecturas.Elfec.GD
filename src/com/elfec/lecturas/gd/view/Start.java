@@ -61,8 +61,7 @@ public class Start extends AppCompatActivity implements IStartView {
 
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
-		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+		presenter.closeCurrentSession();
 	}
 
 	@Override
@@ -189,7 +188,25 @@ public class Start extends AppCompatActivity implements IStartView {
 
 	@Override
 	public List<IDataImportationObserver> getImportationObserverViews() {
-		return Arrays.asList(this, new DataImportationNotifier(this, getIntent()));
+		return Arrays.asList(this, new DataImportationNotifier(this,
+				getIntent()));
+	}
+
+	@Override
+	public void notifySessionClosed(final String username) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(
+						Start.this,
+						Html.fromHtml(String.format(
+								getString(R.string.msg_session_closed),
+								username)), Toast.LENGTH_LONG).show();
+				finish();// go back to the previous Activity
+				overridePendingTransition(R.anim.slide_right_in,
+						R.anim.slide_right_out);
+			}
+		});
 	}
 
 	// #endregion

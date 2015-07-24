@@ -5,21 +5,31 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupWindow;
-import android.widget.PopupWindow.OnDismissListener;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alertdialogpro.material.ProgressBarCompat;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
 import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
+import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.presenter.ReadingSearchPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingSearchView;
@@ -36,15 +46,24 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 
 	private Handler mHandler;
 	private OnDismissListener mOnDismissListener;
+	private OnReadingFoundListener mOnReadingFoundListener;
 
-	private PopupWindow mPopupWindow;
 	private Context mContext;
-	private View mAnchorView;
+	private Dialog mDialog;
+	private Snackbar snackbar;
+	private CoordinatorLayout snackBarPosition;
 
 	// Fields
 	private EditText txtAccountNumber;
 	private EditText txtMeter;
 	private EditText txtNUS;
+	private ProgressBarCompat progressSearchingReading;
+	private TextView txtSearchingReading;
+	private TextView txtSearchingError;
+
+	public ReadingSearchPopupService(Context context, View anchorView) {
+		this(context, anchorView, null);
+	}
 
 	/**
 	 * Crea un nuevo popup de búsqueda de lecturas
@@ -54,37 +73,75 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 	 *            la vista a partir de la cual se desplegará el popup
 	 */
 	@SuppressLint("InflateParams")
-	public ReadingSearchPopupService(Context context, View anchorView) {
+	public ReadingSearchPopupService(Context context, View anchorView,
+			OnReadingFoundListener onReadingFoundListener) {
 		this.mContext = context;
-		this.mAnchorView = anchorView;
+		this.mOnReadingFoundListener = onReadingFoundListener;
 		this.presenter = new ReadingSearchPresenter(this);
 		this.mHandler = new Handler();
-		View popupView = LayoutInflater.from(mContext).inflate(
+		final View dialogView = LayoutInflater.from(mContext).inflate(
 				R.layout.popup_reading_search, null, false);
-		mPopupWindow = new PopupWindow(popupView,
-				(int) (mContext.getResources()
-						.getDimension(R.dimen.search_dropdown_width)),
-				(int) (mContext.getResources()
-						.getDimension(R.dimen.search_dropdown_height)));
-		mPopupWindow.setBackgroundDrawable(ContextCompat.getDrawable(mContext,
-				R.drawable.abc_popup_background_mtrl_mult));
-		mPopupWindow.setOutsideTouchable(true);
-		mPopupWindow.setTouchable(true);
-		mPopupWindow.setFocusable(true);
-		mPopupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-		txtAccountNumber = (EditText) popupView
-				.findViewById(R.id.txt_account_number);
-		txtMeter = (EditText) popupView.findViewById(R.id.txt_meter);
-		txtNUS = (EditText) popupView.findViewById(R.id.txt_nus);
-		((Button) popupView.findViewById(R.id.btn_search))
-				.setOnClickListener(new OnClickListener() {
+		mDialog = new Dialog(context, R.style.DropDownDialog);
+		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		mDialog.setContentView(dialogView);
+		mDialog.setCancelable(true);
+		mDialog.setCanceledOnTouchOutside(true);
+		float offset = context.getResources().getDimension(
+				R.dimen.search_dropdown_offset);
+		WindowManager.LayoutParams wmlp = mDialog.getWindow().getAttributes();
+		wmlp.gravity = Gravity.TOP | Gravity.END;
+		wmlp.x = (int) (anchorView.getX()); // x position
+		wmlp.y = (int) (anchorView.getY() + offset);
+		wmlp.width = (int) (mContext.getResources()
+				.getDimension(R.dimen.search_dropdown_width));
+		wmlp.height = (int) (mContext.getResources()
+				.getDimension(R.dimen.search_dropdown_height));
+		mDialog.getWindow().setAttributes(wmlp);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mDialog.setOnDismissListener(new OnDismissListener() {
 					@Override
-					public void onClick(View v) {
-						if (ButtonClicksHelper.canClickButton())
-							presenter.searchReading();
+					public void onDismiss(DialogInterface dialog) {
+						if (mOnDismissListener != null)
+							mOnDismissListener.onDismiss(dialog);
 					}
 				});
+				txtAccountNumber = (EditText) dialogView
+						.findViewById(R.id.txt_account_number);
+				txtMeter = (EditText) dialogView.findViewById(R.id.txt_meter);
+				txtNUS = (EditText) dialogView.findViewById(R.id.txt_nus);
+				setTextListeners();
+				progressSearchingReading = (ProgressBarCompat) dialogView
+						.findViewById(R.id.progress_searching_reading);
+				txtSearchingReading = (TextView) dialogView
+						.findViewById(R.id.lbl_searching_reading);
+				txtSearchingError = (TextView) dialogView
+						.findViewById(R.id.lbl_searching_error);
+				snackBarPosition = (CoordinatorLayout) dialogView
+						.findViewById(R.id.snackbar_position);
+				((Button) dialogView.findViewById(R.id.btn_search))
+						.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								if (ButtonClicksHelper.canClickButton())
+									presenter.searchReading();
+							}
+						});
+			}
+		}).start();
+	}
+
+	/**
+	 * Asigna el listener que se llamará ante el evento de encontrar una lectura
+	 * 
+	 * @param onReadingFoundListener
+	 * @return la instancia actual de este servicio
+	 */
+	public ReadingSearchPopupService setOnReadingFoundListener(
+			OnReadingFoundListener onReadingFoundListener) {
+		mOnReadingFoundListener = onReadingFoundListener;
+		return this;
 	}
 
 	/**
@@ -103,42 +160,20 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 	 * Muestra el diálogo
 	 */
 	public void show() {
-		if (!mPopupWindow.isShowing()) {
-			dimBackground();
-			mPopupWindow.showAsDropDown(mAnchorView, 0, (int) mContext
-					.getResources()
-					.getDimension(R.dimen.search_dropdown_offset));
-		}
+		mDialog.show();
 	}
 
 	/**
-	 * Pone el background para el popup
-	 * 
-	 * @return
+	 * Asigna los listeners para los textos, de esta forma se evita que el
+	 * usuario ponga más de una condición de búsqueda al mismo tiempo
 	 */
-	private PopupWindow dimBackground() {
-		@SuppressLint("InflateParams")
-		final View layout = (LayoutInflater.from(mContext)).inflate(
-				R.layout.fadepopup, null);
-		final PopupWindow fadePopup = new PopupWindow(layout, mAnchorView
-				.getRootView().getWidth(),
-				mAnchorView.getRootView().getHeight()
-						- (int) (mContext.getResources()
-								.getDimension(R.dimen.search_bg_top_offset)),
-				false);
-		fadePopup.setAnimationStyle(R.style.PopupBackgroundAnimation);
-		mPopupWindow.setOnDismissListener(new OnDismissListener() {
-
-			@Override
-			public void onDismiss() {
-				fadePopup.dismiss();
-				if (mOnDismissListener != null)
-					mOnDismissListener.onDismiss();
-			}
-		});
-		fadePopup.showAtLocation(layout, Gravity.NO_GRAVITY, 0, (int) (mContext
-				.getResources().getDimension(R.dimen.search_bg_top_offset)));
-		return fadePopup;
+	private void setTextListeners() {
+		txtAccountNumber.addTextChangedListener(new ExclusiveTextWatcher(
+				txtMeter, txtNUS));
+		txtMeter.addTextChangedListener(new ExclusiveTextWatcher(
+				txtAccountNumber, txtNUS));
+		txtNUS.addTextChangedListener(new ExclusiveTextWatcher(
+				txtAccountNumber, txtMeter));
 	}
 
 	// #region Interface Methods
@@ -161,26 +196,114 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 
 	@Override
 	public void notifyAtleastOneField() {
-		// TODO Auto-generated method stub
-
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				txtSearchingError.setVisibility(View.GONE);
+				snackbar = Snackbar.make(snackBarPosition,
+						R.string.msg_atleast_one_filed, Snackbar.LENGTH_SHORT);
+				((TextView) snackbar.getView().findViewById(
+						android.support.design.R.id.snackbar_text))
+						.setMaxLines(3);
+				snackbar.show();
+			}
+		});
 	}
 
 	@Override
 	public void notifySearchStarted() {
-		// TODO Auto-generated method stub
-
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (snackbar != null)
+					snackbar.dismiss();
+				txtSearchingError.setVisibility(View.GONE);
+				progressSearchingReading.setVisibility(View.VISIBLE);
+				txtSearchingReading.setVisibility(View.VISIBLE);
+			}
+		});
 	}
 
 	@Override
-	public void showSearchErrors(List<Exception> errors) {
-		// TODO Auto-generated method stub
-
+	public void showSearchErrors(final List<Exception> errors) {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				progressSearchingReading.setVisibility(View.GONE);
+				txtSearchingReading.setVisibility(View.GONE);
+				txtSearchingError.setText(MessageListFormatter
+						.fotmatHTMLFromErrors(errors));
+				txtSearchingError.setVisibility(View.VISIBLE);
+			}
+		});
 	}
 
 	@Override
-	public void showReadingFound(ReadingGeneralInfo reading) {
-		mPopupWindow.dismiss();
+	public void showReadingFound(final ReadingGeneralInfo reading) {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				mDialog.dismiss();
+				Toast.makeText(mContext, R.string.msg_reading_found,
+						Toast.LENGTH_LONG).show();
+				if (mOnReadingFoundListener != null)
+					mOnReadingFoundListener.onReadingFound(reading);
+			}
+		});
 	}
 
 	// #endregion
+
+	/**
+	 * Listener para el evento de que se encontró una lectura, resultado de una
+	 * búsqueda
+	 * 
+	 * @author drodriguez
+	 *
+	 */
+	public static interface OnReadingFoundListener {
+		/**
+		 * Se ejecuta cuando se encontró una lectura
+		 * 
+		 * @param reading
+		 */
+		public void onReadingFound(ReadingGeneralInfo reading);
+	}
+
+	/**
+	 * Watcher de texto que realiza un cambio de texto exclusivo, es decir que
+	 * solo permite que uno de los {@link EditText} tengan texto al mismo tiempo
+	 * 
+	 * @author drodriguez
+	 *
+	 */
+	private static class ExclusiveTextWatcher implements TextWatcher {
+
+		private EditText[] mOtherTexts;
+
+		public ExclusiveTextWatcher(EditText... otherTexts) {
+			this.mOtherTexts = otherTexts;
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			if (s != null && !s.toString().isEmpty()) {
+				for (int i = 0; i < mOtherTexts.length; i++) {
+					mOtherTexts[i].setText(null);
+				}
+			}
+		}
+
+	}
+
 }

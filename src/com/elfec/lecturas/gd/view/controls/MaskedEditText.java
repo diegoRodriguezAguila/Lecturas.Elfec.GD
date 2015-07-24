@@ -247,7 +247,7 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
 	public void afterTextChanged(Editable s) {
 		if (!editingAfter && editingBefore && editingOnChanged) {
 			editingAfter = true;
-			if (rawText.length() == 0 && hasHint()) {
+			if (rawText.length() == 0) {
 				selection = 0;
 				setText(null);
 			} else {

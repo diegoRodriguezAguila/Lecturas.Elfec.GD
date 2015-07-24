@@ -13,6 +13,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 
@@ -387,6 +388,32 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 				.where("SupplyNumber BETWEEN "
 						+ routeAssignment.getFirstSupplyNumber() + " AND "
 						+ routeAssignment.getLastSupplyNumber()).execute();
+	}
+
+	/**
+	 * Busca una lectura que corresponda con alguno de los parámetros pasados.
+	 * Si se pasan múltiples parámetros se busca con todas las condiciones
+	 * simultaneamente
+	 * 
+	 * @param accountNumber
+	 * @param meter
+	 * @param nus
+	 * @return {@link ReadingGeneralInfo} lectura encontrada o null en caso de
+	 *         no haberse encontrado ninguna.
+	 */
+	public static ReadingGeneralInfo findReading(String accountNumber,
+			String meter, int nus) {
+		From query = new Select().from(ReadingGeneralInfo.class).as("r");
+		if (accountNumber != null && !accountNumber.isEmpty())
+			query.where("r.SupplyNumber=?", accountNumber);
+		if (meter != null && !meter.isEmpty()) {
+			query.join(ReadingMeter.class).as("m")
+					.on("r.ReadingRemoteId=m.ReadingRemoteId");
+			query.where("m.SerialNumber =?", meter);
+		}
+		if (nus != -1)
+			query.where("r.SupplyId=?", nus);
+		return query.executeSingle();
 	}
 
 	// #region Serialization

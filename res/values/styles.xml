@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <style name="PopupAnimation" parent="android:Animation" mce_bogus="1">      
-         <item name="android:windowEnterAnimation">@anim/popup_enter</item>  
-        <item name="android:windowExitAnimation">@anim/popup_exit</item>  
-    </style>  
-    <style name="PopupBackgroundAnimation" parent="android:Animation" mce_bogus="1">      
-         <item name="android:windowEnterAnimation">@anim/fade_in</item>  
-        <item name="android:windowExitAnimation">@anim/fade_out</item>  
-    </style>  
+
+    <style name="DropDownDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/DropDownAnimation</item>
+    </style>
+
+    <style name="DropDownAnimation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
 
     <style name="TextAppearance.CustomFont.Light" parent="TextAppearance.AppCompat">
         <item name="fontPath">fonts/helvetica_neue_light.otf</item>
     </style>
-    
+
     <style name="TextAppearance.CustomFont.Title" parent="TextAppearance.AppCompat">
         <item name="fontPath">fonts/helvetica_neue_light.otf</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
     </style>
-    
 
     <style name="AppStyle.ActionBar" parent="Widget.AppCompat.ActionBar.Solid">
         <item name="android:displayOptions">useLogo|showHome|showTitle</item>
@@ -34,7 +33,7 @@
         <item name="android:textSize">21sp</item>
         <item name="fontPath">fonts/helvetica_neue_light.otf</item>
     </style>
-    
+
     <style name="AppStyle.ActionMode" parent="Widget.AppCompat.ActionMode">
         <item name="background">?attr/colorPrimary</item>
         <item name="elevation">0dp</item>

@@ -12,8 +12,6 @@
 	<dimen name="nav_drawer_horizontal_padding">15dp</dimen>
 	<dimen name="list_margin_top">40dp</dimen>
 	<dimen name="sub_separator_width">430dp</dimen>
-	<dimen name="search_dropdown_offset">-14dp</dimen>
 	<dimen name="search_dropdown_width">350dp</dimen>
-	<dimen name="search_dropdown_height">400dp</dimen>
-	<dimen name="search_bg_top_offset">89dp</dimen>
+	<dimen name="search_dropdown_height">430dp</dimen>
 </resources>

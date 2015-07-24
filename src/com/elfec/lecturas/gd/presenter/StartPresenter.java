@@ -43,6 +43,20 @@ public class StartPresenter implements IDisposable {
 		dataImportationReceiver.startReceiving();
 	}
 
+	/**
+	 * Cierra la sesión actual del usuario logeado
+	 */
+	public void closeCurrentSession() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String username = SessionManager.getLoggedInUsername();
+				SessionManager.finishSession();
+				view.notifySessionClosed(username);
+			}
+		}).start();
+	}
+
 	@Override
 	public void dispose() {
 		view = null;

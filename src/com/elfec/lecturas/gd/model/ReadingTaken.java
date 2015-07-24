@@ -33,6 +33,11 @@ public class ReadingTaken extends Model {
 	@Column(name = "SaveDate")
 	private DateTime saveDate;
 	/**
+	 * USUARIO_LECTOR en Oracle
+	 */
+	@Column(name = "ReaderUser")
+	private String readerUser;
+	/**
 	 * LEC_FECHA en Oracle
 	 */
 	@Column(name = "ReadingDate")
@@ -118,7 +123,7 @@ public class ReadingTaken extends Model {
 	}
 
 	public ReadingTaken(long readingRemoteId, int supplyId, DateTime saveDate,
-			DateTime readingDate, int resetCount,
+			String readerUser, DateTime readingDate, int resetCount,
 			BigDecimal activeDistributing, BigDecimal activePeak,
 			BigDecimal activeRest, BigDecimal activeValley,
 			BigDecimal reactiveDistributing, BigDecimal reactivePeak,
@@ -130,6 +135,7 @@ public class ReadingTaken extends Model {
 		this.readingRemoteId = readingRemoteId;
 		this.supplyId = supplyId;
 		this.saveDate = saveDate;
+		this.readerUser = readerUser;
 		this.readingDate = readingDate;
 		this.resetCount = resetCount;
 		this.activeDistributing = activeDistributing;
@@ -182,6 +188,14 @@ public class ReadingTaken extends Model {
 
 	public void setSaveDate(DateTime saveDate) {
 		this.saveDate = saveDate;
+	}
+
+	public String getReaderUser() {
+		return readerUser;
+	}
+
+	public void setReaderUser(String readerUser) {
+		this.readerUser = readerUser;
 	}
 
 	public DateTime getReadingDate() {

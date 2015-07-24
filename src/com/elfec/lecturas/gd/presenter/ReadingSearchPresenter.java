@@ -38,7 +38,8 @@ public class ReadingSearchPresenter {
 						view.showReadingFound(result.getResult());
 				}
 			}).start();
-		}
+		} else
+			view.notifyAtleastOneField();
 	}
 
 }

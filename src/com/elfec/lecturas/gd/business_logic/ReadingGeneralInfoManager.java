@@ -10,6 +10,7 @@ import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.model.data_exchange.ImportSource;
 import com.elfec.lecturas.gd.model.events.DataImportListener;
+import com.elfec.lecturas.gd.model.exceptions.ReadingNotFoundException;
 import com.elfec.lecturas.gd.model.exceptions.RouteAssignmentWithNoReadingsException;
 import com.elfec.lecturas.gd.model.results.TypedResult;
 import com.elfec.lecturas.gd.remote_data_access.ReadingGeneralInfoRDA;
@@ -97,7 +98,12 @@ public class ReadingGeneralInfoManager {
 			String meter, int nus) {
 		TypedResult<ReadingGeneralInfo> result = new TypedResult<>();
 		try {
-			// TODO search logic
+			ReadingGeneralInfo readingFound = ReadingGeneralInfo.findReading(
+					accountNumber, meter, nus);
+			result.setResult(readingFound);
+			if (readingFound == null)
+				result.addError(new ReadingNotFoundException(accountNumber,
+						meter, nus));
 		} catch (Exception e) {
 			Log.error(ReadingGeneralInfoManager.class, e);
 			e.printStackTrace();
@@ -105,5 +111,4 @@ public class ReadingGeneralInfoManager {
 		}
 		return result;
 	}
-
 }
