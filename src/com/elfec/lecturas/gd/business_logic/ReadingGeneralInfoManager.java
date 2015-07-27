@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.elfec.lecturas.gd.business_logic.data_exchange.DataImporter;
+import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.model.data_exchange.ImportSource;
@@ -111,8 +112,8 @@ public class ReadingGeneralInfoManager {
 					accountNumber, meter, nus);
 			result.setResult(readingFound);
 			if (readingFound == null)
-				result.addError(new ReadingNotFoundException(accountNumber,
-						meter, nus));
+				result.addError(new ReadingNotFoundException(AccountFormatter
+						.formatAccountNumber(accountNumber), meter, nus));
 		} catch (Exception e) {
 			Log.error(ReadingGeneralInfoManager.class, e);
 			e.printStackTrace();

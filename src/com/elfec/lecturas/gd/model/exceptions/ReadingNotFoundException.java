@@ -1,6 +1,5 @@
 package com.elfec.lecturas.gd.model.exceptions;
 
-import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 
 public class ReadingNotFoundException extends Exception {
 
@@ -25,9 +24,7 @@ public class ReadingNotFoundException extends Exception {
 		StringBuilder str = new StringBuilder(
 				"No se encontró ninguna lectura con");
 		if (accountNumber != null && !accountNumber.isEmpty())
-			str.append(" cuenta: <b>")
-					.append(AccountFormatter.formatAccountNumber(accountNumber))
-					.append("</b>,");
+			str.append(" cuenta: <b>").append(accountNumber).append("</b>,");
 		if (meter != null && !meter.isEmpty())
 			str.append(" número de serie de medidor: <b>").append(meter)
 					.append("</b>,");
