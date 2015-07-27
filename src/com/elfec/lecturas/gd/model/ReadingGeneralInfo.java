@@ -325,11 +325,13 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 		if (status != ReadingStatus.READ && status != ReadingStatus.IMPEDED)
 			throw new IllegalArgumentException(
 					"La lectura solo puede asignar como tomada con los estados: LEIDA o IMPEDIDA!");
-		if (readingTaken == null || readingTaken.getId() == null)
+		if (readingTaken != null && readingTaken.getId() != null
+				&& readingTaken.getId() != -1) {
+			this.readingTaken = readingTaken;
+			setStatus(status);
+		} else
 			throw new IllegalArgumentException(
 					"La lectura tomada tiene que haberse guardado en la base de datos antes de asignarla a la lectura");
-		this.readingTaken = readingTaken;
-		setStatus(status);
 	}
 
 	/**
@@ -363,13 +365,21 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	}
 
 	/**
-	 * Obtiene todas las lecturas ordenadas por numero de cuenta
+	 * Obtiene todas las lecturas ordenadas por numero de cuenta. Si se
+	 * proporcionan parámetros se filtra la lista según ellos
 	 * 
+	 * @param status
+	 * @param route
 	 * @return Lista de lecturas
 	 */
-	public static List<ReadingGeneralInfo> getAllReadingsSorted(int route) {
-		return new Select().from(ReadingGeneralInfo.class)
-				.orderBy("SupplyNumber").execute();
+	public static List<ReadingGeneralInfo> getAllReadingsSorted(
+			ReadingStatus status, RouteAssignment route) {
+		From query = new Select().from(ReadingGeneralInfo.class);
+		if (status != null)
+			query.where("Status=?", status.toShort());
+		if (route != null)
+			query.where("RouteId=?", route.getRoute());
+		return query.orderBy("SupplyNumber").execute();
 	}
 
 	/**

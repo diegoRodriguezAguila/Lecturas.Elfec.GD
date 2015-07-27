@@ -15,6 +15,7 @@ import com.elfec.lecturas.gd.model.ReadingTaken;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.presenter.views.IReadingView;
+import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 
 /**
  * Presenter para las vistas de lecturas
@@ -26,6 +27,10 @@ public class ReadingPresenter {
 
 	private ReadingGeneralInfo reading;
 	private IReadingView view;
+	private boolean validateActiveDistribution;
+	private boolean validateReactiveEnergy;
+	private boolean validateReactiveDistribution;
+	private boolean validateEnergyPower;
 
 	public ReadingPresenter(IReadingView view) {
 		this.view = view;
@@ -82,15 +87,18 @@ public class ReadingPresenter {
 	 */
 	public void bindFieldsVisibility() {
 		ReadingMeter readingMeter = reading.getReadingMeter();
-		view.setActiveDistributionVisible(!readingMeter.getTagActivePeak()
-				.equals(BigDecimal.ZERO));
-		view.setReactiveEnergyVisible(!readingMeter
-				.getTagReactiveDistributing().equals(BigDecimal.ZERO)
-				|| !readingMeter.getTagReactivePeak().equals(BigDecimal.ZERO));
-		view.setReactiveDistributionVisible(!readingMeter.getTagReactivePeak()
-				.equals(BigDecimal.ZERO));
-		view.setEnergyPowerVisible(!readingMeter.getTagPowerPeak().equals(
-				BigDecimal.ZERO));
+		validateActiveDistribution = !readingMeter.getTagActivePeak().equals(
+				BigDecimal.ZERO);
+		validateReactiveDistribution = !readingMeter.getTagReactivePeak()
+				.equals(BigDecimal.ZERO);
+		validateReactiveEnergy = !readingMeter.getTagReactiveDistributing()
+				.equals(BigDecimal.ZERO) || validateReactiveDistribution;
+		validateEnergyPower = !readingMeter.getTagPowerPeak().equals(
+				BigDecimal.ZERO);
+		view.setActiveDistributionVisible(validateActiveDistribution);
+		view.setReactiveEnergyVisible(validateReactiveEnergy);
+		view.setReactiveDistributionVisible(validateReactiveDistribution);
+		view.setEnergyPowerVisible(validateEnergyPower);
 	}
 
 	/**
@@ -131,7 +139,7 @@ public class ReadingPresenter {
 	/**
 	 * Inicia el proceso de validación y guardado de la lectura
 	 */
-	public void saveReading() {
+	public void saveReading(final ReadingSaveCallback callback) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -164,10 +172,16 @@ public class ReadingPresenter {
 											view.getPowerValleyOffpeakDate(),
 											view.getPowerValleyOffpeakTime())),
 							ReadingStatus.READ);
-					view.showReadingSaveErrors(result.getErrors());
 					if (!result.hasErrors()) {
 						view.notifyReadingSavedSuccessfully();
+						view.setReadingStatus(reading.getStatus());
 						view.setReadOnly(true);
+						if (callback != null)
+							callback.onReadingSavedSuccesfully();
+					} else {
+						view.showReadingSaveErrors(result.getErrors());
+						if (callback != null)
+							callback.onReadingSaveErrors(result.getErrors());
 					}
 				} else
 					view.notifyErrorsInFields();
@@ -255,9 +269,11 @@ public class ReadingPresenter {
 	private boolean validateActiveEnergyFields() {
 		boolean allAreValid = true;
 		allAreValid = validateActiveDistributing() && allAreValid;
-		allAreValid = validateActivePeak() && allAreValid;
-		allAreValid = validateActiveRest() && allAreValid;
-		allAreValid = validateActiveValley() && allAreValid;
+		if (validateActiveDistribution) {
+			allAreValid = validateActivePeak() && allAreValid;
+			allAreValid = validateActiveRest() && allAreValid;
+			allAreValid = validateActiveValley() && allAreValid;
+		}
 		return allAreValid;
 	}
 
@@ -269,7 +285,8 @@ public class ReadingPresenter {
 	public boolean validateActiveDistributing() {
 		VoidResult result = ReadingFieldsValidator.validateActiveDistributing(
 				view.getActiveDistributing(), view.getActivePeak(),
-				view.getActiveRest(), view.getActiveValley());
+				view.getActiveRest(), view.getActiveValley(),
+				validateActiveDistribution);
 		view.setActiveDistributingErrors(result.getErrors());
 		return !result.hasErrors();
 	}
@@ -322,10 +339,14 @@ public class ReadingPresenter {
 	 */
 	private boolean validateReactiveEnergyFields() {
 		boolean allAreValid = true;
-		allAreValid = validateReactiveDistributing() && allAreValid;
-		allAreValid = validateReactivePeak() && allAreValid;
-		allAreValid = validateReactiveRest() && allAreValid;
-		allAreValid = validateReactiveValley() && allAreValid;
+		if (validateReactiveEnergy) {
+			allAreValid = validateReactiveDistributing() && allAreValid;
+			if (validateReactiveDistribution) {
+				allAreValid = validateReactivePeak() && allAreValid;
+				allAreValid = validateReactiveRest() && allAreValid;
+				allAreValid = validateReactiveValley() && allAreValid;
+			}
+		}
 		return allAreValid;
 	}
 
@@ -338,7 +359,7 @@ public class ReadingPresenter {
 		VoidResult result = ReadingFieldsValidator
 				.validateReactiveDistributing(view.getReactiveDistributing(),
 						view.getReactivePeak(), view.getReactiveRest(),
-						view.getReactiveValley());
+						view.getReactiveValley(), validateReactiveDistribution);
 		view.setReactiveDistributingErrors(result.getErrors());
 		return !result.hasErrors();
 	}
@@ -391,17 +412,19 @@ public class ReadingPresenter {
 	 */
 	private boolean validateEnergyPowerFields() {
 		boolean allAreValid = true;
-		allAreValid = validatePowerPeak() && allAreValid;
-		allAreValid = validatePowerPeakDate() && allAreValid;
-		allAreValid = validatePowerPeakTime() && allAreValid;
+		if (validateEnergyPower) {
+			allAreValid = validatePowerPeak() && allAreValid;
+			allAreValid = validatePowerPeakDate() && allAreValid;
+			allAreValid = validatePowerPeakTime() && allAreValid;
 
-		allAreValid = validatePowerRestOffpeak() && allAreValid;
-		allAreValid = validatePowerRestOffpeakDate() && allAreValid;
-		allAreValid = validatePowerRestOffpeakTime() && allAreValid;
+			allAreValid = validatePowerRestOffpeak() && allAreValid;
+			allAreValid = validatePowerRestOffpeakDate() && allAreValid;
+			allAreValid = validatePowerRestOffpeakTime() && allAreValid;
 
-		allAreValid = validatePowerValleyOffpeak() && allAreValid;
-		allAreValid = validatePowerValleyOffpeakDate() && allAreValid;
-		allAreValid = validatePowerValleyOffpeakTime() && allAreValid;
+			allAreValid = validatePowerValleyOffpeak() && allAreValid;
+			allAreValid = validatePowerValleyOffpeakDate() && allAreValid;
+			allAreValid = validatePowerValleyOffpeakTime() && allAreValid;
+		}
 		return allAreValid;
 	}
 

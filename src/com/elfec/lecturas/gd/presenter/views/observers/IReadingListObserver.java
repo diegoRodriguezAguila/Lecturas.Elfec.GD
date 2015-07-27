@@ -23,8 +23,17 @@ public interface IReadingListObserver {
 	public void setReadingListNotifier(IReadingListNotifier notifier);
 
 	/**
+	 * Devuelve el listener para monitorear las acciones del observer asignado
+	 * 
+	 * @return {@link IReadingListNotifier} notifier asignado o null en caso de
+	 *         no haberse asignado ninguno
+	 */
+	public IReadingListNotifier getReadingListNotifier();
+
+	/**
 	 * Asigna la lista de lecturas para mostrar. Esta asignación no debería
-	 * propagar nuevamente el evento de notificación
+	 * propagar nuevamente el evento de notificación de cambio de lista de
+	 * lecturas
 	 * 
 	 * @param readings
 	 */

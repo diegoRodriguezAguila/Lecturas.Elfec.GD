@@ -1,5 +1,8 @@
 package com.elfec.lecturas.gd.presenter.views.notifiers;
 
+import java.util.List;
+
+import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.presenter.views.observers.IReadingListObserver;
 
 /**
@@ -11,7 +14,7 @@ import com.elfec.lecturas.gd.presenter.views.observers.IReadingListObserver;
  */
 public interface IReadingListNotifier {
 	/**
-	 * Evento que se ejecuta cuando en algún observador se generó un evento de
+	 * Evento que se ejecuta cuando en algún observable se generó un evento de
 	 * selección de lectura
 	 * 
 	 * @param position
@@ -20,4 +23,14 @@ public interface IReadingListNotifier {
 	 *            el observador que originó el evento
 	 */
 	public void notifyReadingSelected(int position, IReadingListObserver sender);
+
+	/**
+	 * Evento que se ejecuta cuando algun observable se generó un evento de
+	 * cambio de lista de lecturas
+	 * 
+	 * @param readings
+	 * @param sender
+	 */
+	public void notifyReadingListChanged(List<ReadingGeneralInfo> readings,
+			IReadingListObserver sender);
 }

@@ -23,6 +23,7 @@ import com.bignerdranch.android.recyclerviewchoicemode.SwappingHolder;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.ReadingsListPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
@@ -37,6 +38,8 @@ public class ReadingsListFragment extends Fragment implements
 	private ReadingsListPresenter presenter;
 	private IReadingListNotifier readingListNotifier;
 	private Handler mHandler;
+	private int routePos;
+	private int statusPos;
 
 	private Spinner spinnerReadingStatus;
 	private Spinner spinnerRoutes;
@@ -55,6 +58,8 @@ public class ReadingsListFragment extends Fragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		presenter = new ReadingsListPresenter(this);
+		routePos = 0;
+		statusPos = 0;
 	}
 
 	@Override
@@ -67,7 +72,6 @@ public class ReadingsListFragment extends Fragment implements
 		spinnerRoutes = (Spinner) view.findViewById(R.id.spinner_routes);
 		setCollapsableToolBarTitle((CollapsingToolbarLayout) view
 				.findViewById(R.id.collapsing_toolbar));
-		presenter.loadRoutes();
 		readingsList = (SuperRecyclerView) view
 				.findViewById(R.id.list_readings);
 
@@ -78,6 +82,7 @@ public class ReadingsListFragment extends Fragment implements
 		setDefaultSelected();
 		setOnItemSelectedListeners();
 		setReadingStatusAdapter();
+		presenter.loadRoutes();
 		return view;
 	}
 
@@ -147,8 +152,10 @@ public class ReadingsListFragment extends Fragment implements
 					@Override
 					public void onItemSelected(AdapterView<?> adapter, View v,
 							int pos, long id) {
-						if (v != null) {
-							// readingsList.setAdapter(null);
+						if (pos != statusPos) {
+							statusPos = pos;
+							readingsList.setAdapter(null);
+							presenter.applyFilters();
 						}
 					}
 
@@ -161,8 +168,11 @@ public class ReadingsListFragment extends Fragment implements
 			@Override
 			public void onItemSelected(AdapterView<?> adapter, View v, int pos,
 					long id) {
-				// if (v != null)
-				// presenter.loadReadingsGeneralInfo();
+				if (pos != routePos) {
+					routePos = pos;
+					readingsList.setAdapter(null);
+					presenter.applyFilters();
+				}
 			}
 
 			@Override
@@ -204,11 +214,16 @@ public class ReadingsListFragment extends Fragment implements
 	}
 
 	@Override
-	public void setSelectedReading(int position) {
-		if (readingsAdapter != null) {
-			readingsList.getLayoutManager().scrollToPosition(position);
-			readingsAdapter.setSelected(position, true);
-		}
+	public void setSelectedReading(final int position) {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (readingsAdapter != null) {
+					readingsList.getLayoutManager().scrollToPosition(position);
+					readingsAdapter.setSelected(position, true);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -217,6 +232,25 @@ public class ReadingsListFragment extends Fragment implements
 		if (readingListNotifier != null)
 			readingListNotifier.notifyReadingSelected(position,
 					ReadingsListFragment.this);
+	}
+
+	@Override
+	public IReadingListNotifier getReadingListNotifier() {
+		return readingListNotifier;
+	}
+
+	@Override
+	public ReadingStatus getReadingStatusFilter() {
+		int pos = spinnerReadingStatus.getSelectedItemPosition();
+		if (pos > 0)
+			return ReadingStatus.get((short) (pos - 1));
+		return null;
+	}
+
+	@Override
+	public RouteAssignment getRouteFilter() {
+		int pos = spinnerRoutes.getSelectedItemPosition();
+		return (RouteAssignment) spinnerRoutes.getAdapter().getItem(pos);
 	}
 
 	// #endregion

@@ -43,10 +43,8 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				shownReadings = ReadingGeneralInfo.getAllReadingsSorted();
-				for (IReadingListObserver obs : observers) {
-					obs.setReadings(shownReadings);
-				}
+				notifyReadingListChanged(
+						ReadingGeneralInfo.getAllReadingsSorted(), null);
 			}
 		}).start();
 	}
@@ -62,6 +60,24 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		}
 	}
 
+	@Override
+	public void notifyReadingListChanged(List<ReadingGeneralInfo> readings,
+			IReadingListObserver sender) {
+		ReadingGeneralInfo currentReading = (shownReadings != null && shownReadings
+				.size() > currentPosition) ? shownReadings.get(currentPosition)
+				: null;
+		shownReadings = readings;
+		for (IReadingListObserver obs : observers) {
+			if (obs != sender)
+				obs.setReadings(shownReadings);
+		}
+		int position = shownReadings.indexOf(currentReading);
+		position = position == -1 ? 0 : position;
+		if (position == currentPosition)
+			currentPosition = -1;
+		notifyReadingSelected(position, sender);
+	}
+
 	/**
 	 * Procesa la lectura encontrada, para notificar a todos los observadores
 	 * que deben mostrarla. En caso de no existir en la lista actual, se vuelve
@@ -70,13 +86,19 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 	 * 
 	 * @param reading
 	 */
-	public void processFoundReading(ReadingGeneralInfo reading) {
-		int position = shownReadings.indexOf(reading);
-		if (position != -1) {// Lectura se encuentra en lista actual
-			notifyReadingSelected(position, null);
-		} else {
-			// TODO recuperar de bd TODAS las lecturas y poner esta como pre
-			// seleccionada
-		}
+	public void processFoundReading(final ReadingGeneralInfo reading) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				int position = shownReadings.indexOf(reading);
+				if (position != -1) {// Lectura se encuentra en lista actual
+					notifyReadingSelected(position, null);
+				} else {
+					shownReadings = ReadingGeneralInfo.getAllReadingsSorted();
+					processFoundReading(reading);
+				}
+			}
+		}).start();
 	}
+
 }

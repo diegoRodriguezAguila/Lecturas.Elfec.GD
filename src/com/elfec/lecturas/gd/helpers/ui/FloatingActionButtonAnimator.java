@@ -49,6 +49,7 @@ public class FloatingActionButtonAnimator {
 	 */
 	public static void show(final FloatingActionButton fab, Animation anim,
 			final AnimationListener listener) {
+		fab.setEnabled(true);
 		if (anim == null) {
 			anim = AnimationUtils
 					.loadAnimation(fab.getContext(), R.anim.fab_in);
@@ -109,6 +110,7 @@ public class FloatingActionButtonAnimator {
 	 */
 	public static void hide(final FloatingActionButton fab, Animation anim,
 			final AnimationListener listener) {
+		fab.setEnabled(false);
 		if (anim == null) {
 			anim = AnimationUtils.loadAnimation(fab.getContext(),
 					R.anim.fab_out);
@@ -161,7 +163,6 @@ public class FloatingActionButtonAnimator {
 	public static void hideAndShow(FloatingActionButton fabToHide,
 			final FloatingActionButton fabToShow, Animation hideAnim,
 			final Animation showAnim) {
-
 		hide(fabToHide, hideAnim, new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {

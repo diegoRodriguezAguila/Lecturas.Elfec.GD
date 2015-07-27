@@ -68,15 +68,30 @@ public class ReadingFieldsValidator {
 	 * @param activeValley
 	 * @return {@link VoidResult} resultado de la validación
 	 */
+	/**
+	 * Valida la energía activa a distribuir
+	 * 
+	 * @param activeDistributing
+	 * @param activePeak
+	 * @param activeRest
+	 * @param activeValley
+	 * @param validateEnergyDistribution
+	 *            true si se debe validar que la suma de los 3 componentes de la
+	 *            energía sean igual al total de energía activa
+	 * @return {@link VoidResult} resultado de la validación
+	 */
 	public static VoidResult validateActiveDistributing(
 			BigDecimal activeDistributing, BigDecimal activePeak,
-			BigDecimal activeRest, BigDecimal activeValley) {
+			BigDecimal activeRest, BigDecimal activeValley,
+			boolean validateEnergyDistribution) {
 		List<IValidationRule<BigDecimal>> validationRules = new ArrayList<>(
 				bigDecimalValidationRules);
-		validationRules.add(new BigDecimalSumatoryVR(
-				"energía activa Rate A, Rate B y Rate C"));
 		Object[][] params = new Object[2][];
-		params[1] = new Object[] { activePeak, activeRest, activeValley };
+		if (validateEnergyDistribution) {
+			validationRules.add(new BigDecimalSumatoryVR(
+					"energía activa Rate A, Rate B y Rate C"));
+			params[1] = new Object[] { activePeak, activeRest, activeValley };
+		}
 		VoidResult result = new VoidResult();
 		result.addErrors(FieldValidator.validate("energía activa total", false,
 				activeDistributing, validationRules, params));
@@ -109,13 +124,17 @@ public class ReadingFieldsValidator {
 	 */
 	public static VoidResult validateReactiveDistributing(
 			BigDecimal reactiveDistributing, BigDecimal reactivePeak,
-			BigDecimal reactiveRest, BigDecimal reactiveValley) {
+			BigDecimal reactiveRest, BigDecimal reactiveValley,
+			boolean validateReactiveDistribution) {
 		List<IValidationRule<BigDecimal>> validationRules = new ArrayList<>(
 				bigDecimalValidationRules);
-		validationRules.add(new BigDecimalSumatoryVR(
-				"energía reactiva Rate A, Rate B y Rate C"));
 		Object[][] params = new Object[2][];
-		params[1] = new Object[] { reactivePeak, reactiveRest, reactiveValley };
+		if (validateReactiveDistribution) {
+			validationRules.add(new BigDecimalSumatoryVR(
+					"energía reactiva Rate A, Rate B y Rate C"));
+			params[1] = new Object[] { reactivePeak, reactiveRest,
+					reactiveValley };
+		}
 		VoidResult result = new VoidResult();
 		result.addErrors(FieldValidator.validate("energía reactiva total",
 				false, reactiveDistributing, validationRules, params));

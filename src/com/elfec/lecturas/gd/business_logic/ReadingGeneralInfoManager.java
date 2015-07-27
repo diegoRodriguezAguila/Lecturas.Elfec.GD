@@ -9,6 +9,7 @@ import com.elfec.lecturas.gd.business_logic.data_exchange.DataImporter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.model.data_exchange.ImportSource;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.model.events.DataImportListener;
 import com.elfec.lecturas.gd.model.exceptions.ReadingNotFoundException;
 import com.elfec.lecturas.gd.model.exceptions.RouteAssignmentWithNoReadingsException;
@@ -94,6 +95,14 @@ public class ReadingGeneralInfoManager {
 		return result;
 	}
 
+	/**
+	 * Realiza la búsqueda de lectura según los parámetros proporcionados
+	 * 
+	 * @param accountNumber
+	 * @param meter
+	 * @param nus
+	 * @return {@link TypedResult} con el resultado de la lectura encontrada
+	 */
 	public TypedResult<ReadingGeneralInfo> searchReading(String accountNumber,
 			String meter, int nus) {
 		TypedResult<ReadingGeneralInfo> result = new TypedResult<>();
@@ -104,6 +113,30 @@ public class ReadingGeneralInfoManager {
 			if (readingFound == null)
 				result.addError(new ReadingNotFoundException(accountNumber,
 						meter, nus));
+		} catch (Exception e) {
+			Log.error(ReadingGeneralInfoManager.class, e);
+			e.printStackTrace();
+			result.addError(e);
+		}
+		return result;
+	}
+
+	/**
+	 * Obtiene la lista de lecturas aplicando los filtros seleccionados
+	 * 
+	 * @param status
+	 *            si es null no se filtra por estado
+	 * @param route
+	 *            si es null no se filtra por ruta
+	 * @return {@link TypedResult} con el resultado de la lista de lecturas
+	 *         filtrada
+	 */
+	public TypedResult<List<ReadingGeneralInfo>> getFilteredReadings(
+			ReadingStatus status, RouteAssignment route) {
+		TypedResult<List<ReadingGeneralInfo>> result = new TypedResult<>();
+		try {
+			result.setResult(ReadingGeneralInfo.getAllReadingsSorted(status,
+					route));
 		} catch (Exception e) {
 			Log.error(ReadingGeneralInfoManager.class, e);
 			e.printStackTrace();

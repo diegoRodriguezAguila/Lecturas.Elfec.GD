@@ -35,6 +35,7 @@ import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.ReadingPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingView;
+import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.view.animations.HeightAnimation;
 import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
@@ -649,10 +650,17 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	@Override
-	public void setReadingStatus(ReadingStatus status) {
-		txtReadingStatus.setText(status.toString());
-		txtReadingStatus.setBackgroundColor(txtReadingStatus.getResources()
-				.getColor(ReadingStatusColorPicker.getResourceColorId(status)));
+	public void setReadingStatus(final ReadingStatus status) {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				txtReadingStatus.setText(status.toString());
+				txtReadingStatus.setBackgroundColor(txtReadingStatus
+						.getResources().getColor(
+								ReadingStatusColorPicker
+										.getResourceColorId(status)));
+			}
+		});
 	}
 
 	@Override
@@ -758,9 +766,9 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	@Override
-	public void readingSaveClicked(View v) {
+	public void readingSaveClicked(View v, ReadingSaveCallback callback) {
 		needsToClear = true;
-		presenter.saveReading();
+		presenter.saveReading(callback);
 	}
 
 	@Override

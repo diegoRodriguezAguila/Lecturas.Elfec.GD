@@ -29,13 +29,15 @@ import com.elfec.lecturas.gd.model.ReadingTaken;
 import com.elfec.lecturas.gd.presenter.ReadingTakePresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingTakeView;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
+import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService.OnReadingFoundListener;
 
-public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
+public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
+		ReadingSaveCallback {
 
 	private ReadingTakePresenter presenter;
 	private IReadingListNotifier readingListNotifier;
@@ -64,8 +66,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 					@Override
 					public void onPageSelected(int pos) {
 						KeyboardHelper.hideKeyboard(drawerLayout);
-						setFloatingButtonsVisibility(pos);
 						position = pos;
+						setFloatingButtonsVisibility(pos);
 						if (readingListNotifier != null)
 							readingListNotifier.notifyReadingSelected(position,
 									ReadingTake.this);
@@ -235,16 +237,21 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	 *            posición de la lectura actual
 	 */
 	private void setFloatingButtonsVisibility(int pos) {
-		ReadingTaken lastReading = readingPagerAdapter.getReadingAt(position)
-				.getReadingTaken();
-		ReadingTaken currentReading = readingPagerAdapter.getReadingAt(pos)
-				.getReadingTaken();
-		if (lastReading == null && currentReading != null)
-			FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
-					btnEditReading);
-		if (lastReading != null && currentReading == null)
-			FloatingActionButtonAnimator.hideAndShow(btnEditReading,
-					btnSaveReading);
+		if (readingPagerAdapter != null && readingPagerAdapter.getCount() > 0) {
+			ReadingTaken currentReading = readingPagerAdapter.getReadingAt(pos)
+					.getReadingTaken();
+			if (btnEditReading.getVisibility() == View.GONE
+					&& currentReading != null)
+				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
+						btnEditReading);
+			if (btnSaveReading.getVisibility() == View.GONE
+					&& currentReading == null)
+				FloatingActionButtonAnimator.hideAndShow(btnEditReading,
+						btnSaveReading);
+		} else { // no adapter, no readings
+			FloatingActionButtonAnimator.hide(btnSaveReading);
+			FloatingActionButtonAnimator.hide(btnEditReading);
+		}
 	}
 
 	/**
@@ -255,7 +262,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	public void btnSaveReading(View v) {
 		if (ButtonClicksHelper.canClickButton())
 			((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
-					.readingSaveClicked(v);
+					.readingSaveClicked(v, this);
 	}
 
 	/**
@@ -265,8 +272,11 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	 */
 	public void btnEditReading(View v) {
 		if (ButtonClicksHelper.canClickButton())
-			((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
-					.readingSaveClicked(v);
+			;
+		/*
+		 * ((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
+		 * .readingSaveClicked(v);
+		 */
 	}
 
 	// #region Interface Methods
@@ -291,9 +301,36 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView {
 	}
 
 	@Override
-	public void setSelectedReading(int position) {
-		readingsViewPager.setCurrentItem(position,
-				Math.abs(this.position - position) == 1);
+	public void setSelectedReading(final int position) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (readingsViewPager.getCurrentItem() == position)
+					setFloatingButtonsVisibility(position);
+				readingsViewPager.setCurrentItem(position,
+						Math.abs(ReadingTake.this.position - position) == 1);
+			}
+		});
+	}
+
+	@Override
+	public IReadingListNotifier getReadingListNotifier() {
+		return readingListNotifier;
+	}
+
+	@Override
+	public void onReadingSavedSuccesfully() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
+						btnEditReading);
+			}
+		});
+	}
+
+	@Override
+	public void onReadingSaveErrors(List<Exception> errors) {
 	}
 
 	// #endregion

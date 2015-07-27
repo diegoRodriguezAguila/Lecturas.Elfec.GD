@@ -43,8 +43,7 @@ public class DataImporter {
 			e.printStackTrace();
 			result.addError(e);
 		} finally {
-			if (ActiveAndroid.inTransaction())
-				ActiveAndroid.endTransaction();
+			ActiveAndroid.endTransaction();
 		}
 		return result;
 	}
