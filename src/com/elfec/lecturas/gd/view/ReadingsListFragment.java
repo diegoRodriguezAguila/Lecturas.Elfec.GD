@@ -253,5 +253,13 @@ public class ReadingsListFragment extends Fragment implements
 		return (RouteAssignment) spinnerRoutes.getAdapter().getItem(pos);
 	}
 
+	@Override
+	public void resetFilters() {
+		statusPos = 0;
+		routePos = 0;
+		spinnerReadingStatus.setSelection(0);
+		spinnerRoutes.setSelection(0);
+	}
+
 	// #endregion
 }

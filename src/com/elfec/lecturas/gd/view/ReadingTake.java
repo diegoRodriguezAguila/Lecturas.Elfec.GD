@@ -333,5 +333,9 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	public void onReadingSaveErrors(List<Exception> errors) {
 	}
 
+	@Override
+	public void resetFilters() {// nothing should happen here
+	}
+
 	// #endregion
 }

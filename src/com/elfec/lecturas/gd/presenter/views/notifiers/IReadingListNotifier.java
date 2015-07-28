@@ -33,4 +33,12 @@ public interface IReadingListNotifier {
 	 */
 	public void notifyReadingListChanged(List<ReadingGeneralInfo> readings,
 			IReadingListObserver sender);
+
+	/**
+	 * Evento que se ejecuta cuando se quiere ordenar a todos los observadores
+	 * que reseteen cualquier filtro aplicado sobre la lista de lecturas
+	 * 
+	 * @param sender
+	 */
+	public void notifyResetFilters(IReadingListObserver sender);
 }

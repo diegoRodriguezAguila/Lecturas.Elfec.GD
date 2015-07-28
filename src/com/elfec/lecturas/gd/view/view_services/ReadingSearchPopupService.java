@@ -243,11 +243,11 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {
+				if (mOnReadingFoundListener != null)
+					mOnReadingFoundListener.onReadingFound(reading);
 				mDialog.dismiss();
 				Toast.makeText(mContext, R.string.msg_reading_found,
 						Toast.LENGTH_LONG).show();
-				if (mOnReadingFoundListener != null)
-					mOnReadingFoundListener.onReadingFound(reading);
 			}
 		});
 	}

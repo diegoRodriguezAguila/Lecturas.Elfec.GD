@@ -9,7 +9,6 @@ import com.elfec.lecturas.gd.presenter.views.observers.IReadingListObserver;
 
 public class ReadingTakePresenter implements IReadingListNotifier {
 	private int currentPosition;
-	@SuppressWarnings("unused")
 	private IReadingTakeView view;
 	private List<IReadingListObserver> observers;
 	private List<ReadingGeneralInfo> shownReadings;
@@ -78,6 +77,14 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		notifyReadingSelected(position, sender);
 	}
 
+	@Override
+	public void notifyResetFilters(IReadingListObserver sender) {
+		for (IReadingListObserver obs : observers) {
+			if (obs != sender)
+				obs.resetFilters();
+		}
+	}
+
 	/**
 	 * Procesa la lectura encontrada, para notificar a todos los observadores
 	 * que deben mostrarla. En caso de no existir en la lista actual, se vuelve
@@ -95,7 +102,9 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 					notifyReadingSelected(position, null);
 				} else {
 					shownReadings = ReadingGeneralInfo.getAllReadingsSorted();
-					processFoundReading(reading);
+					currentPosition = shownReadings.indexOf(reading);
+					notifyReadingListChanged(shownReadings, null);
+					notifyResetFilters(view);
 				}
 			}
 		}).start();

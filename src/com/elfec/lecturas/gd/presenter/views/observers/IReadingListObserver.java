@@ -46,4 +46,10 @@ public interface IReadingListObserver {
 	 * @param position
 	 */
 	public void setSelectedReading(int position);
+
+	/**
+	 * Hace que se resetee cualquier filtro que haya sido aplicado sobre la
+	 * lista de lecturas
+	 */
+	public void resetFilters();
 }
