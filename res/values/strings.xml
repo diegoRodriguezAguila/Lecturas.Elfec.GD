@@ -21,7 +21,7 @@
     <string name="btn_import_data">Cargar datos</string>
     <string name="btn_export_data">Descargar datos</string>
     <string name="msg_session_closed">Se finalizó la sesión de <b>%s</b>!</string>
-    
+
     <!-- Start: Import data -->
     <string name="title_import_data">Carga de datos</string>
     <string name="msg_confirm_import_data">Se procederá a iniciar el proceso de carga de datos ¿Desea continuar?</string>
@@ -33,6 +33,11 @@
     <string name="msg_finishing_import">Finalizando la carga de datos&#8230;</string>
     <string name="title_import_data_error">Error en la carga de datos</string>
     <string name="msg_data_imported_successfully">Se completó la carga de datos exitosamente!</string>
+
+    <!-- Start: Export data -->
+    <string name="title_export_data">Descarga de datos</string>
+    <string name="msg_confirm_export_data">Se procederá a iniciar el proceso de descarga de datos, luego se eliminará toda la información local y se cerrará su sesión ¿Desea continuar?</string>
+    <string name="msg_export_data_initialize">Inicializando la exportación de datos al servidor&#8230;</string>
 
     <!-- Reading Take -->
     <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
@@ -76,27 +81,25 @@
     <string name="title_energy_power_rate_B">Demanda máxima <b>rate B</b> (Fuera de punta)</string>
     <string name="title_energy_power_rate_C">Demanda máxima <b>rate C</b> (Fuera de punta)</string>
     <string name="error_in_reading_fields">Los campos tienen errores, corríjalos para poder guardar la lectura!</string>
-    
     <string name="msg_reading_saved_successfully">Se guardó la lectura exitosamente!</string>
-	<string name="title_reading_save_errors">Error al guardar la lectura</string>
-	
-	
-	<!-- Reading Take: Reading Search -->
-	<string name="title_reading_search">Búsqueda de lecturas</string>
-	<string name="lbl_account_number">Número de cuenta</string>
-	<string name="mask_account_number">##-###-###-##</string>
-	<string name="lbl_meter">Serie medidor</string>
-	<string name="lbl_nus">Número suministro</string>
-	<string name="lbl_searching_readnig">Buscando lectura&#8230;</string>
-	<string name="msg_atleast_one_filed">Debe proporcionar un término de búsqueda!</string>
-	<string name="msg_reading_found">Su búsqueda fue exitosa. Se trajo al frente la lectura encontrada!</string>
-	<string name="btn_search">Buscar</string>
-	
-	<!-- Ordenative Addition -->
-	<string name="title_ordenative_addition">Agregar ordenativos</string>
-	<string name="msg_at_least_one_ordenative">Debe seleccionar por lo menos un ordenativo para agregar!</string>
-	<string name="msg_ordenatives_added_successfully">Se agregaron exitosamente los ordenativos a la lectura!</string>
-	
+    <string name="title_reading_save_errors">Error al guardar la lectura</string>
+
+    <!-- Reading Take: Reading Search -->
+    <string name="title_reading_search">Búsqueda de lecturas</string>
+    <string name="lbl_account_number">Número de cuenta</string>
+    <string name="mask_account_number">##-###-###-##</string>
+    <string name="lbl_meter">Serie medidor</string>
+    <string name="lbl_nus">Número suministro</string>
+    <string name="lbl_searching_readnig">Buscando lectura&#8230;</string>
+    <string name="msg_atleast_one_filed">Debe proporcionar un término de búsqueda!</string>
+    <string name="msg_reading_found">Su búsqueda fue exitosa. Se trajo al frente la lectura encontrada!</string>
+    <string name="btn_search">Buscar</string>
+
+    <!-- Ordenative Addition -->
+    <string name="title_ordenative_addition">Agregar ordenativos</string>
+    <string name="msg_at_least_one_ordenative">Debe seleccionar por lo menos un ordenativo para agregar!</string>
+    <string name="msg_ordenatives_added_successfully">Se agregaron exitosamente los ordenativos a la lectura!</string>
+
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
     <string name="btn_cancel">Cancelar</string>

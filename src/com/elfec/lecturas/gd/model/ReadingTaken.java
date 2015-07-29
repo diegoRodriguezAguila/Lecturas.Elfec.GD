@@ -1,12 +1,16 @@
 package com.elfec.lecturas.gd.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+import com.elfec.lecturas.gd.model.enums.ExportStatus;
+import com.elfec.lecturas.gd.model.interfaces.IExportable;
 
 /**
  * Modelo donde se almacenan las lecturas tomadas
@@ -15,7 +19,12 @@ import com.activeandroid.annotation.Table;
  *
  */
 @Table(name = "ReadingsTaken")
-public class ReadingTaken extends Model {
+public class ReadingTaken extends Model implements IExportable {
+	public static final String INSERT_QUERY = "INSERT INTO ERP_ELFEC.SGC_MOVIL_LECTURAS_GD "
+			+ "VALUES (%d, %d, TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, "
+			+ "TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), %d, , TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), %d, , TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), "
+			+ "TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), '%s', SYSDATE, USER, %d)";
+
 	/**
 	 * IDLECTURAGD en Oracle
 	 */
@@ -28,12 +37,12 @@ public class ReadingTaken extends Model {
 	@Column(name = "SupplyId", notNull = true)
 	private int supplyId;
 	/**
-	 * FECHA_GUARDADA en Oracle
+	 * AUD_FECHA en Oracle
 	 */
 	@Column(name = "SaveDate")
 	private DateTime saveDate;
 	/**
-	 * USUARIO_LECTOR en Oracle
+	 * AUD_USUARIO en Oracle
 	 */
 	@Column(name = "ReaderUser")
 	private String readerUser;
@@ -118,6 +127,10 @@ public class ReadingTaken extends Model {
 	@Column(name = "PowerValleyOffpeakDate")
 	private DateTime powerValleyOffpeakDate;
 
+	// ATRIBUTO EXTRA
+	@Column(name = "ExportStatus", index = true, notNull = true)
+	private short exportStatus;
+
 	public ReadingTaken() {
 		super();
 	}
@@ -162,6 +175,38 @@ public class ReadingTaken extends Model {
 	 */
 	public void assignId(ReadingTaken readingToCopyId) {
 		setId(readingToCopyId.getId());
+		setExportStatus(readingToCopyId.getExportStatus());
+	}
+
+	/**
+	 * Obtiene todas las lecturas tomadas pendientes de exportación
+	 * 
+	 * @return lista de lecturas tomadas pendeintes de exportación
+	 */
+	public static List<ReadingTaken> getExportPendingReadingsTaken() {
+		return new Select().from(ReadingTaken.class)
+				.where("ExportStatus = ?", ExportStatus.NOT_EXPORTED.toShort())
+				.execute();
+	}
+
+	/**
+	 * Obtiene la consulta de inserción remota SQL de esta lectura tomada
+	 * 
+	 * @return consulta INSERT SQL de esta lectura tomada
+	 */
+	public String toRemoteInsertSQL() {
+		return String.format(INSERT_QUERY, readingRemoteId, supplyId,
+				readingDate.toString("dd/MM/yyyy HH:mm:ss"), resetCount,
+				activeDistributing, activePeak, activeRest, activeValley,
+				reactiveDistributing, reactivePeak, reactiveRest,
+				reactiveValley, powerPeak,
+				powerPeakDate.toString("dd/MM/yyyy HH:mm:ss"),
+				powerRestOffpeak,
+				powerRestOffpeakDate.toString("dd/MM/yyyy HH:mm:ss"),
+				powerValleyOffpeak,
+				powerValleyOffpeakDate.toString("dd/MM/yyyy HH:mm:ss"),
+				saveDate.toString("dd/MM/yyyy HH:mm:ss"), readerUser, 1);
+		// TODO cambiar el 1 por el estado real de la lectura
 	}
 
 	// #region Getters y Setters
@@ -324,6 +369,21 @@ public class ReadingTaken extends Model {
 
 	public void setPowerValleyOffpeakDate(DateTime powerValleyOffpeakDate) {
 		this.powerValleyOffpeakDate = powerValleyOffpeakDate;
+	}
+
+	public ExportStatus getExportStatus() {
+		return ExportStatus.get(exportStatus);
+	}
+
+	@Override
+	public void setExportStatus(ExportStatus exportStatus) {
+		this.exportStatus = exportStatus.toShort();
+	}
+
+	@Override
+	public String getRegistryResume() {
+		return "Lectura con Id: <b>" + readingRemoteId + "</b>"
+				+ " del suministro: <b>" + supplyId + "</b>";
 	}
 
 	// #endregion

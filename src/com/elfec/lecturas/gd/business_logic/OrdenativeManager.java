@@ -4,6 +4,8 @@ import java.net.ConnectException;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.activeandroid.ActiveAndroid;
 import com.elfec.lecturas.gd.business_logic.data_exchange.DataImporter;
 import com.elfec.lecturas.gd.model.Ordenative;
@@ -95,9 +97,11 @@ public class OrdenativeManager {
 		VoidResult result = new VoidResult();
 		try {
 			ActiveAndroid.beginTransaction();
+			String currentUser = SessionManager.getLoggedInUsername();
 			for (Ordenative ordenative : ordenatives) {
 				new ReadingOrdenative(reading.getReadingRemoteId(),
-						ordenative.getCode()).save();
+						reading.getSupplyId(), ordenative.getCode(),
+						DateTime.now(), currentUser).save();
 			}
 			ActiveAndroid.setTransactionSuccessful();
 		} catch (Exception e) {

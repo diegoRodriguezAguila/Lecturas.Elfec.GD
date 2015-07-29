@@ -25,6 +25,7 @@ import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.presenter.StartPresenter;
 import com.elfec.lecturas.gd.presenter.views.IStartView;
+import com.elfec.lecturas.gd.presenter.views.observers.IDataExportationObserver;
 import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
 import com.elfec.lecturas.gd.view.notifiers.DataImportationNotifier;
 
@@ -95,6 +96,21 @@ public class Start extends AppCompatActivity implements IStartView {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							presenter.startDataImportation();
+						}
+					}).show();
+		}
+	}
+
+	public void btnExportDataClick(View v) {
+		if (ButtonClicksHelper.canClickButton()) {
+			new AlertDialog.Builder(this).setTitle(R.string.title_export_data)
+					.setIcon(R.drawable.export_to_server_d)
+					.setMessage(R.string.msg_confirm_export_data)
+					.setNegativeButton(R.string.btn_cancel, null)
+					.setPositiveButton(R.string.btn_ok, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							presenter.startDataExportation();
 						}
 					}).show();
 		}
@@ -207,6 +223,12 @@ public class Start extends AppCompatActivity implements IStartView {
 						R.anim.slide_right_out);
 			}
 		});
+	}
+
+	@Override
+	public List<IDataExportationObserver> getExportationObserverViews() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// #endregion

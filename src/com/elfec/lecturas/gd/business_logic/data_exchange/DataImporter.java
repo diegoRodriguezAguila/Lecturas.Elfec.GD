@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
+import com.elfec.lecturas.gd.business_logic.Log;
 import com.elfec.lecturas.gd.model.data_exchange.ImportSource;
 import com.elfec.lecturas.gd.model.results.TypedResult;
 import com.elfec.lecturas.gd.model.results.VoidResult;
@@ -40,10 +41,12 @@ public class DataImporter {
 			e.printStackTrace();
 			result.addError(e);
 		} catch (Exception e) {
+			Log.error(DataImporter.class, e);
 			e.printStackTrace();
 			result.addError(e);
 		} finally {
-			ActiveAndroid.endTransaction();
+			if (ActiveAndroid.inTransaction())
+				ActiveAndroid.endTransaction();
 		}
 		return result;
 	}
@@ -71,6 +74,7 @@ public class DataImporter {
 			e.printStackTrace();
 			result.addError(e);
 		} catch (Exception e) {
+			Log.error(DataImporter.class, e);
 			e.printStackTrace();
 			result.addError(e);
 		} finally {

@@ -7,6 +7,7 @@ import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.model.interfaces.IDisposable;
 import com.elfec.lecturas.gd.presenter.receivers.DataImportationReceiverPresenter;
 import com.elfec.lecturas.gd.presenter.views.IStartView;
+import com.elfec.lecturas.gd.services.DataExportationService;
 import com.elfec.lecturas.gd.services.DataImportationService;
 
 /**
@@ -41,6 +42,15 @@ public class StartPresenter implements IDisposable {
 		Context contex = view.getContext();
 		contex.startService(new Intent(contex, DataImportationService.class));
 		dataImportationReceiver.startReceiving();
+	}
+
+	/**
+	 * Inicia la descarga de datos al servidor
+	 */
+	public void startDataExportation() {
+		Context contex = view.getContext();
+		contex.startService(new Intent(contex, DataExportationService.class));
+		// dataExportationReceiver.startReceiving();
 	}
 
 	/**

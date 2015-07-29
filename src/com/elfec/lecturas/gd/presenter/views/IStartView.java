@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.elfec.lecturas.gd.presenter.views.observers.IDataExportationObserver;
 import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
 
 /**
@@ -28,6 +29,14 @@ public interface IStartView extends IDataImportationObserver {
 	 * @return Lista de abstracción de vistas
 	 */
 	public List<IDataImportationObserver> getImportationObserverViews();
+
+	/**
+	 * Obtiene la lista de vistas que desean ser informadas de los eventos de
+	 * exportación
+	 * 
+	 * @return Lista de abstracción de vistas
+	 */
+	public List<IDataExportationObserver> getExportationObserverViews();
 
 	/**
 	 * Obtiene el contexto actual de la vista

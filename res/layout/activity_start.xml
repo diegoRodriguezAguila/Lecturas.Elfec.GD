@@ -104,7 +104,7 @@
             android:drawableTop="@drawable/export_to_server"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:onClick="btnUploadDataClick"
+            android:onClick="btnExportDataClick"
             android:text="@string/btn_export_data" />
 
 	</LinearLayout>    
