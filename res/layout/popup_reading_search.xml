@@ -46,7 +46,7 @@
             android:id="@+id/txt_meter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ0123456789-"
+            android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ0123456789-.,#*/+"
             android:drawableLeft="@drawable/meter"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/meter"

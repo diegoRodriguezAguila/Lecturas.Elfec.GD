@@ -31,7 +31,7 @@ public class ReadingSearchPresenter {
 				@Override
 				public void run() {
 					view.notifySearchStarted();
-					TypedResult<ReadingGeneralInfo> result = new ReadingGeneralInfoManager()
+					TypedResult<ReadingGeneralInfo> result = ReadingGeneralInfoManager
 							.searchReading(accountNumber, meter, nus);
 					view.showSearchErrors(result.getErrors());
 					if (!result.hasErrors())

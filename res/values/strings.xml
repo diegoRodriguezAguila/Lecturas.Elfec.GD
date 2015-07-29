@@ -94,6 +94,8 @@
 	
 	<!-- Ordenative Addition -->
 	<string name="title_ordenative_addition">Agregar ordenativos</string>
+	<string name="msg_at_least_one_ordenative">Debe seleccionar por lo menos un ordenativo para agregar!</string>
+	<string name="msg_ordenatives_added_successfully">Se agregaron exitosamente los ordenativos a la lectura!</string>
 	
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>

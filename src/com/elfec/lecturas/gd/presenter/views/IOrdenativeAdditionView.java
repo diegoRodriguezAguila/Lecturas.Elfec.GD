@@ -26,4 +26,14 @@ public interface IOrdenativeAdditionView {
 	 * @return Lista de ordenativos
 	 */
 	public List<Ordenative> getSelectedOrdenatives();
+
+	/**
+	 * Notifica al usuario que debe seleccionar al menos un ordenativo
+	 */
+	public void notifyAtLeastSelectOne();
+
+	/**
+	 * Notifica al usuario que se agregaron los ordenativos exitosamente
+	 */
+	public void notifyOrdenativesAddedSuccessfully();
 }

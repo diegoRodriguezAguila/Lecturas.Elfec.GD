@@ -104,8 +104,8 @@ public class ReadingGeneralInfoManager {
 	 * @param nus
 	 * @return {@link TypedResult} con el resultado de la lectura encontrada
 	 */
-	public TypedResult<ReadingGeneralInfo> searchReading(String accountNumber,
-			String meter, int nus) {
+	public static TypedResult<ReadingGeneralInfo> searchReading(
+			String accountNumber, String meter, int nus) {
 		TypedResult<ReadingGeneralInfo> result = new TypedResult<>();
 		try {
 			ReadingGeneralInfo readingFound = ReadingGeneralInfo.findReading(
@@ -132,7 +132,7 @@ public class ReadingGeneralInfoManager {
 	 * @return {@link TypedResult} con el resultado de la lista de lecturas
 	 *         filtrada
 	 */
-	public TypedResult<List<ReadingGeneralInfo>> getFilteredReadings(
+	public static TypedResult<List<ReadingGeneralInfo>> getFilteredReadings(
 			ReadingStatus status, RouteAssignment route) {
 		TypedResult<List<ReadingGeneralInfo>> result = new TypedResult<>();
 		try {

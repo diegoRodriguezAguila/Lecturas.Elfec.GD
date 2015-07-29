@@ -29,13 +29,21 @@ public class Ordenative extends Model {
 	 * Ordenativos de tipo impedimento
 	 */
 	public static final String IMPEDIMENT = "IMPEDIMENTO";
-
+	/**
+	 * IDNOVEDAD en Oracle
+	 */
 	@Column(name = "Code", index = true, notNull = true)
 	private int code;
 
+	/**
+	 * DESCRIPCION en Oracle
+	 */
 	@Column(name = "Description")
 	private String description;
 
+	/**
+	 * TIPO_NOV_MOB
+	 */
 	@Column(name = "Type")
 	private String type;
 

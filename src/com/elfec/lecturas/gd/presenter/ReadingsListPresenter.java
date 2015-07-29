@@ -16,12 +16,10 @@ import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
  */
 public class ReadingsListPresenter {
 
-	private ReadingGeneralInfoManager readingManager;
 	private IReadingsListView view;
 
 	public ReadingsListPresenter(IReadingsListView view) {
 		this.view = view;
-		this.readingManager = new ReadingGeneralInfoManager();
 	}
 
 	/**
@@ -44,7 +42,7 @@ public class ReadingsListPresenter {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				TypedResult<List<ReadingGeneralInfo>> result = readingManager
+				TypedResult<List<ReadingGeneralInfo>> result = ReadingGeneralInfoManager
 						.getFilteredReadings(view.getReadingStatusFilter(),
 								view.getRouteFilter());
 				view.getReadingListNotifier().notifyReadingListChanged(

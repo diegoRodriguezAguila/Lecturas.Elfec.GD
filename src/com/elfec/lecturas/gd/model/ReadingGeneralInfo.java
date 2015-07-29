@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -352,6 +353,24 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 					.where("ReadingRemoteId = ?", readingRemoteId)
 					.executeSingle();
 		return readingTaken;
+	}
+
+	/**
+	 * Obtiene todos los ordenativos asignados a esta lectura. Esta consulta
+	 * depende del estado de la lectura si está en {@link ReadingStatus#READ} o
+	 * {@link ReadingStatus#IMPEDED}, en cuyo caso devuelve el resultado de la
+	 * consulta. Si no, devuelve una lista vacía
+	 * 
+	 * @return Lista de ordenativos de la lectura
+	 */
+	public List<Ordenative> getAssignedOrdenatives() {
+		if (getStatus() != ReadingStatus.READ
+				&& getStatus() != ReadingStatus.IMPEDED)
+			return new ArrayList<>();
+		return new Select().from(Ordenative.class).as("o")
+				.join(ReadingOrdenative.class).as("ro").on("o.Code=ro.Code")
+				.join(ReadingGeneralInfo.class).as("r")
+				.on("r.ReadingRemoteId=ro.ReadingRemoteId").execute();
 	}
 
 	/**

@@ -26,6 +26,7 @@ import com.elfec.lecturas.gd.helpers.ui.FloatingActionButtonAnimator;
 import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.ReadingTaken;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.ReadingTakePresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingTakeView;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
@@ -51,6 +52,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	private ReadingPagerAdapter readingPagerAdapter;
 	private FloatingActionButton btnSaveReading;
 	private FloatingActionButton btnEditReading;
+	public MenuItem menuAddOrdenatives;
 
 	private int position;
 	private int lastReadingPos;
@@ -69,6 +71,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 						KeyboardHelper.hideKeyboard(drawerLayout);
 						position = pos;
 						setFloatingButtonsVisibility(pos);
+						setMenuItemsVisibility(pos);
 						if (readingListNotifier != null)
 							readingListNotifier.notifyReadingSelected(position,
 									ReadingTake.this);
@@ -88,6 +91,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.reading_take, menu);
+		menuAddOrdenatives = menu.findItem(R.id.menu_add_ordenatives);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -103,15 +107,18 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		case R.id.menu_add_ordenatives: {
 			if (ButtonClicksHelper.canClickButton()) {
 				KeyboardHelper.hideKeyboard(drawerLayout);
-				new OrdenativeAdditionDialogService(this, null).show();
+				new OrdenativeAdditionDialogService(this,
+						readingPagerAdapter.getReadingAt(position)).show();
 			}
 			return true;
 		}
 		case R.id.menu_search: {
 			if (ButtonClicksHelper.canClickButton()) {
 				KeyboardHelper.hideKeyboard(drawerLayout);
-				new ReadingSearchPopupService(this,
-						findViewById(R.id.menu_add_ordenatives),
+				new ReadingSearchPopupService(
+						this,
+						findViewById(menuAddOrdenatives.isVisible() ? R.id.menu_add_ordenatives
+								: R.id.menu_search),
 						new OnReadingFoundListener() {
 							@Override
 							public void onReadingFound(
@@ -264,6 +271,22 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	/**
+	 * Asigna la visibilidad a los componentes del menú según el estado de la
+	 * lectura en la posición indicada
+	 * 
+	 * @param posición
+	 *            de la lectura actual
+	 */
+	private void setMenuItemsVisibility(int pos) {
+		if (readingPagerAdapter != null && readingPagerAdapter.getCount() > 0) {
+			ReadingGeneralInfo reading = readingPagerAdapter.getReadingAt(pos);
+			boolean canAddOrdenatives = reading.getStatus() == ReadingStatus.READ
+					|| reading.getStatus() == ReadingStatus.IMPEDED;
+			menuAddOrdenatives.setVisible(canAddOrdenatives);
+		}
+	}
+
+	/**
 	 * Manejador de click del boton de guardar lectura
 	 * 
 	 * @param v
@@ -314,8 +337,10 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (readingsViewPager.getCurrentItem() == position)
+				if (readingsViewPager.getCurrentItem() == position) {
 					setFloatingButtonsVisibility(position);
+					setMenuItemsVisibility(position);
+				}
 				readingsViewPager.setCurrentItem(position,
 						Math.abs(ReadingTake.this.position - position) == 1);
 			}
@@ -337,6 +362,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 						.show();
 				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
 						btnEditReading);
+				menuAddOrdenatives.setVisible(true);
 			}
 		});
 	}
