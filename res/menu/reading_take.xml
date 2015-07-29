@@ -4,9 +4,15 @@
     tools:context="com.elfec.lecturas.gd.views.ReadingTake" >
 
     <item
+        android:id="@+id/menu_add_ordenatives"
+        android:icon="@drawable/ordenative_addition"
+        app:showAsAction="ifRoom"
+        android:title="@string/add_ordenatives"/>
+    
+    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/search"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/search_reading"/>
 
 </menu>

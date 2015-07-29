@@ -58,13 +58,15 @@ public class Ordenative extends Model {
 	}
 
 	/**
-	 * Obtiene todos los ordenativos de tipo {@link #MANUAL}
+	 * Obtiene todos los ordenativos del tipo indicado
 	 * 
+	 * @param type
+	 *            {@link #AUTOMATIC}, {@link #MANUAL} o {@link #IMPEDIMENT}
 	 * @return Lista de ordenativos
 	 */
-	public static List<Ordenative> getAllManualOrdenatives() {
-		return new Select().from(Ordenative.class).where("Type = ?", MANUAL)
-				.execute();
+	public static List<Ordenative> getTypeOrdenatives(String type) {
+		return new Select().from(Ordenative.class).where("Type = ?", type)
+				.orderBy("Code").execute();
 	}
 
 	// #region Getters y Setters

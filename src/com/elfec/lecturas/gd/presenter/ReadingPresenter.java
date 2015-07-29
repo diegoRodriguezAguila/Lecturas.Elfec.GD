@@ -177,7 +177,7 @@ public class ReadingPresenter {
 						view.setReadingStatus(reading.getStatus());
 						view.setReadOnly(true);
 						if (callback != null)
-							callback.onReadingSavedSuccesfully();
+							callback.onReadingSavedSuccesfully(reading);
 					} else {
 						view.showReadingSaveErrors(result.getErrors());
 						if (callback != null)

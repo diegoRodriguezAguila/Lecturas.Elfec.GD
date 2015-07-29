@@ -33,6 +33,7 @@ import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
+import com.elfec.lecturas.gd.view.view_services.OrdenativeAdditionDialogService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService.OnReadingFoundListener;
 
@@ -99,11 +100,18 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		}
 		// Handle action buttons
 		switch (item.getItemId()) {
-		case R.id.menu_search:
+		case R.id.menu_add_ordenatives: {
+			if (ButtonClicksHelper.canClickButton()) {
+				KeyboardHelper.hideKeyboard(drawerLayout);
+				new OrdenativeAdditionDialogService(this, null).show();
+			}
+			return true;
+		}
+		case R.id.menu_search: {
 			if (ButtonClicksHelper.canClickButton()) {
 				KeyboardHelper.hideKeyboard(drawerLayout);
 				new ReadingSearchPopupService(this,
-						findViewById(item.getItemId()),
+						findViewById(R.id.menu_add_ordenatives),
 						new OnReadingFoundListener() {
 							@Override
 							public void onReadingFound(
@@ -113,6 +121,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 						}).show();
 			}
 			return true;
+		}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -319,10 +328,13 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	@Override
-	public void onReadingSavedSuccesfully() {
+	public void onReadingSavedSuccesfully(final ReadingGeneralInfo reading) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				KeyboardHelper.hideKeyboard(drawerLayout);
+				new OrdenativeAdditionDialogService(ReadingTake.this, reading)
+						.show();
 				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
 						btnEditReading);
 			}

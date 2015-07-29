@@ -19,11 +19,11 @@ import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
  */
 public class ReadingHolder extends SwappingHolder {
 
-	public TextView txtAccountNumber;
-	public TextView txtReadingStatus;
-	public TextView txtNUS;
-	public TextView txtMeterNumber;
-	public TextView txtClientName;
+	private TextView txtAccountNumber;
+	private TextView txtReadingStatus;
+	private TextView txtNUS;
+	private TextView txtMeterNumber;
+	private TextView txtClientName;
 
 	// private ReadingGeneralInfo reading;
 

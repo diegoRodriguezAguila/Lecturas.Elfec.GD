@@ -48,6 +48,7 @@
     <string name="lbl_no_readings_help">Si no utilizó ningún filtro, asegurese de haber cargado correctamente las lecturas al dispositivo.</string>
 
     <!-- Reading Take: Bottom Toolbar -->
+    <string name="add_ordenatives">Agregar ordenativos</string>
     <string name="search_reading">Buscar lecturas</string>
     <string name="first_reading">Primera lectura</string>
     <string name="previous_reading">Lectura anterior</string>
@@ -91,10 +92,15 @@
 	<string name="msg_reading_found">Su búsqueda fue exitosa. Se trajo al frente la lectura encontrada!</string>
 	<string name="btn_search">Buscar</string>
 	
+	<!-- Ordenative Addition -->
+	<string name="title_ordenative_addition">Agregar ordenativos</string>
+	
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_confirm">Confirmar</string>
+    <string name="btn_add">Agregar</string>
+    <string name="btn_save">Guardar</string>
 
     <!-- Samples -->
     <string name="sample_welcome_user">Bienvenido <b>drodriguezd</b>!</string>
@@ -108,6 +114,8 @@
     <string name="sample_address">C Colombia Sn</string>
     <string name="sample_category">GE2/GDMT</string>
     <string name="sample_short_date">01/07/2015</string>
+    <string name="sample_ord_code">48</string>
+    <string name="sample_ord_desc">TOMA DIRECTA DE ENERGIA</string>
 
     <!-- Accesiblity -->
     <string name="img_importation">Importación de datos</string>

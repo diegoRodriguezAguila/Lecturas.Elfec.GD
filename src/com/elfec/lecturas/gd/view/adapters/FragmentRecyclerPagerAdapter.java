@@ -113,7 +113,7 @@ public abstract class FragmentRecyclerPagerAdapter<FT extends Fragment> extends
 	}
 
 	/**
-	 * Obtiene el item que actualmente esta visendosé, aquel señalado como
+	 * Obtiene el item que actualmente esta visendose, aquel señalado como
 	 * Primary
 	 * 
 	 * @return

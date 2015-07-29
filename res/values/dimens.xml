@@ -14,5 +14,6 @@
     <dimen name="search_dropdown_offset">34dp</dimen>
     <dimen name="search_dropdown_width">280dp</dimen>
     <dimen name="search_dropdown_height">330dp</dimen>
-
+	<dimen name="listview_padding">10dp</dimen>
+	<dimen name="listview_height">360dp</dimen>
 </resources>
