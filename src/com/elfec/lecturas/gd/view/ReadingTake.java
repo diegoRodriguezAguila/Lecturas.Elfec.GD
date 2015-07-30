@@ -108,7 +108,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 			if (ButtonClicksHelper.canClickButton()) {
 				KeyboardHelper.hideKeyboard(drawerLayout);
 				new OrdenativeAdditionDialogService(this,
-						readingPagerAdapter.getReadingAt(position)).show();
+						readingPagerAdapter.getReadingAt(readingsViewPager
+								.getCurrentItem())).show();
 			}
 			return true;
 		}

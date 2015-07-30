@@ -370,7 +370,8 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 		return new Select().from(Ordenative.class).as("o")
 				.join(ReadingOrdenative.class).as("ro").on("o.Code=ro.Code")
 				.join(ReadingGeneralInfo.class).as("r")
-				.on("r.ReadingRemoteId=ro.ReadingRemoteId").execute();
+				.on("r.ReadingRemoteId=ro.ReadingRemoteId")
+				.where("r.ReadingRemoteId = ?", readingRemoteId).execute();
 	}
 
 	/**

@@ -52,6 +52,7 @@
             android:theme="@style/AppCustomTheme.NoActionBar" >
         </activity>
         <service android:name="com.elfec.lecturas.gd.services.DataImportationService" />
+        <service android:name="com.elfec.lecturas.gd.services.DataExportationService" />
     </application>
 
 </manifest>

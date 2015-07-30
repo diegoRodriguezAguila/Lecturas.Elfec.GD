@@ -21,9 +21,9 @@ import com.elfec.lecturas.gd.model.interfaces.IExportable;
 @Table(name = "ReadingsTaken")
 public class ReadingTaken extends Model implements IExportable {
 	public static final String INSERT_QUERY = "INSERT INTO ERP_ELFEC.SGC_MOVIL_LECTURAS_GD "
-			+ "VALUES (%d, %d, TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, "
-			+ "TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), %d, , TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), %d, , TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), "
-			+ "TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), '%s', SYSDATE, USER, %d)";
+			+ "VALUES (%d, %d, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %d, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+			+ "TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), "
+			+ "TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), '%s', SYSDATE, USER, %d)";
 
 	/**
 	 * IDLECTURAGD en Oracle
@@ -196,17 +196,46 @@ public class ReadingTaken extends Model implements IExportable {
 	 */
 	public String toRemoteInsertSQL() {
 		return String.format(INSERT_QUERY, readingRemoteId, supplyId,
-				readingDate.toString("dd/MM/yyyy HH:mm:ss"), resetCount,
-				activeDistributing, activePeak, activeRest, activeValley,
-				reactiveDistributing, reactivePeak, reactiveRest,
-				reactiveValley, powerPeak,
-				powerPeakDate.toString("dd/MM/yyyy HH:mm:ss"),
-				powerRestOffpeak,
-				powerRestOffpeakDate.toString("dd/MM/yyyy HH:mm:ss"),
-				powerValleyOffpeak,
-				powerValleyOffpeakDate.toString("dd/MM/yyyy HH:mm:ss"),
-				saveDate.toString("dd/MM/yyyy HH:mm:ss"), readerUser, 1);
+				dateTimeToSQLString(readingDate), resetCount,
+				activeDistributing.toPlainString(),
+				bigDecimalToSQLString(activePeak),
+				bigDecimalToSQLString(activeRest),
+				bigDecimalToSQLString(activeValley),
+				bigDecimalToSQLString(reactiveDistributing),
+				bigDecimalToSQLString(reactivePeak),
+				bigDecimalToSQLString(reactiveRest),
+				bigDecimalToSQLString(reactiveValley),
+				bigDecimalToSQLString(powerPeak),
+				dateTimeToSQLString(powerPeakDate),
+				bigDecimalToSQLString(powerRestOffpeak),
+				dateTimeToSQLString(powerRestOffpeakDate),
+				bigDecimalToSQLString(powerValleyOffpeak),
+				dateTimeToSQLString(powerValleyOffpeakDate),
+				dateTimeToSQLString(saveDate), readerUser, 1);
 		// TODO cambiar el 1 por el estado real de la lectura
+	}
+
+	/**
+	 * Convierte un bigdecimal a una cadena para ser usada en sql si el
+	 * parametro es null devuelve la cadena "NULL"
+	 * 
+	 * @param bigDecimal
+	 * @return
+	 */
+	private String bigDecimalToSQLString(BigDecimal bigDecimal) {
+		return bigDecimal == null ? "NULL" : bigDecimal.toPlainString();
+	}
+
+	/**
+	 * Convierte un bigdecimal a una cadena para ser usada en sql si el
+	 * parametro es null devuelve la cadena "NULL"
+	 * 
+	 * @param bigDecimal
+	 * @return
+	 */
+	private String dateTimeToSQLString(DateTime dateTime) {
+		return dateTime == null ? "NULL" : ("'"
+				+ dateTime.toString("dd/MM/yyyy HH:mm:ss") + "'");
 	}
 
 	// #region Getters y Setters
