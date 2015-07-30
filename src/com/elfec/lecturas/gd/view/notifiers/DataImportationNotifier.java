@@ -74,7 +74,7 @@ public class DataImportationNotifier implements IDataImportationObserver {
 	}
 
 	@Override
-	public void hideImportationWaiting() {
+	public void hideWaiting() {
 		notification.contentView.setViewVisibility(
 				R.id.notification_progress_bar, View.GONE);
 		notification.flags = Notification.FLAG_AUTO_CANCEL;

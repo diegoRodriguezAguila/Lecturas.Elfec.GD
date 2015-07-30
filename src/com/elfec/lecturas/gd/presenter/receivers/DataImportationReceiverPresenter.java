@@ -113,7 +113,7 @@ public class DataImportationReceiverPresenter extends BroadcastReceiver
 	private void importationFinished(VoidResult result) {
 		stopReceiving();
 		for (IDataImportationObserver observer : observers) {
-			observer.hideImportationWaiting();
+			observer.hideWaiting();
 			observer.showErrors(R.string.title_import_data_error,
 					R.drawable.error_import_from_server, result.getErrors());
 			if (!result.hasErrors()) {

@@ -26,7 +26,7 @@ public interface IDataImportationObserver {
 	/**
 	 * Esconde el mensaje de espera
 	 */
-	public void hideImportationWaiting();
+	public void hideWaiting();
 
 	/**
 	 * Muestra un mensaje de error al usuario en caso de haber

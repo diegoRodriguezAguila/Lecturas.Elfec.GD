@@ -42,7 +42,7 @@ public interface IDataExportationObserver {
 	/**
 	 * Borra el mensaje de espera
 	 */
-	public void hideExportationWaiting();
+	public void hideWaiting();
 
 	/**
 	 * Muestra un mensaje de error al usuario en caso de haber

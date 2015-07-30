@@ -136,7 +136,7 @@ public class DataExportationReceiverPresenter extends BroadcastReceiver
 	private void importationFinished(VoidResult result) {
 		stopReceiving();
 		for (IDataExportationObserver observer : observers) {
-			observer.hideExportationWaiting();
+			observer.hideWaiting();
 			observer.showErrors(R.string.title_export_data_error,
 					R.drawable.error_export_to_server, result.getErrors());
 			if (!result.hasErrors()) {

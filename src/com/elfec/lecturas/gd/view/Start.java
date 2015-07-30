@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +29,10 @@ import com.elfec.lecturas.gd.presenter.StartPresenter;
 import com.elfec.lecturas.gd.presenter.views.IStartView;
 import com.elfec.lecturas.gd.presenter.views.observers.IDataExportationObserver;
 import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
+import com.elfec.lecturas.gd.view.listeners.WipeConfirmationListener;
 import com.elfec.lecturas.gd.view.notifiers.DataExportationNotifier;
 import com.elfec.lecturas.gd.view.notifiers.DataImportationNotifier;
+import com.elfec.lecturas.gd.view.view_services.WipeAllDataDialogService;
 
 public class Start extends AppCompatActivity implements IStartView {
 
@@ -47,6 +51,32 @@ public class Start extends AppCompatActivity implements IStartView {
 
 		presenter = new StartPresenter(this);
 		presenter.setFields();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.start, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int idItem = item.getItemId();
+		switch (idItem) {
+		case (R.id.menu_wipe_all_data): {
+			new WipeAllDataDialogService(this, new WipeConfirmationListener() {
+				@Override
+				public void onWipeConfirmed() {
+					presenter.processDataWipe();
+				}
+			}).show();
+			return true;
+		}
+		default: {
+			return true;
+		}
+		}
 	}
 
 	@Override
@@ -118,15 +148,15 @@ public class Start extends AppCompatActivity implements IStartView {
 	}
 
 	/**
-	 * Esconde el mensaje de espera
+	 * Notifica al usuario un mensaje
+	 * 
+	 * @param msgId
 	 */
-	private void hideWaiting() {
+	public void notifyUser(final int msgId) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (waitingDialog != null)
-					waitingDialog.dismiss();
-				waitingDialog = null;
+				Toast.makeText(Start.this, msgId, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -170,11 +200,6 @@ public class Start extends AppCompatActivity implements IStartView {
 	}
 
 	@Override
-	public void hideImportationWaiting() {
-		hideWaiting();
-	}
-
-	@Override
 	public void showErrors(final int titleStrId, final int iconDrawableId,
 			final List<Exception> errors) {
 		runOnUiThread(new Runnable() {
@@ -195,14 +220,7 @@ public class Start extends AppCompatActivity implements IStartView {
 
 	@Override
 	public void notifySuccessfulImportation() {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(Start.this,
-						R.string.msg_data_imported_successfully,
-						Toast.LENGTH_LONG).show();
-			}
-		});
+		notifyUser(R.string.msg_data_imported_successfully);
 	}
 
 	@Override
@@ -300,11 +318,6 @@ public class Start extends AppCompatActivity implements IStartView {
 	}
 
 	@Override
-	public void hideExportationWaiting() {
-		hideWaiting();
-	}
-
-	@Override
 	public void notifySuccessfulExportation() {
 		runOnUiThread(new Runnable() {
 			@Override
@@ -315,6 +328,44 @@ public class Start extends AppCompatActivity implements IStartView {
 				presenter.closeCurrentSession();
 			}
 		});
+	}
+
+	/**
+	 * Esconde el mensaje de espera
+	 */
+	@Override
+	public void hideWaiting() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (waitingDialog != null)
+					waitingDialog.dismiss();
+				waitingDialog = null;
+			}
+		});
+	}
+
+	@Override
+	public void showWipingDataWait() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				waitingDialog = new ProgressDialogPro(Start.this,
+						R.style.AppStyle_Dialog_FlavoredMaterialLight);
+				waitingDialog.setMessage(getResources().getString(
+						R.string.msg_restoring_route_assignments));
+				waitingDialog.setCancelable(false);
+				waitingDialog.setIcon(R.drawable.wipe_all_data_d);
+				waitingDialog.setTitle(R.string.title_wipe_all_data);
+				waitingDialog.setCanceledOnTouchOutside(false);
+				waitingDialog.show();
+			}
+		});
+	}
+
+	@Override
+	public void notifySuccessfulDataWipe() {
+		notifyUser(R.string.msg_all_data_wiped_successfully);
 	}
 
 	// #endregion

@@ -70,7 +70,7 @@ public class DataExportationNotifier implements IDataExportationObserver {
 	}
 
 	@Override
-	public void hideExportationWaiting() {
+	public void hideWaiting() {
 		notifBuilder.setOngoing(false).setAutoCancel(true)
 				.setProgress(0, 0, false);
 	}

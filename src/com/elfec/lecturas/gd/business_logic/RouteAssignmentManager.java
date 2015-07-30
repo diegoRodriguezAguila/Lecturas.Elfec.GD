@@ -132,4 +132,38 @@ public class RouteAssignmentManager {
 		}
 		return result;
 	}
+
+	/**
+	 * Restaura el estado que tenían las rutas antes de ser importadas al
+	 * telefono local y remotamente
+	 * 
+	 * @param routes
+	 * @return {@link VoidResult} lista de errores del proceso
+	 */
+	public VoidResult restoreRouteAssignments(String username, String password,
+			List<RouteAssignment> routes) {
+		VoidResult result = new VoidResult();
+		RouteAssignmentRDA routeAssignmentRDA = new RouteAssignmentRDA();
+		try {
+			for (RouteAssignment route : routes) {
+				if (route.isImported()) {
+					route.setStatus(route.getStatus() == RouteAssignmentStatus.IMPORTED ? RouteAssignmentStatus.ASSIGNED
+							: RouteAssignmentStatus.RE_READING);
+					routeAssignmentRDA.remoteUpdateUserRouteAssignment(
+							username, password, route);
+					route.save();
+				}
+			}
+		} catch (ConnectException e) {
+			result.addError(e);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			result.addError(e);
+		} catch (Exception e) {
+			Log.error(RouteAssignmentManager.class, e);
+			e.printStackTrace();
+			result.addError(e);
+		}
+		return result;
+	}
 }

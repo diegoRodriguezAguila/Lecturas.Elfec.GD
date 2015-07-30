@@ -52,4 +52,14 @@ public interface IStartView extends IDataImportationObserver,
 	 * @param username
 	 */
 	public void notifySessionClosed(String username);
+
+	/**
+	 * Indica al usuario que debe esperar a que se eliminen los datos
+	 */
+	public void showWipingDataWait();
+
+	/**
+	 * Informa al usuario que se eliminaron los datos exitosamente
+	 */
+	public void notifySuccessfulDataWipe();
 }
