@@ -28,9 +28,8 @@ public class DataImportationReceiverPresenter extends BroadcastReceiver
 	private List<IDataImportationObserver> observers;
 	private Context callerContext;
 
-
-	public DataImportationReceiverPresenter( List<IDataImportationObserver> observers,
-			Context callerContext) {
+	public DataImportationReceiverPresenter(
+			List<IDataImportationObserver> observers, Context callerContext) {
 		this.observers = observers;
 		this.callerContext = callerContext;
 	}
@@ -90,11 +89,9 @@ public class DataImportationReceiverPresenter extends BroadcastReceiver
 	 */
 	private void importationStarting() {
 		for (IDataImportationObserver observer : observers) {
-			observer.showWaiting(R.string.title_import_data,
-					R.string.msg_import_data_initialize,
-					R.drawable.import_from_server_d);
+			observer.showImportationWaiting();
 		}
-		
+
 	}
 
 	/**
@@ -104,7 +101,7 @@ public class DataImportationReceiverPresenter extends BroadcastReceiver
 	 */
 	private void updateWaiting(int msgStrId) {
 		for (IDataImportationObserver observer : observers) {
-			observer.updateWaiting(msgStrId);
+			observer.updateImportationWaiting(msgStrId);
 		}
 	}
 
@@ -115,13 +112,12 @@ public class DataImportationReceiverPresenter extends BroadcastReceiver
 	 */
 	private void importationFinished(VoidResult result) {
 		stopReceiving();
-		boolean hasErrors = result.hasErrors();
 		for (IDataImportationObserver observer : observers) {
-			observer.hideWaiting();
+			observer.hideImportationWaiting();
 			observer.showErrors(R.string.title_import_data_error,
-					R.drawable.error_import_from_server, result.getErrors());		
-			if (!hasErrors){
-				observer.notifySuccessfullyImportation();
+					R.drawable.error_import_from_server, result.getErrors());
+			if (!result.hasErrors()) {
+				observer.notifySuccessfulImportation();
 			}
 		}
 	}

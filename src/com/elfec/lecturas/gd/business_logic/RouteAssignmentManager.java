@@ -77,11 +77,13 @@ public class RouteAssignmentManager {
 		RouteAssignmentRDA routeAssignmentRDA = new RouteAssignmentRDA();
 		try {
 			for (RouteAssignment route : assignedRoutes) {
-				route.setStatus(route.getStatus() == RouteAssignmentStatus.ASSIGNED ? RouteAssignmentStatus.IMPORTED
-						: RouteAssignmentStatus.RE_READING_IMPORTED);
-				routeAssignmentRDA.remoteUpdateUserRouteAssignment(username,
-						password, route);
-				route.save();
+				if (route.isAssigned()) {
+					route.setStatus(route.getStatus() == RouteAssignmentStatus.ASSIGNED ? RouteAssignmentStatus.IMPORTED
+							: RouteAssignmentStatus.RE_READING_IMPORTED);
+					routeAssignmentRDA.remoteUpdateUserRouteAssignment(
+							username, password, route);
+					route.save();
+				}
 			}
 		} catch (ConnectException e) {
 			result.addError(e);
@@ -89,6 +91,42 @@ public class RouteAssignmentManager {
 			e.printStackTrace();
 			result.addError(e);
 		} catch (Exception e) {
+			Log.error(RouteAssignmentManager.class, e);
+			e.printStackTrace();
+			result.addError(e);
+		}
+		return result;
+	}
+
+	/**
+	 * Asigna remota y localmente el estado de DESCARGADAS a la lista de rutas.
+	 * Si ocurre un error al realizar el update remoto aquellas rutas que se
+	 * hayan logrado guardar estarán marcadas como exportadas localmente
+	 * 
+	 * @param routes
+	 * @return {@link VoidResult} lista de errores del proceso
+	 */
+	public VoidResult setRoutesSuccessfullyExported(String username,
+			String password, List<RouteAssignment> routes) {
+		VoidResult result = new VoidResult();
+		RouteAssignmentRDA routeAssignmentRDA = new RouteAssignmentRDA();
+		try {
+			for (RouteAssignment route : routes) {
+				if (route.isImported()) {
+					route.setStatus(route.getStatus() == RouteAssignmentStatus.IMPORTED ? RouteAssignmentStatus.EXPORTED
+							: RouteAssignmentStatus.RE_READING_EXPORTED);
+					routeAssignmentRDA.remoteUpdateUserRouteAssignment(
+							username, password, route);
+					route.save();
+				}
+			}
+		} catch (ConnectException e) {
+			result.addError(e);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			result.addError(e);
+		} catch (Exception e) {
+			Log.error(RouteAssignmentManager.class, e);
 			e.printStackTrace();
 			result.addError(e);
 		}

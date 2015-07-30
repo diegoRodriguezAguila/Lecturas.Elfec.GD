@@ -38,7 +38,7 @@ public class DataImportationNotifier implements IDataImportationObserver {
 	}
 
 	@Override
-	public void showWaiting(int titleStrId, int msgStrId, int iconDrawableId) {
+	public void showImportationWaiting() {
 		if (notification != null)
 			notificationManager.cancel(NOTIF_ID);
 		activityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -48,15 +48,15 @@ public class DataImportationNotifier implements IDataImportationObserver {
 		RemoteViews notifView = new RemoteViews(context.getPackageName(),
 				R.layout.notification_layout);
 		notifView.setTextViewText(R.id.lbl_notification_title,
-				context.getString(titleStrId));
+				context.getString(R.string.title_import_data));
 		notifView.setTextViewText(R.id.lbl_notification_message,
-				context.getString(msgStrId));
+				context.getString(R.string.msg_import_data_initialize));
 		notifBuilder
 				.setColor(
 						context.getResources().getColor(R.color.color_primary))
 				.setSmallIcon(R.drawable.import_from_server_sn)
 				.setOngoing(true)
-				.setPriority(Notification.PRIORITY_HIGH)
+				.setPriority(Notification.PRIORITY_MAX)
 				.setContentIntent(
 						PendingIntent
 								.getActivity(context, 0, activityIntent, 0));
@@ -67,14 +67,14 @@ public class DataImportationNotifier implements IDataImportationObserver {
 	}
 
 	@Override
-	public void updateWaiting(int msgStrId) {
+	public void updateImportationWaiting(int msgStrId) {
 		notification.contentView.setTextViewText(R.id.lbl_notification_message,
 				context.getString(msgStrId));
 		notificationManager.notify(NOTIF_ID, notification);
 	}
 
 	@Override
-	public void hideWaiting() {
+	public void hideImportationWaiting() {
 		notification.contentView.setViewVisibility(
 				R.id.notification_progress_bar, View.GONE);
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
@@ -97,7 +97,7 @@ public class DataImportationNotifier implements IDataImportationObserver {
 	}
 
 	@Override
-	public void notifySuccessfullyImportation() {
+	public void notifySuccessfulImportation() {
 		notification.contentView.setTextViewText(R.id.lbl_notification_message,
 				context.getString(R.string.msg_data_imported_successfully));
 		notificationManager.notify(NOTIF_ID, notification);

@@ -3,23 +3,17 @@ package com.elfec.lecturas.gd.presenter.views.observers;
 import java.util.List;
 
 /**
- * Representa una vista o cualquier observador que quiera recibir actualizaciones
- * durante un evento de importación de datos
+ * Representa una vista o cualquier observador que quiera recibir
+ * actualizaciones durante un evento de importación de datos
+ * 
  * @author drodriguez
  *
  */
 public interface IDataImportationObserver {
 	/**
 	 * Muestra un mensaje de espera al usuario
-	 * 
-	 * @param titleStrId
-	 *            id del recurso string del titulo
-	 * @param msgStrId
-	 *            id del recurso string del mensaje
-	 * @param iconDrawableId
-	 *            id del recurso drawable del icono del dialogo
 	 */
-	public void showWaiting(int titleStrId, int msgStrId, int iconDrawableId);
+	public void showImportationWaiting();
 
 	/**
 	 * Acualiza el mensaje de espera del usuario
@@ -27,12 +21,12 @@ public interface IDataImportationObserver {
 	 * @param msgStrId
 	 *            id del recurso string del mensaje
 	 */
-	public void updateWaiting(int msgStrId);
+	public void updateImportationWaiting(int msgStrId);
 
 	/**
 	 * Esconde el mensaje de espera
 	 */
-	public void hideWaiting();
+	public void hideImportationWaiting();
 
 	/**
 	 * Muestra un mensaje de error al usuario en caso de haber
@@ -47,5 +41,5 @@ public interface IDataImportationObserver {
 	/**
 	 * Indica al usuario que la importación fué exitosa
 	 */
-	public void notifySuccessfullyImportation();
+	public void notifySuccessfulImportation();
 }

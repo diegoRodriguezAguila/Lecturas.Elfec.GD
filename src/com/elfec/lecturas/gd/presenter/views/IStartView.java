@@ -13,7 +13,8 @@ import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
  * @author drodriguez
  *
  */
-public interface IStartView extends IDataImportationObserver {
+public interface IStartView extends IDataImportationObserver,
+		IDataExportationObserver {
 
 	/**
 	 * Asigna el campo del usuario logeado actual

@@ -10,7 +10,6 @@ import com.elfec.lecturas.gd.model.ReadingTaken;
 import com.elfec.lecturas.gd.model.data_exchange.ExportSpecs;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.model.events.DataExportListener;
-import com.elfec.lecturas.gd.model.results.DataAccessResult;
 import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.remote_data_access.ReadingTakenRDA;
 
@@ -56,9 +55,8 @@ public class ReadingTakenManager {
 	 * 
 	 * @return resultado del acceso remoto a datos
 	 */
-	public static DataAccessResult<Boolean> exportAllReadingsTaken(
-			final String username, final String password,
-			DataExportListener exportListener) {
+	public static VoidResult exportAllReadingsTaken(final String username,
+			final String password, DataExportListener exportListener) {
 		final ReadingTakenRDA readingTakenRDA = new ReadingTakenRDA();
 		return new DataExporter().exportData(new ExportSpecs<ReadingTaken>() {
 

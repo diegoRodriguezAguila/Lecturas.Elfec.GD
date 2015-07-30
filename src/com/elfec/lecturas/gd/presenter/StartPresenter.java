@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.model.interfaces.IDisposable;
+import com.elfec.lecturas.gd.presenter.receivers.DataExportationReceiverPresenter;
 import com.elfec.lecturas.gd.presenter.receivers.DataImportationReceiverPresenter;
 import com.elfec.lecturas.gd.presenter.views.IStartView;
 import com.elfec.lecturas.gd.services.DataExportationService;
@@ -21,11 +22,14 @@ public class StartPresenter implements IDisposable {
 	private IStartView view;
 
 	private DataImportationReceiverPresenter dataImportationReceiver;
+	private DataExportationReceiverPresenter dataExportationReceiver;
 
 	public StartPresenter(IStartView view) {
 		this.view = view;
 		this.dataImportationReceiver = new DataImportationReceiverPresenter(
 				view.getImportationObserverViews(), view.getContext());
+		this.dataExportationReceiver = new DataExportationReceiverPresenter(
+				view.getExportationObserverViews(), view.getContext());
 	}
 
 	/**
@@ -50,7 +54,7 @@ public class StartPresenter implements IDisposable {
 	public void startDataExportation() {
 		Context contex = view.getContext();
 		contex.startService(new Intent(contex, DataExportationService.class));
-		// dataExportationReceiver.startReceiving();
+		dataExportationReceiver.startReceiving();
 	}
 
 	/**
@@ -71,7 +75,9 @@ public class StartPresenter implements IDisposable {
 	public void dispose() {
 		view = null;
 		dataImportationReceiver.dispose();
+		dataExportationReceiver.dispose();
 		dataImportationReceiver = null;
+		dataExportationReceiver = null;
 	}
 
 }

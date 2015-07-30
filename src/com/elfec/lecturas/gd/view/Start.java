@@ -27,6 +27,7 @@ import com.elfec.lecturas.gd.presenter.StartPresenter;
 import com.elfec.lecturas.gd.presenter.views.IStartView;
 import com.elfec.lecturas.gd.presenter.views.observers.IDataExportationObserver;
 import com.elfec.lecturas.gd.presenter.views.observers.IDataImportationObserver;
+import com.elfec.lecturas.gd.view.notifiers.DataExportationNotifier;
 import com.elfec.lecturas.gd.view.notifiers.DataImportationNotifier;
 
 public class Start extends AppCompatActivity implements IStartView {
@@ -116,6 +117,20 @@ public class Start extends AppCompatActivity implements IStartView {
 		}
 	}
 
+	/**
+	 * Esconde el mensaje de espera
+	 */
+	private void hideWaiting() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (waitingDialog != null)
+					waitingDialog.dismiss();
+				waitingDialog = null;
+			}
+		});
+	}
+
 	// #region Interface Methods
 
 	@Override
@@ -125,18 +140,18 @@ public class Start extends AppCompatActivity implements IStartView {
 	}
 
 	@Override
-	public void showWaiting(final int titleStrId, final int strId,
-			final int iconDrawableId) {
+	public void showImportationWaiting() {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				waitingDialog = new ProgressDialogPro(Start.this,
 						R.style.AppStyle_Dialog_FlavoredMaterialLight);
-				waitingDialog.setMessage(getResources().getString(strId));
+				waitingDialog.setMessage(getResources().getString(
+						R.string.msg_import_data_initialize));
 				waitingDialog.setCancelable(false);
 				waitingDialog.setCanceledOnTouchOutside(false);
-				waitingDialog.setIcon(iconDrawableId);
-				waitingDialog.setTitle(titleStrId);
+				waitingDialog.setIcon(R.drawable.import_from_server_d);
+				waitingDialog.setTitle(R.string.title_import_data);
 				waitingDialog.setCanceledOnTouchOutside(false);
 				waitingDialog.show();
 			}
@@ -144,7 +159,7 @@ public class Start extends AppCompatActivity implements IStartView {
 	}
 
 	@Override
-	public void updateWaiting(final int strId) {
+	public void updateImportationWaiting(final int strId) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -155,15 +170,8 @@ public class Start extends AppCompatActivity implements IStartView {
 	}
 
 	@Override
-	public void hideWaiting() {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (waitingDialog != null)
-					waitingDialog.dismiss();
-				waitingDialog = null;
-			}
-		});
+	public void hideImportationWaiting() {
+		hideWaiting();
 	}
 
 	@Override
@@ -186,7 +194,7 @@ public class Start extends AppCompatActivity implements IStartView {
 	}
 
 	@Override
-	public void notifySuccessfullyImportation() {
+	public void notifySuccessfulImportation() {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -227,8 +235,86 @@ public class Start extends AppCompatActivity implements IStartView {
 
 	@Override
 	public List<IDataExportationObserver> getExportationObserverViews() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(this, new DataExportationNotifier(this,
+				getIntent()));
+	}
+
+	@Override
+	public void showExportationWaiting() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				waitingDialog = new ProgressDialogPro(Start.this,
+						R.style.AppStyle_Dialog_FlavoredMaterialLight);
+				waitingDialog.setMessage(getResources().getText(
+						R.string.msg_export_data_initialize));
+				waitingDialog.setCancelable(false);
+				waitingDialog.setIndeterminate(true);
+				waitingDialog.setIcon(R.drawable.export_to_server_d);
+				waitingDialog.setTitle(R.string.title_export_data);
+				waitingDialog
+						.setProgressStyle(ProgressDialogPro.STYLE_HORIZONTAL);
+				waitingDialog.setCanceledOnTouchOutside(false);
+				waitingDialog.show();
+			}
+		});
+	}
+
+	@Override
+	public void updateExportationWaiting(final int strId, final int totalData) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (waitingDialog != null) {
+					waitingDialog.setIndeterminate(false);
+					waitingDialog.setMax(totalData);
+					waitingDialog.setMessage(getResources().getString(strId));
+				}
+			}
+		});
+	}
+
+	@Override
+	public void updateExportationWaiting(final int strId) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (waitingDialog != null) {
+					waitingDialog.setMax(0);
+					waitingDialog.setIndeterminate(true);
+					waitingDialog.setMessage(getResources().getString(strId));
+				}
+			}
+		});
+	}
+
+	@Override
+	public void updateExportationProgress(final int dataCount, int totalData) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (waitingDialog != null)
+					waitingDialog.setProgress(dataCount);
+			}
+		});
+	}
+
+	@Override
+	public void hideExportationWaiting() {
+		hideWaiting();
+	}
+
+	@Override
+	public void notifySuccessfulExportation() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(Start.this,
+						R.string.msg_data_exported_successfully,
+						Toast.LENGTH_LONG).show();
+				presenter.closeCurrentSession();
+			}
+		});
 	}
 
 	// #endregion

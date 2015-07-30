@@ -38,7 +38,12 @@
     <string name="title_export_data">Descarga de datos</string>
     <string name="msg_confirm_export_data">Se procederá a iniciar el proceso de descarga de datos, luego se eliminará toda la información local y se cerrará su sesión ¿Desea continuar?</string>
     <string name="msg_export_data_initialize">Inicializando la exportación de datos al servidor&#8230;</string>
-
+    <string name="msg_exporting_readings_taken">Descargando lecturas tomadas (SGC_MOVIL_LECTURAS_GD)&#8230;</string>
+    <string name="msg_exporting_reading_ordenatives">Descargando ordenativos de lecturas (SGC_MOVIL_ORDENATIVOS_GD)&#8230;</string>
+    <string name="msg_finishing_export">Finalizando la descarga de datos&#8230;</string>
+    <string name="msg_data_exported_successfully">Se completó la descarga de datos exitosamente!</string>
+    <string name="title_export_data_error">Error en la descarga de datos</string>
+    <string name="msg_wiping_all_data">Eliminando toda la información local&#8230;</string>
     <!-- Reading Take -->
     <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
 

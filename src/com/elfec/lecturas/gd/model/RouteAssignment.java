@@ -153,6 +153,32 @@ public class RouteAssignment extends Model {
 				.where("Status IN (2, 7)").execute();
 	}
 
+	/**
+	 * Indica si la ruta tiene algún estado de asignada. Su status es igual a
+	 * {@link RouteAssignmentStatus#ASSIGNED} o
+	 * {@link RouteAssignmentStatus#RE_READING}
+	 * 
+	 * @return true si es que la ruta fué asignada
+	 */
+	public boolean isAssigned() {
+		RouteAssignmentStatus status = getStatus();
+		return status == RouteAssignmentStatus.ASSIGNED
+				|| status == RouteAssignmentStatus.RE_READING;
+	}
+
+	/**
+	 * Indica si la ruta tiene algún estado de importada. Su status es igual a
+	 * {@link RouteAssignmentStatus#IMPORTED} o
+	 * {@link RouteAssignmentStatus#RE_READING_IMPORTED}
+	 * 
+	 * @return true si es que la ruta fué importada
+	 */
+	public boolean isImported() {
+		RouteAssignmentStatus status = getStatus();
+		return status == RouteAssignmentStatus.IMPORTED
+				|| status == RouteAssignmentStatus.RE_READING_IMPORTED;
+	}
+
 	// #region Getters y Setters
 	public String getAssignedUser() {
 		return assignedUser;
