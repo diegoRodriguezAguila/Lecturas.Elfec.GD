@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="AppStyle.TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/color_primary</item>
+    </style>
+
     <style name="DropDownDialog" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="android:windowAnimationStyle">@style/DropDownAnimation</item>
     </style>

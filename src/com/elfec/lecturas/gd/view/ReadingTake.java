@@ -34,7 +34,7 @@ import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
-import com.elfec.lecturas.gd.view.view_services.OrdenativeAdditionDialogService;
+import com.elfec.lecturas.gd.view.view_services.OrdenativeDialogService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService.OnReadingFoundListener;
 
@@ -106,10 +106,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		switch (item.getItemId()) {
 		case R.id.menu_add_ordenatives: {
 			if (ButtonClicksHelper.canClickButton()) {
-				KeyboardHelper.hideKeyboard(drawerLayout);
-				new OrdenativeAdditionDialogService(this,
-						readingPagerAdapter.getReadingAt(readingsViewPager
-								.getCurrentItem())).show();
+				showOrdenativesDialog(readingPagerAdapter
+						.getReadingAt(readingsViewPager.getCurrentItem()));
 			}
 			return true;
 		}
@@ -207,6 +205,17 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	/**
+	 * Muestra el dialogo de los ordenativos
+	 * 
+	 * @param reading
+	 */
+	private void showOrdenativesDialog(ReadingGeneralInfo reading) {
+		KeyboardHelper.hideKeyboard(drawerLayout);
+		new OrdenativeDialogService(reading).show(getSupportFragmentManager(),
+				"Ordenative Dialog");
+	}
+
+	/**
 	 * Manejador de click del boton de ir a primera lectura
 	 * 
 	 * @param v
@@ -295,7 +304,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	public void btnSaveReading(View v) {
 		if (ButtonClicksHelper.canClickButton())
 			((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
-					.readingSaveClicked(v, this);
+					.readingSaveClicked(v);
 	}
 
 	/**
@@ -358,9 +367,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				KeyboardHelper.hideKeyboard(drawerLayout);
-				new OrdenativeAdditionDialogService(ReadingTake.this, reading)
-						.show();
+				showOrdenativesDialog(reading);
 				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
 						btnEditReading);
 				menuAddOrdenatives.setVisible(true);

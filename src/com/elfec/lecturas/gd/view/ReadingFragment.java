@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -202,6 +203,17 @@ public class ReadingFragment extends Fragment implements IReadingView,
 			}
 		}).start();
 		return rootView;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof ReadingSaveCallback)) {
+			throw new IllegalStateException(
+					"Activity must implement fragment's ReadingSaveCallbacks.");
+		}
+		presenter.setReadingCallback((ReadingSaveCallback) activity);
 	}
 
 	/**
@@ -766,9 +778,9 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	@Override
-	public void readingSaveClicked(View v, ReadingSaveCallback callback) {
+	public void readingSaveClicked(View v) {
 		needsToClear = true;
-		presenter.saveReading(callback);
+		presenter.saveReading();
 	}
 
 	@Override

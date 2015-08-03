@@ -27,6 +27,8 @@ public class ReadingPresenter {
 
 	private ReadingGeneralInfo reading;
 	private IReadingView view;
+
+	private ReadingSaveCallback readingCallback;
 	private boolean validateActiveDistribution;
 	private boolean validateReactiveEnergy;
 	private boolean validateReactiveDistribution;
@@ -139,7 +141,7 @@ public class ReadingPresenter {
 	/**
 	 * Inicia el proceso de validación y guardado de la lectura
 	 */
-	public void saveReading(final ReadingSaveCallback callback) {
+	public void saveReading() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -176,12 +178,13 @@ public class ReadingPresenter {
 						view.notifyReadingSavedSuccessfully();
 						view.setReadingStatus(reading.getStatus());
 						view.setReadOnly(true);
-						if (callback != null)
-							callback.onReadingSavedSuccesfully(reading);
+						if (readingCallback != null)
+							readingCallback.onReadingSavedSuccesfully(reading);
 					} else {
 						view.showReadingSaveErrors(result.getErrors());
-						if (callback != null)
-							callback.onReadingSaveErrors(result.getErrors());
+						if (readingCallback != null)
+							readingCallback.onReadingSaveErrors(result
+									.getErrors());
 					}
 				} else
 					view.notifyErrorsInFields();
@@ -587,5 +590,14 @@ public class ReadingPresenter {
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Asigna el callback para el guardado de lecturas
+	 * 
+	 * @param readingCallback
+	 */
+	public void setReadingCallback(ReadingSaveCallback readingCallback) {
+		this.readingCallback = readingCallback;
 	}
 }

@@ -1,18 +1,19 @@
-package com.elfec.lecturas.gd.view.view_services;
+package com.elfec.lecturas.gd.view.view_services.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
@@ -25,7 +26,8 @@ import com.elfec.lecturas.gd.model.Ordenative;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.presenter.OrdenativeAdditionPresenter;
 import com.elfec.lecturas.gd.presenter.views.IOrdenativeAdditionView;
-import com.elfec.lecturas.gd.view.adapters.OrdenativeAdapter;
+import com.elfec.lecturas.gd.presenter.views.callbacks.OrdenativesSaveCallback;
+import com.elfec.lecturas.gd.view.adapters.SelectableOrdenativeAdapter;
 
 /**
  * Servicio de dialogo que muestra la opción de agregado de ordenativos a
@@ -34,30 +36,50 @@ import com.elfec.lecturas.gd.view.adapters.OrdenativeAdapter;
  * @author drodriguez
  *
  */
-public class OrdenativeAdditionDialogService implements IOrdenativeAdditionView {
+public class OrdenativeAdditionFragment extends Fragment implements
+		IOrdenativeAdditionView {
+
+	/**
+	 * la Key para obtener la lectura en este fragmento
+	 */
+	public static final String ARG_READING = "ReadingGeneralInfo";
 
 	private OrdenativeAdditionPresenter presenter;
 
 	private Handler mHandler;
-	private AlertDialog mDialog;
 	private CoordinatorLayout mRootLayout;
 	private ListView listViewOrdenatives;
+	private FloatingActionButton btnAddOrdenatives;
+
+	public OrdenativeAdditionFragment() {
+		super();
+		mHandler = new Handler();
+	}
 
 	/**
-	 * Crea un nuevo servicio de adición de ordenativos
-	 * 
-	 * @param context
-	 * @param reading
-	 *            La lectura a la que se quieren agregar ordenativos
+	 * Factory method for this fragment class. Constructs a new fragment for the
+	 * given reading.
 	 */
-	@SuppressLint("InflateParams")
-	public OrdenativeAdditionDialogService(Context context,
-			ReadingGeneralInfo reading) {
-		mHandler = new Handler();
-		View dialogView = LayoutInflater.from(context).inflate(
-				R.layout.dialog_ordenative_addition, null, false);
-		mRootLayout = (CoordinatorLayout) dialogView;
-		listViewOrdenatives = (ListView) dialogView
+	public static OrdenativeAdditionFragment create(ReadingGeneralInfo reading) {
+		OrdenativeAdditionFragment fragment = new OrdenativeAdditionFragment();
+		Bundle args = new Bundle();
+		args.putSerializable(ARG_READING, reading);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		final View rootView = inflater.inflate(
+				R.layout.fragment_ordenative_addition, container, false);
+		ReadingGeneralInfo reading = null;
+		if (getArguments().containsKey(ARG_READING)) {
+			reading = (ReadingGeneralInfo) getArguments().getSerializable(
+					ARG_READING);
+		}
+		mRootLayout = (CoordinatorLayout) rootView;
+		listViewOrdenatives = (ListView) rootView
 				.findViewById(R.id.list_ordenatives);
 		listViewOrdenatives.setOnItemClickListener(new OnItemClickListener() {
 
@@ -68,27 +90,17 @@ public class OrdenativeAdditionDialogService implements IOrdenativeAdditionView 
 						.setChecked(view.isActivated());
 			}
 		});
-		mDialog = new AlertDialog.Builder(context)
-				.setTitle(R.string.title_ordenative_addition)
-				.setView(dialogView).setPositiveButton(R.string.btn_add, null)
-				.setNegativeButton(R.string.btn_cancel, null).create();
+		btnAddOrdenatives = ((FloatingActionButton) rootView
+				.findViewById(R.id.btn_add_ordenatives));
+		btnAddOrdenatives.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				presenter.addOrdenatives();
+			}
+		});
 		presenter = new OrdenativeAdditionPresenter(this, reading);
 		presenter.loadOrdenatives();
-	}
-
-	/**
-	 * Muestra el diálogo de selección de ordenativos
-	 */
-	public void show() {
-		mDialog.show();
-		mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (presenter.addOrdenatives())
-							mDialog.dismiss();
-					}
-				});
+		return rootView;
 	}
 
 	// #region Interface Methods
@@ -98,9 +110,9 @@ public class OrdenativeAdditionDialogService implements IOrdenativeAdditionView 
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				listViewOrdenatives.setAdapter(new OrdenativeAdapter(mDialog
-						.getContext(), R.layout.ordenative_list_item,
-						ordenatives));
+				listViewOrdenatives.setAdapter(new SelectableOrdenativeAdapter(
+						getActivity(),
+						R.layout.selectable_ordenative_list_item, ordenatives));
 			}
 		});
 	}
@@ -139,9 +151,12 @@ public class OrdenativeAdditionDialogService implements IOrdenativeAdditionView 
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(mDialog.getContext(),
+				Toast.makeText(getActivity(),
 						R.string.msg_ordenatives_added_successfully,
 						Toast.LENGTH_LONG).show();
+				if (getParentFragment() instanceof OrdenativesSaveCallback)
+					((OrdenativesSaveCallback) getParentFragment())
+							.onOrdenativesSavedSuccesfully();
 			}
 		});
 	}

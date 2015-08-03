@@ -109,10 +109,13 @@
     <string name="msg_reading_found">Su búsqueda fue exitosa. Se trajo al frente la lectura encontrada!</string>
     <string name="btn_search">Buscar</string>
 
+    
     <!-- Ordenative Addition -->
-    <string name="title_ordenative_addition">Agregar ordenativos</string>
     <string name="msg_at_least_one_ordenative">Debe seleccionar por lo menos un ordenativo para agregar!</string>
     <string name="msg_ordenatives_added_successfully">Se agregaron exitosamente los ordenativos a la lectura!</string>
+    
+    <!-- Reading Ordenatives -->
+    <string name="lbl_reading_ordenatives_info">La lectura actual tiene agregados los ordenativos que se muestran en la lista</string>
 
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>

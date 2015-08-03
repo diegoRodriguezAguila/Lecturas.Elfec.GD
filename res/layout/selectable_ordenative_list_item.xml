@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/selectableItemBackgroundBorderless"
+    android:background="@drawable/select_background_material"
     android:gravity="top"
-    android:padding="10dp"
     android:orientation="horizontal" >
 
     <TextView
@@ -29,5 +28,13 @@
         android:textColor="@color/background_material_dark"
         android:text="@string/sample_ord_desc"
         android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/chk_selected_ordenative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false" 
+        android:background="@android:color/transparent"
+        android:clickable="false"/>
 
 </LinearLayout>

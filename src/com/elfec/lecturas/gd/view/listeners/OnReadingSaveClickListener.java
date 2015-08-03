@@ -2,8 +2,6 @@ package com.elfec.lecturas.gd.view.listeners;
 
 import android.view.View;
 
-import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
-
 /**
  * Listener para el click del boton de guardar lectura
  * 
@@ -18,5 +16,5 @@ public interface OnReadingSaveClickListener {
 	 * @param callback
 	 *            puede ser nulo, se llama en el proceso de guardado de lectura
 	 */
-	public void readingSaveClicked(View v, ReadingSaveCallback callback);
+	public void readingSaveClicked(View v);
 }
