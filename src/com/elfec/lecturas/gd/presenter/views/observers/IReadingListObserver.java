@@ -40,6 +40,15 @@ public interface IReadingListObserver {
 	public void setReadings(List<ReadingGeneralInfo> readings);
 
 	/**
+	 * Rebindea los datos de la lectura actual a las vistas que la esten
+	 * observando, esto sirve para notificar sobre cambios que se realizaron en
+	 * la lectura actual
+	 * 
+	 * @param position
+	 */
+	public void rebindReading(int position);
+
+	/**
 	 * Asigna la posición de la lectura seleccionada actual. Esta asignación no
 	 * debería propagar nuevamente el evento de notificación
 	 * 

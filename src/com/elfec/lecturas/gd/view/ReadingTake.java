@@ -7,6 +7,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -110,8 +111,9 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		switch (item.getItemId()) {
 		case R.id.menu_add_ordenatives: {
 			if (ButtonClicksHelper.canClickButton()) {
-				showOrdenativesDialog(readingPagerAdapter
-						.getReadingAt(readingsViewPager.getCurrentItem()));
+				showOrdenativesDialog(
+						readingPagerAdapter.getReadingAt(readingsViewPager
+								.getCurrentItem()), null);
 			}
 			return true;
 		}
@@ -213,10 +215,11 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	 * 
 	 * @param reading
 	 */
-	private void showOrdenativesDialog(ReadingGeneralInfo reading) {
+	private void showOrdenativesDialog(ReadingGeneralInfo reading,
+			OnDismissListener listener) {
 		KeyboardHelper.hideKeyboard(drawerLayout);
-		new OrdenativeDialogService(reading).show(getSupportFragmentManager(),
-				"Ordenative Dialog");
+		new OrdenativeDialogService(reading).setOnDismissListener(listener)
+				.show(getSupportFragmentManager(), "Ordenative Dialog");
 	}
 
 	/**
@@ -384,14 +387,23 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	@Override
-	public void onReadingSavedSuccesfully(final ReadingGeneralInfo reading) {
+	public void onReadingSavedSuccesfully(final ReadingGeneralInfo reading,
+			final boolean wasInEditionMode) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				showOrdenativesDialog(reading);
+				showOrdenativesDialog(reading, wasInEditionMode ? null
+						: new OnDismissListener() {
+							@Override
+							public void onDismiss(DialogInterface dialog) {
+								btnNextReading(null);
+							}
+						});
 				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
 						btnEditReading);
 				menuAddOrdenatives.setVisible(true);
+				readingListNotifier.notifyRebindReading(position,
+						ReadingTake.this);
 			}
 		});
 	}
@@ -402,6 +414,11 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 
 	@Override
 	public void resetFilters() {// nothing should happen here
+	}
+
+	@Override
+	public void rebindReading(int position) {
+		readingPagerAdapter.instantiateItem(readingsViewPager, position);
 	}
 
 	// #endregion

@@ -41,4 +41,15 @@ public interface IReadingListNotifier {
 	 * @param sender
 	 */
 	public void notifyResetFilters(IReadingListObserver sender);
+
+	/**
+	 * Indica a todos los observers que deberían rebindear la lectura en la
+	 * posición solicitada
+	 * 
+	 * @param position
+	 *            posición de la lectura en la lista
+	 * @param sender
+	 *            el observador que originó el evento
+	 */
+	public void notifyRebindReading(int position, IReadingListObserver sender);
 }

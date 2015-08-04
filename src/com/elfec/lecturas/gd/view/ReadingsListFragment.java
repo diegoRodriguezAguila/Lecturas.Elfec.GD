@@ -261,5 +261,10 @@ public class ReadingsListFragment extends Fragment implements
 		spinnerRoutes.setSelection(0);
 	}
 
+	@Override
+	public void rebindReading(int position) {
+		readingsAdapter.notifyItemChanged(position);
+	}
+
 	// #endregion
 }

@@ -1,5 +1,7 @@
 package com.elfec.lecturas.gd.view.view_services;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
@@ -30,6 +32,7 @@ public class OrdenativeDialogService extends DialogFragment implements
 	private ViewPager mViewPager;
 	private TabLayout mTabLayout;
 	private Button mBtnCancel;
+	private OnDismissListener mDismissListener;
 
 	/**
 	 * Crea un nuevo servicio de adición de ordenativos
@@ -74,6 +77,25 @@ public class OrdenativeDialogService extends DialogFragment implements
 
 	@Override
 	public void onOrdenativesSavedSuccesfully() {
-		getDialog().dismiss();
+		dismiss();
+	}
+
+	/**
+	 * Agrega un DismissListener
+	 * 
+	 * @param listener
+	 * @return la instancia actual del dialogo
+	 */
+	public OrdenativeDialogService setOnDismissListener(
+			OnDismissListener listener) {
+		mDismissListener = listener;
+		return this;
+	}
+
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		super.onDismiss(dialog);
+		if (mDismissListener != null)
+			mDismissListener.onDismiss(dialog);
 	}
 }

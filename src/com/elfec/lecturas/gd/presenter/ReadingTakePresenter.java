@@ -85,6 +85,14 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		}
 	}
 
+	@Override
+	public void notifyRebindReading(int position, IReadingListObserver sender) {
+		for (IReadingListObserver obs : observers) {
+			if (obs != sender)
+				obs.rebindReading(position);
+		}
+	}
+
 	/**
 	 * Procesa la lectura encontrada, para notificar a todos los observadores
 	 * que deben mostrarla. En caso de no existir en la lista actual, se vuelve

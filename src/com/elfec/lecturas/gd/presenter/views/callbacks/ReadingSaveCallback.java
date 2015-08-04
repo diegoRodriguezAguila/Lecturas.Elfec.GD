@@ -13,8 +13,12 @@ import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 public interface ReadingSaveCallback {
 	/**
 	 * Se llama cuando el proceso de guardado de la lectura fue exitoso
+	 * 
+	 * @param savedReading
+	 * @param wasInEditionMode
 	 */
-	public void onReadingSavedSuccesfully(ReadingGeneralInfo savedReading);
+	public void onReadingSavedSuccesfully(ReadingGeneralInfo savedReading,
+			boolean wasInEditionMode);
 
 	/**
 	 * Se llama cuando el proceso de guardado de la lectura tuvo errores

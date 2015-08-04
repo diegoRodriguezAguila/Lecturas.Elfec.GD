@@ -176,6 +176,7 @@ public class ReadingPresenter {
 											view.getPowerValleyOffpeakDate(),
 											view.getPowerValleyOffpeakTime())),
 							ReadingStatus.READ);
+					boolean wasInEditionMode = isInEditionMode;
 					if (!result.hasErrors() && isInEditionMode) {
 						isInEditionMode = false;
 						result = new ReadingOrdenativeManager()
@@ -186,7 +187,8 @@ public class ReadingPresenter {
 						view.setReadingStatus(reading.getStatus());
 						view.setReadOnly(true);
 						if (readingCallback != null)
-							readingCallback.onReadingSavedSuccesfully(reading);
+							readingCallback.onReadingSavedSuccesfully(reading,
+									wasInEditionMode);
 					} else {
 						view.showReadingSaveErrors(result.getErrors());
 						if (readingCallback != null)
