@@ -396,7 +396,9 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 						: new OnDismissListener() {
 							@Override
 							public void onDismiss(DialogInterface dialog) {
+								int lastPosition = position;
 								btnNextReading(null);
+								presenter.verifyFiltersValidity(lastPosition);
 							}
 						});
 				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
@@ -419,6 +421,13 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	@Override
 	public void rebindReading(int position) {
 		readingPagerAdapter.instantiateItem(readingsViewPager, position);
+	}
+
+	@Override
+	public void removeReading(int position) {
+		if (lastReadingPos > 0)
+			lastReadingPos--;
+		readingPagerAdapter.removeItem(position);
 	}
 
 	// #endregion

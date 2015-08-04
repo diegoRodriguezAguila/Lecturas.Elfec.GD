@@ -57,4 +57,13 @@ public class ReadingRecyclerViewAdapter extends
 	public int getItemCount() {
 		return this.readings.size();
 	}
+
+	/**
+	 * Elimina un objeto de la lista
+	 * 
+	 * @param position
+	 */
+	public void removeItem(int position) {
+		notifyItemRemoved(position);
+	}
 }

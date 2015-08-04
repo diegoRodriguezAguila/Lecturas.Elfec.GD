@@ -3,6 +3,8 @@ package com.elfec.lecturas.gd.presenter.views.notifiers;
 import java.util.List;
 
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.model.RouteAssignment;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.views.observers.IReadingListObserver;
 
 /**
@@ -41,6 +43,15 @@ public interface IReadingListNotifier {
 	 * @param sender
 	 */
 	public void notifyResetFilters(IReadingListObserver sender);
+
+	/**
+	 * Evento que se ejecuta cuando se quiere notificar a todos los observadores
+	 * que se aplicó un filtro sobre la lista de lecturas
+	 * 
+	 * @param sender
+	 */
+	public void notifyFiltersApplied(ReadingStatus status,
+			RouteAssignment route, IReadingListObserver sender);
 
 	/**
 	 * Indica a todos los observers que deberían rebindear la lectura en la

@@ -257,13 +257,23 @@ public class ReadingsListFragment extends Fragment implements
 	public void resetFilters() {
 		statusPos = 0;
 		routePos = 0;
-		spinnerReadingStatus.setSelection(0);
-		spinnerRoutes.setSelection(0);
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				spinnerReadingStatus.setSelection(0);
+				spinnerRoutes.setSelection(0);
+			}
+		});
 	}
 
 	@Override
 	public void rebindReading(int position) {
 		readingsAdapter.notifyItemChanged(position);
+	}
+
+	@Override
+	public void removeReading(int position) {
+		readingsAdapter.removeItem(position);
 	}
 
 	// #endregion

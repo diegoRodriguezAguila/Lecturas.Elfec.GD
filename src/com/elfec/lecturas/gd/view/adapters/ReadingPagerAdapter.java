@@ -43,4 +43,13 @@ public class ReadingPagerAdapter extends
 		fragment.bindReadingInfo(readings.get(position));
 	}
 
+	/**
+	 * Elimina un objeto de la lista
+	 * 
+	 * @param position
+	 */
+	public void removeItem(int position) {
+		notifyDataSetChanged();
+	}
+
 }

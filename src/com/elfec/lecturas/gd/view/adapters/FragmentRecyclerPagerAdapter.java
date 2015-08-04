@@ -140,6 +140,11 @@ public abstract class FragmentRecyclerPagerAdapter<FT extends Fragment> extends
 		return ((Fragment) object).getView() == view;
 	}
 
+	@Override
+	public int getItemPosition(Object object) {
+		return POSITION_NONE;
+	}
+
 	/**
 	 * Asigna el tamaño del pool de fragmentos, minimo es 3 sino lanza excepción
 	 * 

@@ -49,6 +49,13 @@ public interface IReadingListObserver {
 	public void rebindReading(int position);
 
 	/**
+	 * Elimina la lectura de la posición especificada
+	 * 
+	 * @param position
+	 */
+	public void removeReading(int position);
+
+	/**
 	 * Asigna la posición de la lectura seleccionada actual. Esta asignación no
 	 * debería propagar nuevamente el evento de notificación
 	 * 

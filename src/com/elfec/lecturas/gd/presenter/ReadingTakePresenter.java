@@ -3,6 +3,8 @@ package com.elfec.lecturas.gd.presenter;
 import java.util.List;
 
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.lecturas.gd.model.RouteAssignment;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.views.IReadingTakeView;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.presenter.views.observers.IReadingListObserver;
@@ -12,6 +14,8 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 	private IReadingTakeView view;
 	private List<IReadingListObserver> observers;
 	private List<ReadingGeneralInfo> shownReadings;
+	private ReadingStatus statusFilter;
+	private RouteAssignment routeFilter;
 
 	public ReadingTakePresenter(IReadingTakeView view,
 			List<IReadingListObserver> observers) {
@@ -79,6 +83,8 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 
 	@Override
 	public void notifyResetFilters(IReadingListObserver sender) {
+		statusFilter = null;
+		routeFilter = null;
 		for (IReadingListObserver obs : observers) {
 			if (obs != sender)
 				obs.resetFilters();
@@ -91,6 +97,13 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 			if (obs != sender)
 				obs.rebindReading(position);
 		}
+	}
+
+	@Override
+	public void notifyFiltersApplied(ReadingStatus status,
+			RouteAssignment route, IReadingListObserver sender) {
+		statusFilter = status;
+		routeFilter = route;
 	}
 
 	/**
@@ -116,6 +129,37 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 				}
 			}
 		}).start();
+	}
+
+	/**
+	 * Verifica que los cambios hechos en el estado de la lectura corresponda a
+	 * los filtros actuales, si es que no se actualizará las listas
+	 * 
+	 * @param position
+	 */
+	public void verifyFiltersValidity(int position) {
+		if (!readingMatchFilters(shownReadings.get(position))) {
+			shownReadings.remove(position);// only called once since its the
+											// same instance on all views
+			for (IReadingListObserver obs : observers) {
+				obs.removeReading(position);
+			}
+		}
+	}
+
+	/**
+	 * Verifica si una lectura coincide con los filtros actuales
+	 * 
+	 * @param reading
+	 * @return true si es que si coincide
+	 */
+	private boolean readingMatchFilters(ReadingGeneralInfo reading) {
+		boolean matches = true;
+		if (statusFilter != null)
+			matches = reading.getStatus().equals(statusFilter) && matches;
+		if (routeFilter != null)
+			matches = reading.getRouteId() == routeFilter.getRoute() && matches;
+		return matches;
 	}
 
 }
