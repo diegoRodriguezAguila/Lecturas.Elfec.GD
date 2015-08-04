@@ -39,6 +39,7 @@ import com.elfec.lecturas.gd.presenter.views.IReadingView;
 import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.view.animations.HeightAnimation;
 import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
+import com.elfec.lecturas.gd.view.listeners.OnReadingEditClickListener;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
@@ -47,7 +48,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
 public class ReadingFragment extends Fragment implements IReadingView,
-		OnReadingSaveClickListener {
+		OnReadingSaveClickListener, OnReadingEditClickListener {
 
 	/**
 	 * la Key para obtener la lectura en este fragmento
@@ -144,9 +145,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		readingSavedRunnable = new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getActivity(),
-						R.string.msg_reading_saved_successfully,
-						Toast.LENGTH_LONG).show();
+				notifyUser(R.string.msg_reading_saved_successfully);
 			}
 		};
 		setReadOnlyRunnable = new Runnable() {
@@ -214,6 +213,13 @@ public class ReadingFragment extends Fragment implements IReadingView,
 					"Activity must implement fragment's ReadingSaveCallbacks.");
 		}
 		presenter.setReadingCallback((ReadingSaveCallback) activity);
+	}
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (!isVisibleToUser)
+			presenter.disableReadingEdition();
 	}
 
 	/**
@@ -629,6 +635,15 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		}
 	}
 
+	/**
+	 * notifica al usuario un mensaje en un toast
+	 * 
+	 * @param strId
+	 */
+	private void notifyUser(int strId) {
+		Toast.makeText(getActivity(), strId, Toast.LENGTH_LONG).show();
+	}
+
 	// #region Interface Methods
 
 	@Override
@@ -775,12 +790,6 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	@Override
 	public DateTime getPowerValleyOffpeakTime() {
 		return (DateTime) txtInputPowerValleyOffpeakTime.getEditText().getTag();
-	}
-
-	@Override
-	public void readingSaveClicked(View v) {
-		needsToClear = true;
-		presenter.saveReading();
 	}
 
 	@Override
@@ -1059,6 +1068,27 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		mHandler.post(setReadOnlyRunnable);
 	}
 
+	@Override
+	public void readingSaveClicked(View v) {
+		needsToClear = true;
+		presenter.saveReading();
+	}
+
+	@Override
+	public void readingEditClicked(View v) {
+		presenter.enableReadingEdition();
+	}
+
+	@Override
+	public void notifyEditionModeEnabled() {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				notifyUser(R.string.msg_reading_on_edition_mode);
+			}
+		});
+	}
+
 	// #endregion
 
 	/**
@@ -1080,4 +1110,5 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				int count) {
 		}
 	}
+
 }

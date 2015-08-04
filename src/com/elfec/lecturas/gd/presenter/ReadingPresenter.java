@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
 
+import com.elfec.lecturas.gd.business_logic.ReadingOrdenativeManager;
 import com.elfec.lecturas.gd.business_logic.ReadingTakenManager;
 import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.business_logic.validators.ReadingFieldsValidator;
@@ -33,6 +34,7 @@ public class ReadingPresenter {
 	private boolean validateReactiveEnergy;
 	private boolean validateReactiveDistribution;
 	private boolean validateEnergyPower;
+	private volatile boolean isInEditionMode;
 
 	public ReadingPresenter(IReadingView view) {
 		this.view = view;
@@ -174,6 +176,11 @@ public class ReadingPresenter {
 											view.getPowerValleyOffpeakDate(),
 											view.getPowerValleyOffpeakTime())),
 							ReadingStatus.READ);
+					if (!result.hasErrors() && isInEditionMode) {
+						isInEditionMode = false;
+						result = new ReadingOrdenativeManager()
+								.deleteReadingAssignedOrdenatives(reading);
+					}
 					if (!result.hasErrors()) {
 						view.notifyReadingSavedSuccessfully();
 						view.setReadingStatus(reading.getStatus());
@@ -600,4 +607,37 @@ public class ReadingPresenter {
 	public void setReadingCallback(ReadingSaveCallback readingCallback) {
 		this.readingCallback = readingCallback;
 	}
+
+	/**
+	 * Pone a la lectura en estado de edición
+	 */
+	public void enableReadingEdition() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				isInEditionMode = true;
+				view.setReadOnly(false);
+				view.setReadingStatus(ReadingStatus.EDITING);
+				view.notifyEditionModeEnabled();
+			}
+		}).start();
+	}
+
+	/**
+	 * Pone a la lectura en su estado anterior quitando el modo de edición si es
+	 * que estaba en ese estado
+	 */
+	public void disableReadingEdition() {
+		if (isInEditionMode) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					isInEditionMode = false;
+					view.setReadOnly(true);
+					view.setReadingStatus(reading.getStatus());
+				}
+			}).start();
+		}
+	}
+
 }

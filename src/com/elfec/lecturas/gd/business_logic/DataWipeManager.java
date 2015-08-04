@@ -32,6 +32,8 @@ public class DataWipeManager {
 			ActiveAndroid.initialize(AppPreferences.getApplicationContext());
 			AppPreferences.instance().wipeOnceRequiredDataPreferences();
 		} catch (Exception e) {
+			Log.error(DataWipeManager.class, e);
+			e.printStackTrace();
 			result.addError(new RuntimeException(
 					"Ocurrió un error al eliminar la información local! "
 							+ "Es probable que la información se haya corrompido, porfavor elimine los datos desde el "

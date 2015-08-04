@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.elfec.lecturas.gd.model.enums.ExportStatus;
 import com.elfec.lecturas.gd.model.interfaces.IExportable;
@@ -78,6 +79,29 @@ public class ReadingOrdenative extends Model implements IExportable {
 		return new Select().from(ReadingOrdenative.class)
 				.where("ExportStatus = ?", ExportStatus.NOT_EXPORTED.toShort())
 				.execute();
+	}
+
+	/**
+	 * Obtiene los ordenativos asignados a una lectura según su Id de lectura
+	 * 
+	 * @param readingRemoteId
+	 * @return Lista de ordenativos asignados
+	 */
+	public static List<ReadingOrdenative> findByReadingRemoteId(
+			long readingRemoteId) {
+		return new Select().from(ReadingOrdenative.class)
+				.where("ReadingRemoteId = ?", readingRemoteId).execute();
+	}
+
+	/**
+	 * Obtiene los ordenativos asignados a una lectura según su Id de lectura
+	 * 
+	 * @param readingRemoteId
+	 * @return Lista de ordenativos asignados
+	 */
+	public static void deleteByReadingRemoteId(long readingRemoteId) {
+		new Delete().from(ReadingOrdenative.class)
+				.where("ReadingRemoteId = ?", readingRemoteId).execute();
 	}
 
 	/**

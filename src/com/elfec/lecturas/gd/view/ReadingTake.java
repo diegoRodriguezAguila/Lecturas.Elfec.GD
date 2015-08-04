@@ -5,6 +5,8 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -33,6 +36,7 @@ import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
+import com.elfec.lecturas.gd.view.listeners.OnReadingEditClickListener;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.elfec.lecturas.gd.view.view_services.OrdenativeDialogService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
@@ -312,13 +316,30 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	 * 
 	 * @param v
 	 */
-	public void btnEditReading(View v) {
-		if (ButtonClicksHelper.canClickButton())
-			;
-		/*
-		 * ((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
-		 * .readingSaveClicked(v);
-		 */
+	public void btnEditReading(final View v) {
+		if (ButtonClicksHelper.canClickButton()) {
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.title_edit_reding)
+					.setIcon(R.drawable.confirm_edit_reading)
+					.setMessage(
+							getResources().getText(
+									R.string.msg_confirm_edit_reading))
+					.setNegativeButton(R.string.btn_cancel, null)
+					.setPositiveButton(R.string.btn_confirm,
+							new OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									FloatingActionButtonAnimator.hideAndShow(
+											btnEditReading, btnSaveReading);
+									menuAddOrdenatives.setVisible(false);
+									((OnReadingEditClickListener) readingPagerAdapter
+											.getCurrentItem())
+											.readingEditClicked(v);
+								}
+							}).show();
+		}
+		;
 	}
 
 	// #region Interface Methods

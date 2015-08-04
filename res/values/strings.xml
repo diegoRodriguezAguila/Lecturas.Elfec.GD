@@ -117,6 +117,12 @@
     <!-- Reading Ordenatives -->
     <string name="lbl_reading_ordenatives_info">La lectura actual tiene agregados los ordenativos que se muestran en la lista</string>
 
+    <!-- Reading Take: Edit -->
+    <string name="title_edit_reding">Confirmación de modificación de lectura</string>
+    <string name="msg_confirm_edit_reading">Esta seguro que desea modifcar la lectura?
+        Se pondra la lectura en estado de edición. Una vez que guarde la lectura, se eliminarán los ordenativos asociados a ella 
+        para que se puedan asignar nuevamente.\n\n<i>NOTA.- Si se sale de la pantalla de edición la lectura pasará a su estado anterior, con sus valores previos.</i></string>
+    <string name="msg_reading_on_edition_mode">La lectura ahora se encuentra en modo de edición!</string>
     <!-- Dialog Buttons -->
     <string name="btn_ok">Aceptar</string>
     <string name="btn_cancel">Cancelar</string>

@@ -22,6 +22,8 @@ public class ReadingStatusColorPicker {
 			return android.R.color.holo_red_light;
 		case READ:
 			return android.R.color.holo_green_dark;
+		case EDITING:
+			return R.color.blue_normal;
 		default:
 			return R.color.color_primary;
 		}

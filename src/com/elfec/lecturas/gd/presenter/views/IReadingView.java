@@ -138,6 +138,11 @@ public interface IReadingView {
 	 */
 	public void setReadOnly(boolean isReadOnly);
 
+	/**
+	 * Notifica al usuario que se puso la lectura en modo de edición
+	 */
+	public void notifyEditionModeEnabled();
+
 	// #region Set Errors
 	public void setReadingDateErrors(List<Exception> errors);
 

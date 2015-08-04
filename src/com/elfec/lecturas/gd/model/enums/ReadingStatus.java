@@ -29,7 +29,11 @@ public enum ReadingStatus {
 	/**
 	 * Estado de lectura puesta para reintentar
 	 */
-	RETRY("Reintentar", "Reintentar");
+	RETRY("Reintentar", "Reintentar"),
+	/**
+	 * Estado de lectura en edición
+	 */
+	EDITING("Editando", null);
 
 	private String string;
 	private String pluralString;
@@ -79,7 +83,8 @@ public enum ReadingStatus {
 				readingStatuses.length + 1);
 		readingStatusesStr.add("Todas");
 		for (ReadingStatus status : readingStatuses) {
-			readingStatusesStr.add(status.pluralString);
+			if (status.pluralString != null)
+				readingStatusesStr.add(status.pluralString);
 		}
 		return readingStatusesStr;
 	}

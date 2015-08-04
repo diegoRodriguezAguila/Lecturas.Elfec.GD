@@ -98,7 +98,7 @@ public class DataExportationService extends Service {
 				}
 				if (!result.hasErrors()) {
 					strMsgId = R.string.msg_exporting_reading_ordenatives;
-					result = ReadingOrdenativeManager
+					result = new ReadingOrdenativeManager()
 							.exportAllReadingOrdenatives(username, password,
 									exportListener);
 				}

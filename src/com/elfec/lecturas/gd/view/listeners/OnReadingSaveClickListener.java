@@ -13,8 +13,6 @@ public interface OnReadingSaveClickListener {
 	 * Se ejecuta cuando el boton de guardar lectura se clickeó
 	 * 
 	 * @param v
-	 * @param callback
-	 *            puede ser nulo, se llama en el proceso de guardado de lectura
 	 */
 	public void readingSaveClicked(View v);
 }
