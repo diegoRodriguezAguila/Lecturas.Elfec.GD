@@ -642,4 +642,31 @@ public class ReadingPresenter {
 		}
 	}
 
+	/**
+	 * Pone a la lectura actual en estado de reintentar
+	 */
+	public void setReadingToRetry() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				VoidResult result = ReadingTakenManager.registerReadingTaken(
+						reading, new ReadingTaken(reading.getReadingRemoteId(),
+								reading.getSupplyId(), DateTime.now(),
+								SessionManager.getLoggedInUsername()),
+						ReadingStatus.RETRY);
+				if (!result.hasErrors()) {
+					view.notifyReadingSavedSuccessfully();
+					view.setReadingStatus(reading.getStatus());
+					view.setReadOnly(true);
+					if (readingCallback != null)
+						readingCallback.onRetryReadingSavedSuccesfully(reading);
+				} else {
+					view.showReadingSaveErrors(result.getErrors());
+					if (readingCallback != null)
+						readingCallback.onReadingSaveErrors(result.getErrors());
+				}
+			}
+		}).start();
+	}
+
 }

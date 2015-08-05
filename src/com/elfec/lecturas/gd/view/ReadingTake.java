@@ -38,6 +38,7 @@ import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
 import com.elfec.lecturas.gd.view.listeners.OnReadingEditClickListener;
+import com.elfec.lecturas.gd.view.listeners.OnReadingRetryClickListener;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.elfec.lecturas.gd.view.view_services.OrdenativeDialogService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
@@ -57,7 +58,9 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	private ReadingPagerAdapter readingPagerAdapter;
 	private FloatingActionButton btnSaveReading;
 	private FloatingActionButton btnEditReading;
+
 	public MenuItem menuAddOrdenatives;
+	public MenuItem menuRetryReading;
 
 	private int position;
 	private int lastReadingPos;
@@ -97,6 +100,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.reading_take, menu);
 		menuAddOrdenatives = menu.findItem(R.id.menu_add_ordenatives);
+		menuRetryReading = menu.findItem(R.id.menu_retry_reading);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -109,6 +113,28 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		}
 		// Handle action buttons
 		switch (item.getItemId()) {
+		case R.id.menu_retry_reading: {
+			if (ButtonClicksHelper.canClickButton()) {
+				new AlertDialog.Builder(this)
+						.setTitle(R.string.title_retry_reading)
+						.setIcon(R.drawable.retry_reading_d)
+						.setMessage(
+								getResources().getText(
+										R.string.msg_confirm_retry_reading))
+						.setNegativeButton(R.string.btn_cancel, null)
+						.setPositiveButton(R.string.btn_confirm,
+								new OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										((OnReadingRetryClickListener) readingPagerAdapter
+												.getCurrentItem())
+												.readingRetryClicked();
+									}
+								}).show();
+			}
+			return true;
+		}
 		case R.id.menu_add_ordenatives: {
 			if (ButtonClicksHelper.canClickButton()) {
 				showOrdenativesDialog(
@@ -123,7 +149,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 				new ReadingSearchPopupService(
 						this,
 						findViewById(menuAddOrdenatives.isVisible() ? R.id.menu_add_ordenatives
-								: R.id.menu_search),
+								: R.id.menu_retry_reading),
 						new OnReadingFoundListener() {
 							@Override
 							public void onReadingFound(
@@ -270,7 +296,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	 *            posición de la lectura actual
 	 */
 	private void setFloatingButtonsVisibility(int pos) {
-		if (readingPagerAdapter != null && readingPagerAdapter.getCount() > 0) {
+		if ((readingPagerAdapter != null && readingPagerAdapter.getCount() > 0)
+				&& (readingPagerAdapter.getReadingAt(pos).getStatus() != ReadingStatus.RETRY)) {
 			ReadingTaken currentReading = readingPagerAdapter.getReadingAt(pos)
 					.getReadingTaken();
 			if (btnEditReading.getVisibility() == View.GONE
@@ -297,9 +324,11 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	private void setMenuItemsVisibility(int pos) {
 		if (readingPagerAdapter != null && readingPagerAdapter.getCount() > 0) {
 			ReadingGeneralInfo reading = readingPagerAdapter.getReadingAt(pos);
-			boolean canAddOrdenatives = reading.getStatus() == ReadingStatus.READ
+			boolean isRead = reading.getStatus() == ReadingStatus.READ
 					|| reading.getStatus() == ReadingStatus.IMPEDED;
-			menuAddOrdenatives.setVisible(canAddOrdenatives);
+			boolean isRetry = reading.getStatus() == ReadingStatus.RETRY;
+			menuAddOrdenatives.setVisible(isRead && !isRetry);
+			menuRetryReading.setVisible(!isRead && !isRetry);
 		}
 	}
 
@@ -397,7 +426,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 							@Override
 							public void onDismiss(DialogInterface dialog) {
 								int lastPosition = position;
-								btnNextReading(null);
+								if (!presenter.hasReadingStatusFilter())
+									btnNextReading(null);
 								presenter.verifyFiltersValidity(lastPosition);
 							}
 						});
@@ -428,6 +458,22 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		if (lastReadingPos > 0)
 			lastReadingPos--;
 		readingPagerAdapter.removeItem(position);
+	}
+
+	@Override
+	public void onRetryReadingSavedSuccesfully(ReadingGeneralInfo savedReading) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				int lastPosition = position;
+				menuRetryReading.setVisible(false);
+				readingListNotifier.notifyRebindReading(lastPosition,
+						ReadingTake.this);
+				if (!presenter.hasReadingStatusFilter())
+					btnNextReading(null);
+				presenter.verifyFiltersValidity(lastPosition);
+			}
+		});
 	}
 
 	// #endregion

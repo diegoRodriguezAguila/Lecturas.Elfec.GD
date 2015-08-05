@@ -55,7 +55,13 @@
 
     <!-- Reading Take -->
     <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
-
+    
+    <!-- Reading Take: Retry -->
+	<string name="retry_reading">Reintentar lectura</string>
+	<string name="title_retry_reading">Reintentar lectura</string>
+	<string name="msg_confirm_retry_reading">Confirma que desea poner la lectura para reintentar? Las lecturas puestas para reintentar
+	    se descargan en el servidor, para que puedan ser reasignadas. Una vez que se pone una lectura para reintentar ya no la puede volver a registrar ni editar.</string>
+	
     <!-- Reading Take: Navigation Panel -->
     <string name="drawer_open">Abrir panel de navegación</string>
     <string name="drawer_close">Cerrar panel de navegación</string>

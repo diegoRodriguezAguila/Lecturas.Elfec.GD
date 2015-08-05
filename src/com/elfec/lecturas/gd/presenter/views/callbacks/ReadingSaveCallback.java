@@ -21,6 +21,14 @@ public interface ReadingSaveCallback {
 			boolean wasInEditionMode);
 
 	/**
+	 * Se llama cuando el proceso de guardado de una lectura para reintentar fue
+	 * exitoso
+	 * 
+	 * @param savedReading
+	 */
+	public void onRetryReadingSavedSuccesfully(ReadingGeneralInfo savedReading);
+
+	/**
 	 * Se llama cuando el proceso de guardado de la lectura tuvo errores
 	 * 
 	 * @param errors

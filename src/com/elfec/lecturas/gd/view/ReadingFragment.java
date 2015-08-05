@@ -40,6 +40,7 @@ import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.view.animations.HeightAnimation;
 import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
 import com.elfec.lecturas.gd.view.listeners.OnReadingEditClickListener;
+import com.elfec.lecturas.gd.view.listeners.OnReadingRetryClickListener;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
@@ -48,7 +49,8 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
 public class ReadingFragment extends Fragment implements IReadingView,
-		OnReadingSaveClickListener, OnReadingEditClickListener {
+		OnReadingSaveClickListener, OnReadingEditClickListener,
+		OnReadingRetryClickListener {
 
 	/**
 	 * la Key para obtener la lectura en este fragmento
@@ -1087,6 +1089,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				notifyUser(R.string.msg_reading_on_edition_mode);
 			}
 		});
+	}
+
+	@Override
+	public void readingRetryClicked() {
+		presenter.setReadingToRetry();
 	}
 
 	// #endregion

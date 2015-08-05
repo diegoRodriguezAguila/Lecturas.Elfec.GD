@@ -317,15 +317,16 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	 *            datos antes de asignarla caso contrario lanza excepción
 	 *            {@link IllegalArgumentException}
 	 * @param status
-	 *            {@link ReadingStatus#READ} o {@link ReadingStatus#IMPEDED}
-	 *            caso contrario lanza excepción
+	 *            {@link ReadingStatus#READ}, {@link ReadingStatus#IMPEDED} o
+	 *            {@link ReadingStatus#RETRY} caso contrario lanza excepción
 	 *            {@link IllegalArgumentException}
 	 */
 	public void assignReadingTaken(ReadingTaken readingTaken,
 			ReadingStatus status) {
-		if (status != ReadingStatus.READ && status != ReadingStatus.IMPEDED)
+		if (status != ReadingStatus.READ && status != ReadingStatus.IMPEDED
+				&& status != ReadingStatus.RETRY)
 			throw new IllegalArgumentException(
-					"La lectura solo puede asignar como tomada con los estados: LEIDA o IMPEDIDA!");
+					"La lectura solo puede asignar como tomada con los estados: LEIDA, IMPEDIDA o REINTENTAR!");
 		if (readingTaken != null && readingTaken.getId() != null
 				&& readingTaken.getId() != -1) {
 			this.readingTaken = readingTaken;
@@ -338,15 +339,17 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	/**
 	 * Obtiene la información de la lectura tomada por el lector. Cachéa esta
 	 * consulta en una variable. Esta consulta depende del estado de la lectura
-	 * si está en {@link ReadingStatus#READ} o {@link ReadingStatus#IMPEDED}
-	 * hace la consulta a la base de datos, caso contrario devuelve null.
+	 * si está en {@link ReadingStatus#READ}, {@link ReadingStatus#IMPEDED} o
+	 * {@link ReadingStatus#RETRY} hace la consulta a la base de datos, caso
+	 * contrario devuelve null.
 	 * 
 	 * @return {@link ReadingTaken} la lectura tomada, o null en caso de no
 	 *         haberse tomado la lectura aún
 	 */
 	public ReadingTaken getReadingTaken() {
-		if (getStatus() != ReadingStatus.READ
-				&& getStatus() != ReadingStatus.IMPEDED)
+		ReadingStatus status = getStatus();
+		if (status != ReadingStatus.READ && status != ReadingStatus.IMPEDED
+				&& status != ReadingStatus.RETRY)
 			return null;
 		if (readingTaken == null)
 			readingTaken = new Select().from(ReadingTaken.class)

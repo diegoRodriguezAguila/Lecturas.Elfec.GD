@@ -167,6 +167,16 @@ public class ReadingTaken extends Model implements IExportable {
 		this.powerValleyOffpeakDate = powerValleyOffpeakDate;
 	}
 
+	public ReadingTaken(long readingRemoteId, int supplyId, DateTime saveDate,
+			String readerUser) {
+		super();
+		this.readingRemoteId = readingRemoteId;
+		this.supplyId = supplyId;
+		this.saveDate = saveDate;
+		this.readerUser = readerUser;
+		this.resetCount = -1;
+	}
+
 	/**
 	 * Copia el Id de una lectura tomada a la instancia actual. Este método es
 	 * útil para reemplazar en la base de datos una lectura tomada por otra

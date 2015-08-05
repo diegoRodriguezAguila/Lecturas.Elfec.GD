@@ -139,8 +139,8 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 	 */
 	public void verifyFiltersValidity(int position) {
 		if (!readingMatchFilters(shownReadings.get(position))) {
-			shownReadings.remove(position);// only called once since its the
-											// same instance on all views
+			// only called once since its the same list instance on all views
+			shownReadings.remove(position);
 			for (IReadingListObserver obs : observers) {
 				obs.removeReading(position);
 			}
@@ -160,6 +160,15 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		if (routeFilter != null)
 			matches = reading.getRouteId() == routeFilter.getRoute() && matches;
 		return matches;
+	}
+
+	/**
+	 * True si es que hay filtros de estado de la lectura aplicados
+	 * 
+	 * @return
+	 */
+	public boolean hasReadingStatusFilter() {
+		return (statusFilter != null);
 	}
 
 }
