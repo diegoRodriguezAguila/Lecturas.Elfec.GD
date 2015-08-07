@@ -11,6 +11,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.elfec.lecturas.gd.model.enums.ExportStatus;
 import com.elfec.lecturas.gd.model.interfaces.IExportable;
+import com.elfec.lecturas.gd.model.utils.SQLUtils;
 
 /**
  * Modelo donde se almacenan las lecturas tomadas
@@ -21,7 +22,7 @@ import com.elfec.lecturas.gd.model.interfaces.IExportable;
 @Table(name = "ReadingsTaken")
 public class ReadingTaken extends Model implements IExportable {
 	public static final String INSERT_QUERY = "INSERT INTO ERP_ELFEC.SGC_MOVIL_LECTURAS_GD "
-			+ "VALUES (%d, %d, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %d, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+			+ "VALUES (%d, %d, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
 			+ "TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), "
 			+ "TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), '%s', SYSDATE, USER, %d)";
 
@@ -206,46 +207,34 @@ public class ReadingTaken extends Model implements IExportable {
 	 */
 	public String toRemoteInsertSQL() {
 		return String.format(INSERT_QUERY, readingRemoteId, supplyId,
-				dateTimeToSQLString(readingDate), resetCount,
-				activeDistributing.toPlainString(),
-				bigDecimalToSQLString(activePeak),
-				bigDecimalToSQLString(activeRest),
-				bigDecimalToSQLString(activeValley),
-				bigDecimalToSQLString(reactiveDistributing),
-				bigDecimalToSQLString(reactivePeak),
-				bigDecimalToSQLString(reactiveRest),
-				bigDecimalToSQLString(reactiveValley),
-				bigDecimalToSQLString(powerPeak),
-				dateTimeToSQLString(powerPeakDate),
-				bigDecimalToSQLString(powerRestOffpeak),
-				dateTimeToSQLString(powerRestOffpeakDate),
-				bigDecimalToSQLString(powerValleyOffpeak),
-				dateTimeToSQLString(powerValleyOffpeakDate),
-				dateTimeToSQLString(saveDate), readerUser, 1);
-		// TODO cambiar el 1 por el estado real de la lectura
+				SQLUtils.dateTimeToSQLString(readingDate),
+				SQLUtils.intToSQLString(resetCount),
+				SQLUtils.bigDecimalToSQLString(activeDistributing),
+				SQLUtils.bigDecimalToSQLString(activePeak),
+				SQLUtils.bigDecimalToSQLString(activeRest),
+				SQLUtils.bigDecimalToSQLString(activeValley),
+				SQLUtils.bigDecimalToSQLString(reactiveDistributing),
+				SQLUtils.bigDecimalToSQLString(reactivePeak),
+				SQLUtils.bigDecimalToSQLString(reactiveRest),
+				SQLUtils.bigDecimalToSQLString(reactiveValley),
+				SQLUtils.bigDecimalToSQLString(powerPeak),
+				SQLUtils.dateTimeToSQLString(powerPeakDate),
+				SQLUtils.bigDecimalToSQLString(powerRestOffpeak),
+				SQLUtils.dateTimeToSQLString(powerRestOffpeakDate),
+				SQLUtils.bigDecimalToSQLString(powerValleyOffpeak),
+				SQLUtils.dateTimeToSQLString(powerValleyOffpeakDate),
+				SQLUtils.dateTimeToSQLString(saveDate), readerUser,
+				getReadingGeneralInfo().getStatus().toShort());
 	}
 
 	/**
-	 * Convierte un bigdecimal a una cadena para ser usada en sql si el
-	 * parametro es null devuelve la cadena "NULL"
+	 * Obtiene la información general de lectura a la que está relacionada esta
+	 * lectura tomada
 	 * 
-	 * @param bigDecimal
-	 * @return
+	 * @return {@link ReadingGeneralInfo} información general de lectura
 	 */
-	private String bigDecimalToSQLString(BigDecimal bigDecimal) {
-		return bigDecimal == null ? "NULL" : bigDecimal.toPlainString();
-	}
-
-	/**
-	 * Convierte un bigdecimal a una cadena para ser usada en sql si el
-	 * parametro es null devuelve la cadena "NULL"
-	 * 
-	 * @param bigDecimal
-	 * @return
-	 */
-	private String dateTimeToSQLString(DateTime dateTime) {
-		return dateTime == null ? "NULL" : ("'"
-				+ dateTime.toString("dd/MM/yyyy HH:mm:ss") + "'");
+	public ReadingGeneralInfo getReadingGeneralInfo() {
+		return ReadingGeneralInfo.findByReadingRemoteId(readingRemoteId);
 	}
 
 	// #region Getters y Setters

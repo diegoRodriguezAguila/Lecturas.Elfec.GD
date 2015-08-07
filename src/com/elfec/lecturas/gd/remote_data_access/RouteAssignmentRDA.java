@@ -35,13 +35,15 @@ public class RouteAssignmentRDA {
 			String password, DateTime assignmentDate) throws ConnectException,
 			SQLException {
 		List<RouteAssignment> routeAssignments = new ArrayList<RouteAssignment>();
-		String query = "SELECT * FROM MOVILES.USUARIO_ASIGNACION WHERE UPPER(USUARIO)=UPPER('%s') AND DIA_ASIG_CARGA=%d AND MES=%d AND ANIO=%d AND (ESTADO=1 OR ESTADO=6)";
+		String query = "SELECT * FROM MOVILES.USUARIO_ASIGNACION WHERE UPPER(USUARIO)=UPPER('%s') AND DIA_ASIG_CARGA=%d AND MES=%d AND ANIO=%d AND ESTADO IN(%d, %d)";
 		ResultSet rs = OracleDatabaseConnector.instance(username, password)
 				.executeSelect(
-						String.format(query, username,
-								assignmentDate.getDayOfMonth(),
-								assignmentDate.getMonthOfYear(),
-								assignmentDate.getYear()));
+						String.format(query, username, assignmentDate
+								.getDayOfMonth(), assignmentDate
+								.getMonthOfYear(), assignmentDate.getYear(),
+								RouteAssignmentStatus.ASSIGNED.toShort(),
+								RouteAssignmentStatus.RE_READING_ASSIGNED
+										.toShort()));
 		while (rs.next()) {
 			routeAssignments.add(new RouteAssignment(username, rs
 					.getInt("RUTA"), (short) assignmentDate.getDayOfMonth(), rs

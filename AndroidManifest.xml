@@ -25,7 +25,7 @@
             android:value="LecutrasGDDesarrollo.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="13" />
+            android:value="15" />
         <meta-data
             android:name="AA_SERIALIZERS"
             android:value="com.elfec.lecturas.gd.model.serializers.JodaDateTimeSerializer" />

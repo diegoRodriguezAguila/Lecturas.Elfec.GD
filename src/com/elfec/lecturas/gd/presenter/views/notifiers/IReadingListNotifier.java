@@ -63,4 +63,15 @@ public interface IReadingListNotifier {
 	 *            el observador que originó el evento
 	 */
 	public void notifyRebindReading(int position, IReadingListObserver sender);
+
+	/**
+	 * Notifica a las vistas que debe eliminarse la lectura en la posición
+	 * indicada
+	 * 
+	 * @param position
+	 *            posición de la lectura en la lista
+	 * @param sender
+	 *            el observador que originó el evento
+	 */
+	public void notifyRemoveReading(int position, IReadingListObserver sender);
 }

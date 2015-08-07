@@ -24,7 +24,6 @@ public class LoginPresenter implements IDisposable {
 
 	public LoginPresenter(ILoginView view) {
 		this.view = view;
-		OracleDatabaseConnector.initializeContext(view.getContext());
 	}
 
 	/**
@@ -61,6 +60,7 @@ public class LoginPresenter implements IDisposable {
 			public void run() {
 				Looper.prepare();
 				view.showWaiting();
+				OracleDatabaseConnector.initializeContext(view.getContext());
 				DataAccessResult<User> result = new ElfecUserManager()
 						.validateUser(username, password, view.getIMEI());
 				view.clearPassword();

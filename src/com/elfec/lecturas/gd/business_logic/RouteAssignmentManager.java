@@ -113,7 +113,9 @@ public class RouteAssignmentManager {
 		try {
 			for (RouteAssignment route : routes) {
 				if (route.isImported()) {
-					route.setStatus(route.getStatus() == RouteAssignmentStatus.IMPORTED ? RouteAssignmentStatus.EXPORTED
+					route.setStatus(route.getStatus() == RouteAssignmentStatus.IMPORTED ? (route
+							.hasRetryReadings() ? RouteAssignmentStatus.EXPORTED_WITH_RE_READINGS
+							: RouteAssignmentStatus.EXPORTED)
 							: RouteAssignmentStatus.RE_READING_EXPORTED);
 					routeAssignmentRDA.remoteUpdateUserRouteAssignment(
 							username, password, route);
@@ -148,7 +150,7 @@ public class RouteAssignmentManager {
 			for (RouteAssignment route : routes) {
 				if (route.isImported()) {
 					route.setStatus(route.getStatus() == RouteAssignmentStatus.IMPORTED ? RouteAssignmentStatus.ASSIGNED
-							: RouteAssignmentStatus.RE_READING);
+							: RouteAssignmentStatus.RE_READING_ASSIGNED);
 					routeAssignmentRDA.remoteUpdateUserRouteAssignment(
 							username, password, route);
 					route.save();

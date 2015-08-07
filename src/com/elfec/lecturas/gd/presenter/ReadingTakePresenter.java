@@ -106,6 +106,14 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		routeFilter = route;
 	}
 
+	@Override
+	public void notifyRemoveReading(int position, IReadingListObserver sender) {
+		for (IReadingListObserver obs : observers) {
+			if (obs != sender)
+				obs.removeReading(position);
+		}
+	}
+
 	/**
 	 * Procesa la lectura encontrada, para notificar a todos los observadores
 	 * que deben mostrarla. En caso de no existir en la lista actual, se vuelve
@@ -141,9 +149,10 @@ public class ReadingTakePresenter implements IReadingListNotifier {
 		if (!readingMatchFilters(shownReadings.get(position))) {
 			// only called once since its the same list instance on all views
 			shownReadings.remove(position);
-			for (IReadingListObserver obs : observers) {
-				obs.removeReading(position);
-			}
+			if (shownReadings.size() == 0)
+				notifyReadingListChanged(shownReadings, null);
+			else
+				notifyRemoveReading(position, null);
 		}
 	}
 

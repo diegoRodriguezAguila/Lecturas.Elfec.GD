@@ -10,6 +10,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.model.enums.RouteAssignmentStatus;
 
 /**
@@ -22,6 +23,8 @@ import com.elfec.lecturas.gd.model.enums.RouteAssignmentStatus;
 public class RouteAssignment extends Model {
 
 	private static final long ACCOUNT_CONST = 100000;
+	private static final String importQuery = "SELECT * FROM MOVILES.LECTURASGD WHERE ANIO = %d AND MES = %d AND DIA = %d AND IDRUTA = %d AND ( NROSUM BETWEEN %d AND %d )";
+	private static final String retryImportQuery = " AND IDLECTURAGD IN (SELECT IDLECTURAGD FROM ERP_ELFEC.SGC_MOVIL_LECTURAS_GD WHERE ESTADO=%d)";
 	private static final String updateQuery = "UPDATE MOVILES.USUARIO_ASIGNACION SET ESTADO=%d, CANT_LEC_REC=%d WHERE UPPER(USUARIO)=UPPER('%s') AND DIA=%d AND MES=%d AND ANIO=%d AND RUTA=%d AND ORDEN_INICIO=%d AND ORDEN_FIN=%d";
 
 	@Column(name = "AssignedUser", notNull = true)
@@ -118,6 +121,19 @@ public class RouteAssignment extends Model {
 	}
 
 	/**
+	 * Obtiene la consulta de importación para una asignación de ruta
+	 * 
+	 * @return consulta SQL lista para ser ejecutada
+	 */
+	public String toImportationSQL() {
+		return String.format(importQuery, year, month, day, route,
+				getFirstSupplyNumber(), getLastSupplyNumber())
+				+ (getStatus() == RouteAssignmentStatus.RE_READING_ASSIGNED ? (String
+						.format(retryImportQuery, ReadingStatus.RETRY.toShort()))
+						: "");
+	}
+
+	/**
 	 * Elimina todas las rutas asignadas a un usuario que no esten en estado
 	 * cargada
 	 * 
@@ -163,7 +179,7 @@ public class RouteAssignment extends Model {
 	public boolean isAssigned() {
 		RouteAssignmentStatus status = getStatus();
 		return status == RouteAssignmentStatus.ASSIGNED
-				|| status == RouteAssignmentStatus.RE_READING;
+				|| status == RouteAssignmentStatus.RE_READING_ASSIGNED;
 	}
 
 	/**
@@ -177,6 +193,16 @@ public class RouteAssignment extends Model {
 		RouteAssignmentStatus status = getStatus();
 		return status == RouteAssignmentStatus.IMPORTED
 				|| status == RouteAssignmentStatus.RE_READING_IMPORTED;
+	}
+
+	/**
+	 * Verifica si es que la ruta tiene alguna lectura puesta para reintentar
+	 * 
+	 * @return true si es que tiene lecturas para reintentar
+	 */
+	public boolean hasRetryReadings() {
+		return ReadingGeneralInfo.getAllReadingsSorted(ReadingStatus.RETRY,
+				this).size() > 0;
 	}
 
 	// #region Getters y Setters

@@ -53,12 +53,15 @@ public class ReadingGeneralInfoManager {
 		for (RouteAssignment assignedRoute : assignedRoutes) {
 			result = importReadingsGeneralInfo(username, password,
 					readingGeneralInfoRDA, assignedRoute);
-			if (result.getResult().size() == 0)// no tiene lecturas en la ruta
+			// no tiene lecturas en la ruta
+			if (result.getResult() != null && result.getResult().size() == 0)
 				result.addError(new RouteAssignmentWithNoReadingsException(
 						assignedRoute));
 			globalResult.addErrors(result.getErrors()); // copiando errores
-			globalResult.getResult().addAll(result.getResult()); // lecturas
-			if (globalResult.hasErrors())// rompe ciclo si hay errores
+			if (!globalResult.hasErrors())
+				globalResult.getResult().addAll(result.getResult()); // lecturas
+			// rompe ciclo si hay errores
+			else
 				break;
 		}
 
@@ -81,9 +84,8 @@ public class ReadingGeneralInfoManager {
 			final String username, final String password,
 			final ReadingGeneralInfoRDA readingGeneralInfoRDA,
 			final RouteAssignment assignedRoute) {
-		TypedResult<List<ReadingGeneralInfo>> result;
 		ReadingGeneralInfo.deleteAssignedRouteReadingsInfo(assignedRoute);
-		result = new DataImporter()
+		return new DataImporter()
 				.importData(new ImportSource<ReadingGeneralInfo>() {
 					@Override
 					public List<ReadingGeneralInfo> requestData()
@@ -93,7 +95,7 @@ public class ReadingGeneralInfoManager {
 										assignedRoute);
 					}
 				});
-		return result;
+
 	}
 
 	/**

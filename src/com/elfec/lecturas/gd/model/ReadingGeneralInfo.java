@@ -178,7 +178,7 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	/**
 	 * El estado actual de la lectura
 	 */
-	@Column(name = "Status")
+	@Column(name = "Status", index = true)
 	private short status;
 
 	/**
@@ -393,7 +393,9 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	 * proporcionan parámetros se filtra la lista según ellos
 	 * 
 	 * @param status
+	 *            {@link ReadingStatus} estado de la lectura
 	 * @param route
+	 *            {@link RouteAssignment} assignación de ruta
 	 * @return Lista de lecturas
 	 */
 	public static List<ReadingGeneralInfo> getAllReadingsSorted(
@@ -448,6 +450,17 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 		if (nus != -1)
 			query.where("r.SupplyId=?", nus);
 		return query.executeSingle();
+	}
+
+	/**
+	 * Busca una lectura según su Id de lectura
+	 * 
+	 * @param readingRemoteId
+	 * @return Lectura encontrada, null en caso de no haberse encontrado
+	 */
+	public static ReadingGeneralInfo findByReadingRemoteId(long readingRemoteId) {
+		return new Select().from(ReadingGeneralInfo.class)
+				.where("ReadingRemoteId = ?", readingRemoteId).executeSingle();
 	}
 
 	// #region Serialization

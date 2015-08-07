@@ -61,6 +61,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 
 	public MenuItem menuAddOrdenatives;
 	public MenuItem menuRetryReading;
+	public View menuViewSearchReading;
 
 	private int position;
 	private int lastReadingPos;
@@ -101,6 +102,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		getMenuInflater().inflate(R.menu.reading_take, menu);
 		menuAddOrdenatives = menu.findItem(R.id.menu_add_ordenatives);
 		menuRetryReading = menu.findItem(R.id.menu_retry_reading);
+		setMenuItemsVisibility(position);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -149,7 +151,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 				new ReadingSearchPopupService(
 						this,
 						findViewById(menuAddOrdenatives.isVisible() ? R.id.menu_add_ordenatives
-								: R.id.menu_retry_reading),
+								: (menuRetryReading.isVisible() ? R.id.menu_retry_reading
+										: R.id.menu_search)),
 						new OnReadingFoundListener() {
 							@Override
 							public void onReadingFound(
@@ -321,14 +324,19 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	 * @param posición
 	 *            de la lectura actual
 	 */
-	private void setMenuItemsVisibility(int pos) {
+	private void setMenuItemsVisibility(final int pos) {
 		if (readingPagerAdapter != null && readingPagerAdapter.getCount() > 0) {
 			ReadingGeneralInfo reading = readingPagerAdapter.getReadingAt(pos);
 			boolean isRead = reading.getStatus() == ReadingStatus.READ
 					|| reading.getStatus() == ReadingStatus.IMPEDED;
 			boolean isRetry = reading.getStatus() == ReadingStatus.RETRY;
-			menuAddOrdenatives.setVisible(isRead && !isRetry);
-			menuRetryReading.setVisible(!isRead && !isRetry);
+			if (menuAddOrdenatives != null && menuRetryReading != null) {
+				menuAddOrdenatives.setVisible(isRead && !isRetry);
+				menuRetryReading.setVisible(!isRead && !isRetry);
+			}
+		} else if (menuAddOrdenatives != null && menuRetryReading != null) {
+			menuAddOrdenatives.setVisible(false);
+			menuRetryReading.setVisible(false);
 		}
 	}
 
@@ -400,10 +408,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (readingsViewPager.getCurrentItem() == position) {
-					setFloatingButtonsVisibility(position);
-					setMenuItemsVisibility(position);
-				}
+				setFloatingButtonsVisibility(position);
+				setMenuItemsVisibility(position);
 				readingsViewPager.setCurrentItem(position,
 						Math.abs(ReadingTake.this.position - position) == 1);
 			}
@@ -428,12 +434,18 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 								int lastPosition = position;
 								if (!presenter.hasReadingStatusFilter())
 									btnNextReading(null);
-								presenter.verifyFiltersValidity(lastPosition);
+								else {
+									presenter
+											.verifyFiltersValidity(lastPosition);
+									setFloatingButtonsVisibility(lastPosition);
+									setMenuItemsVisibility(lastPosition);
+								}
 							}
 						});
 				FloatingActionButtonAnimator.hideAndShow(btnSaveReading,
 						btnEditReading);
 				menuAddOrdenatives.setVisible(true);
+				menuRetryReading.setVisible(false);
 				readingListNotifier.notifyRebindReading(position,
 						ReadingTake.this);
 			}
@@ -471,7 +483,11 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 						ReadingTake.this);
 				if (!presenter.hasReadingStatusFilter())
 					btnNextReading(null);
-				presenter.verifyFiltersValidity(lastPosition);
+				else {
+					presenter.verifyFiltersValidity(lastPosition);
+					setFloatingButtonsVisibility(lastPosition);
+					setMenuItemsVisibility(lastPosition);
+				}
 			}
 		});
 	}

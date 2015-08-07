@@ -8,6 +8,10 @@ package com.elfec.lecturas.gd.model.enums;
  */
 public enum RouteAssignmentStatus {
 	/**
+	 * Estado de ruta asignada, no definido
+	 */
+	UNDEFINED,
+	/**
 	 * Estado de ruta asignada, pendiente de carga
 	 */
 	ASSIGNED,
@@ -22,7 +26,7 @@ public enum RouteAssignmentStatus {
 	/**
 	 * Estado de ruta exportada del móvil al servidor para relectura
 	 */
-	RE_READING,
+	EXPORTED_WITH_RE_READINGS,
 	/**
 	 * Estado de ruta exportada del servidor al billing
 	 */
@@ -47,7 +51,7 @@ public enum RouteAssignmentStatus {
 	 * @return
 	 */
 	public static RouteAssignmentStatus get(short status) {
-		return RouteAssignmentStatus.values()[status - 1];
+		return RouteAssignmentStatus.values()[status];
 	}
 
 	/**
@@ -56,6 +60,6 @@ public enum RouteAssignmentStatus {
 	 * @return Short equivalente al estado
 	 */
 	public short toShort() {
-		return (short) (this.ordinal() + 1);
+		return (short) (this.ordinal());
 	}
 }

@@ -30,7 +30,7 @@ public class ReadingMeter extends Model {
 	/**
 	 * NROSERIE en Oracle
 	 */
-	@Column(name = "SerialNumber", notNull = true)
+	@Column(name = "SerialNumber", notNull = true, index = true)
 	private String serialNumber;
 	/**
 	 * IDTIPO_MEDIDOR en Oracle

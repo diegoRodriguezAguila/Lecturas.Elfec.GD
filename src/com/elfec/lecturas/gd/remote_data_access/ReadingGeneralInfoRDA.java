@@ -38,17 +38,8 @@ public class ReadingGeneralInfoRDA {
 			throws ConnectException, SQLException {
 		{
 			List<ReadingGeneralInfo> readingsGeneralInfo = new ArrayList<ReadingGeneralInfo>();
-			ResultSet rs = OracleDatabaseConnector
-					.instance(username, password)
-					.executeSelect(
-							String.format(
-									"SELECT * FROM MOVILES.LECTURASGD WHERE ANIO = %d AND MES = %d AND DIA = %d AND IDRUTA = %d AND ( NROSUM BETWEEN %d AND %d )",
-									routeAssignment.getYear(),
-									routeAssignment.getMonth(),
-									routeAssignment.getDay(),
-									routeAssignment.getRoute(),
-									routeAssignment.getFirstSupplyNumber(),
-									routeAssignment.getLastSupplyNumber()));
+			ResultSet rs = OracleDatabaseConnector.instance(username, password)
+					.executeSelect(routeAssignment.toImportationSQL());
 			while (rs.next()) {
 				readingsGeneralInfo.add(new ReadingGeneralInfo(rs
 						.getLong("IDLECTURAGD"), rs.getInt("ANIO"), rs
