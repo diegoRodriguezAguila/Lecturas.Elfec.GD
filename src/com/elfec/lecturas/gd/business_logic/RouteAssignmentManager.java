@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.elfec.lecturas.gd.business_logic.data_exchange.DataImporter;
+import com.elfec.lecturas.gd.model.ReadingTaken;
 import com.elfec.lecturas.gd.model.RouteAssignment;
 import com.elfec.lecturas.gd.model.data_exchange.ImportSource;
 import com.elfec.lecturas.gd.model.enums.RouteAssignmentStatus;
@@ -117,6 +118,9 @@ public class RouteAssignmentManager {
 							.hasRetryReadings() ? RouteAssignmentStatus.EXPORTED_WITH_RE_READINGS
 							: RouteAssignmentStatus.EXPORTED)
 							: RouteAssignmentStatus.RE_READING_EXPORTED);
+					route.setSentReadings(ReadingTaken
+							.getExportedRouteReadingsTaken(route.getRoute())
+							.size());
 					routeAssignmentRDA.remoteUpdateUserRouteAssignment(
 							username, password, route);
 					route.save();

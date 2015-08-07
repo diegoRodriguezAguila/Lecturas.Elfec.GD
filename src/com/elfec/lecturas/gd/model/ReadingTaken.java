@@ -10,6 +10,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.elfec.lecturas.gd.model.enums.ExportStatus;
+import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.model.interfaces.IExportable;
 import com.elfec.lecturas.gd.model.utils.SQLUtils;
 
@@ -197,6 +198,22 @@ public class ReadingTaken extends Model implements IExportable {
 	public static List<ReadingTaken> getExportPendingReadingsTaken() {
 		return new Select().from(ReadingTaken.class)
 				.where("ExportStatus = ?", ExportStatus.NOT_EXPORTED.toShort())
+				.execute();
+	}
+
+	/**
+	 * Obtiene todas las lecturas tomadas exportadas de forma exitosa que no
+	 * tengan estado {@link ReadingStatus#RETRY}
+	 * 
+	 * @return lista de lecturas tomadas exportadas de forma exitosa
+	 */
+	public static List<ReadingTaken> getExportedRouteReadingsTaken(int route) {
+		return new Select().from(ReadingTaken.class).as("rt")
+				.join(ReadingGeneralInfo.class).as("rgi")
+				.on("rt.ReadingRemoteId = rgi.ReadingRemoteId")
+				.where("rgi.RouteId = ?", route)
+				.where("rt.ExportStatus = ?", ExportStatus.EXPORTED.toShort())
+				.where("rgi.Status <> ?", ReadingStatus.RETRY.toShort())
 				.execute();
 	}
 
