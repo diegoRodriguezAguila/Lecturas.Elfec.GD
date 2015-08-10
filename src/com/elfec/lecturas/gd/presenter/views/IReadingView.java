@@ -81,6 +81,8 @@ public interface IReadingView {
 
 	public void setPowerPeak(BigDecimal powerPeak);
 
+	public void setEnergyPowerMult(BigDecimal powerMult);
+
 	public DateTime getPowerPeakDate();
 
 	public void setPowerPeakDate(DateTime powerPeakDate);

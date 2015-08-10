@@ -88,6 +88,7 @@ public class ReadingPresenter {
 		ReadingMeter readingMeter = reading.getReadingMeter();
 		view.setActiveMult(readingMeter.getActiveMultiplicator());
 		view.setReactiveMult(readingMeter.getReactiveMultiplicator());
+		view.setEnergyPowerMult(readingMeter.getTagPowerPeak());
 	}
 
 	/**

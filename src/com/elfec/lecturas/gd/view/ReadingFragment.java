@@ -82,6 +82,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private TextView txtReadingStatus;
 	private TextView txtActiveMult;
 	private TextView txtReactiveMult;
+	private TextView txtEnergyPowerMult;
 
 	// Field groups
 	private LinearLayout layoutActiveDistribution;
@@ -264,6 +265,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				.findViewById(R.id.lbl_active_energy_mult);
 		txtReactiveMult = (TextView) rootView
 				.findViewById(R.id.lbl_reactive_energy_mult);
+		txtEnergyPowerMult = (TextView) rootView
+				.findViewById(R.id.lbl_energy_power_mult);
 	}
 
 	/**
@@ -1106,15 +1109,22 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	@Override
 	public void setActiveMult(BigDecimal activeMult) {
 		txtActiveMult.setText(Html.fromHtml(String.format(
-				getString(R.string.title_active_energy),
+				getString(R.string.lbl_active_energy_mult),
 				activeMult.toPlainString())));
 	}
 
 	@Override
 	public void setReactiveMult(BigDecimal reactiveMult) {
 		txtReactiveMult.setText(Html.fromHtml(String.format(
-				getString(R.string.title_reactive_energy),
+				getString(R.string.lbl_reactive_energy_mult),
 				reactiveMult.toPlainString())));
+	}
+
+	@Override
+	public void setEnergyPowerMult(BigDecimal powerMult) {
+		txtEnergyPowerMult.setText(Html.fromHtml(String.format(
+				getString(R.string.lbl_energy_power_mult),
+				powerMult.toPlainString())));
 	}
 
 	// #endregion
