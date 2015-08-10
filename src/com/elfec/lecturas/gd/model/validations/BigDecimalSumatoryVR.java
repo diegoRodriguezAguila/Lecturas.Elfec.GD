@@ -13,6 +13,7 @@ import com.elfec.lecturas.gd.model.exceptions.ValidationException;
  */
 public class BigDecimalSumatoryVR implements IValidationRule<BigDecimal> {
 	private String summatoryFields;
+	private BigDecimal summatory;
 
 	/**
 	 * Inicializa el validador con los nombres de los campos que deberían
@@ -27,13 +28,13 @@ public class BigDecimalSumatoryVR implements IValidationRule<BigDecimal> {
 	 */
 	public BigDecimalSumatoryVR(String summatoryFields) {
 		this.summatoryFields = summatoryFields;
+		this.summatory = BigDecimal.ZERO;
 	}
 
 	@Override
 	public boolean isValid(BigDecimal total, Object... params) {
 		if (total == null)
-			return false;
-		BigDecimal summatory = BigDecimal.ZERO;
+			total = BigDecimal.ONE.negate();
 		for (Object sum : params) {
 			if (sum != null && sum instanceof BigDecimal)
 				summatory = summatory.add((BigDecimal) sum);
@@ -44,7 +45,8 @@ public class BigDecimalSumatoryVR implements IValidationRule<BigDecimal> {
 	@Override
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
 		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
-				+ fieldName + "</b> debe ser igual a la suma de los campos: "
-				+ summatoryFields);
+				+ fieldName + "</b> debería ser igual a la suma <b>"
+				+ summatory.toPlainString() + "</b> de los campos: "
+				+ summatoryFields, false);
 	}
 }

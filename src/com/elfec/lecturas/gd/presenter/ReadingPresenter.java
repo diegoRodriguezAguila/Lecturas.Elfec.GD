@@ -1,6 +1,7 @@
 package com.elfec.lecturas.gd.presenter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
@@ -14,6 +15,7 @@ import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.ReadingMeter;
 import com.elfec.lecturas.gd.model.ReadingTaken;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
+import com.elfec.lecturas.gd.model.exceptions.ValidationException;
 import com.elfec.lecturas.gd.model.results.VoidResult;
 import com.elfec.lecturas.gd.presenter.views.IReadingView;
 import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
@@ -300,7 +302,15 @@ public class ReadingPresenter {
 				view.getActiveRest(), view.getActiveValley(),
 				validateActiveDistribution);
 		view.setActiveDistributingErrors(result.getErrors());
-		return !result.hasErrors();
+		List<Exception> errors = result.getErrors();
+		int count = 0;
+		for (Exception error : errors) {
+			if (error instanceof ValidationException
+					&& ((ValidationException) error).isMandatory()) {
+				count++;
+			}
+		}
+		return count == 0;
 	}
 
 	/**
@@ -312,6 +322,7 @@ public class ReadingPresenter {
 		VoidResult result = ReadingFieldsValidator.validateActiveEnergyField(
 				view.getActivePeak(), "energía activa Rate A");
 		view.setActivePeakErrors(result.getErrors());
+		validateActiveDistributing();
 		return !result.hasErrors();
 	}
 
@@ -324,6 +335,7 @@ public class ReadingPresenter {
 		VoidResult result = ReadingFieldsValidator.validateActiveEnergyField(
 				view.getActiveRest(), "energía activa Rate B");
 		view.setActiveRestErrors(result.getErrors());
+		validateActiveDistributing();
 		return !result.hasErrors();
 	}
 
@@ -336,6 +348,7 @@ public class ReadingPresenter {
 		VoidResult result = ReadingFieldsValidator.validateActiveEnergyField(
 				view.getActiveValley(), "energía activa Rate C");
 		view.setActiveValleyErrors(result.getErrors());
+		validateActiveDistributing();
 		return !result.hasErrors();
 	}
 
@@ -373,7 +386,15 @@ public class ReadingPresenter {
 						view.getReactivePeak(), view.getReactiveRest(),
 						view.getReactiveValley(), validateReactiveDistribution);
 		view.setReactiveDistributingErrors(result.getErrors());
-		return !result.hasErrors();
+		List<Exception> errors = result.getErrors();
+		int count = 0;
+		for (Exception error : errors) {
+			if (error instanceof ValidationException
+					&& ((ValidationException) error).isMandatory()) {
+				count++;
+			}
+		}
+		return count == 0;
 	}
 
 	/**
@@ -385,6 +406,7 @@ public class ReadingPresenter {
 		VoidResult result = ReadingFieldsValidator.validateReactiveEnergyField(
 				view.getReactivePeak(), "energía reactiva Rate A");
 		view.setReactivePeakErrors(result.getErrors());
+		validateReactiveDistributing();
 		return !result.hasErrors();
 	}
 
@@ -397,6 +419,7 @@ public class ReadingPresenter {
 		VoidResult result = ReadingFieldsValidator.validateReactiveEnergyField(
 				view.getReactiveRest(), "energía reactiva Rate B");
 		view.setReactiveRestErrors(result.getErrors());
+		validateReactiveDistributing();
 		return !result.hasErrors();
 	}
 
@@ -409,6 +432,7 @@ public class ReadingPresenter {
 		VoidResult result = ReadingFieldsValidator.validateReactiveEnergyField(
 				view.getReactiveValley(), "energía reactiva Rate C");
 		view.setReactiveValleyErrors(result.getErrors());
+		validateReactiveDistributing();
 		return !result.hasErrors();
 	}
 
