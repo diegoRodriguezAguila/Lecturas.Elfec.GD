@@ -27,6 +27,10 @@ public interface IReadingView {
 
 	public void setCategory(String category);
 
+	public void setTensionMeasurement(int tension, int measurement);
+
+	public void setTransformerDesc(String transformerDesc);
+
 	public void setReadingStatus(ReadingStatus status);
 
 	public DateTime getReadingDate();

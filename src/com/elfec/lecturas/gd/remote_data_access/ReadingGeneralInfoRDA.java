@@ -41,28 +41,39 @@ public class ReadingGeneralInfoRDA {
 			ResultSet rs = OracleDatabaseConnector.instance(username, password)
 					.executeSelect(routeAssignment.toImportationSQL());
 			while (rs.next()) {
-				readingsGeneralInfo.add(new ReadingGeneralInfo(rs
-						.getLong("IDLECTURAGD"), rs.getInt("ANIO"), rs
-						.getShort("MES"), rs.getShort("DIA"), rs
-						.getInt("IDRUTA"), rs.getInt("IDCLIENTE"), rs
-						.getInt("IDSUMINISTRO"), rs.getString("NROSUM"), rs
-						.getString("NOMBRE"), rs.getString("DIRECCION"), rs
-						.getString("NIT"), rs.getString("IDCATEGORIA"), rs
-						.getString("DESCRIP_CATEG"), rs.getInt("IDMEDIDOR"), rs
-						.getShort("IMPRIMIR_AVISO"), rs
-						.getBigDecimal("IMPORTE_DEUDA"), rs
-						.getString("MESES_DEUDA"), rs
-						.getBigDecimal("PERDIDAS_FE"), rs
-						.getBigDecimal("PERDIDAS_CU"), rs
-						.getBigDecimal("FACTOR_CARGA"), rs.getInt("HORAS_MES"),
-						rs.getShort("TIPO_ASEO"), rs
-								.getBigDecimal("PORCENTAJE_AP"), rs
-								.getShort("TIPO_AP"), rs
-								.getInt("POT_PUNTA_CONTRATADA"), rs
-								.getInt("POT_FPUNTA_CONTRATADA"), new DateTime(
-								rs.getTimestamp("FECHA_PASIBLE_CORTE")),
-						new DateTime(rs.getTimestamp("FECHA_VENCIMIENTO")),
-						ReadingStatus.PENDING));
+				readingsGeneralInfo
+						.add(new ReadingGeneralInfo(rs.getLong("IDLECTURAGD"),
+								rs.getInt("ANIO"), rs.getShort("MES"), rs
+										.getShort("DIA"), rs.getInt("IDRUTA"),
+								rs.getInt("IDCLIENTE"), rs
+										.getInt("IDSUMINISTRO"), rs
+										.getString("NROSUM"), rs
+										.getString("NOMBRE"), rs
+										.getString("DIRECCION"), rs
+										.getString("NIT"), rs
+										.getString("IDCATEGORIA"), rs
+										.getString("DESCRIP_CATEG"), rs
+										.getInt("IDMEDIDOR"), rs
+										.getShort("IMPRIMIR_AVISO"), rs
+										.getBigDecimal("IMPORTE_DEUDA"), rs
+										.getString("MESES_DEUDA"), rs
+										.getBigDecimal("PERDIDAS_FE"), rs
+										.getBigDecimal("PERDIDAS_CU"), rs
+										.getBigDecimal("FACTOR_CARGA"), rs
+										.getInt("HORAS_MES"), rs
+										.getShort("TIPO_ASEO"), rs
+										.getBigDecimal("PORCENTAJE_AP"), rs
+										.getShort("TIPO_AP"), rs
+										.getInt("POT_PUNTA_CONTRATADA"), rs
+										.getInt("POT_FPUNTA_CONTRATADA"),
+								new DateTime(rs
+										.getTimestamp("FECHA_PASIBLE_CORTE")),
+								new DateTime(rs
+										.getTimestamp("FECHA_VENCIMIENTO")), rs
+										.getInt("TENSION"), rs
+										.getInt("MEDICION"), rs
+										.getString("TRAFO_DESC"),
+								ReadingStatus.PENDING));
 			}
 			return readingsGeneralInfo;
 		}

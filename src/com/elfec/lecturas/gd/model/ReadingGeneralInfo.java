@@ -152,7 +152,6 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	 */
 	@Column(name = "PublicLightingType")
 	private short publicLightingType;
-
 	/**
 	 * POT_PUNTA_CONTRATADA en Oracle
 	 */
@@ -173,6 +172,21 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 	 */
 	@Column(name = "ExpirationDate")
 	private DateTime expirationDate;
+	/**
+	 * TENSION en Oracle
+	 */
+	@Column(name = "Tension")
+	private int tension;
+	/**
+	 * MEDICION en Oracle
+	 */
+	@Column(name = "Measurement")
+	private int measurement;
+	/**
+	 * TRAFO_DESC en Oracle
+	 */
+	@Column(name = "TransformerDesc")
+	private String transformerDesc;
 
 	// Extra Vars
 	/**
@@ -203,8 +217,8 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 			int monthHours, short cleaningType,
 			BigDecimal publicLightingPercentage, short publicLightingType,
 			int contractedPeakPower, int contractedOffpeakPower,
-			DateTime outagePassibleDate, DateTime expirationDate,
-			ReadingStatus status) {
+			DateTime outagePassibleDate, DateTime expirationDate, int tension,
+			int measurement, String transformerDesc, ReadingStatus status) {
 		super();
 		initialize(readingRemoteId, year, month, day, routeId, clientId,
 				supplyId, supplyNumber, name, address, NIT, categoryId,
@@ -212,7 +226,8 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 				owedMonths, fELosses, cULosses, demandFactor, monthHours,
 				cleaningType, publicLightingPercentage, publicLightingType,
 				contractedPeakPower, contractedOffpeakPower,
-				outagePassibleDate, expirationDate, status.toShort());
+				outagePassibleDate, expirationDate, tension, measurement,
+				transformerDesc, status.toShort());
 	}
 
 	// #region Initializer
@@ -258,7 +273,8 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 			int monthHours, short cleaningType,
 			BigDecimal publicLightingPercentage, short publicLightingType,
 			int contractedPeakPower, int contractedOffpeakPower,
-			DateTime outagePassibleDate, DateTime expirationDate, short s) {
+			DateTime outagePassibleDate, DateTime expirationDate, int tension,
+			int measurement, String transformerDesc, short s) {
 		this.readingRemoteId = readingRemoteId;
 		this.year = year;
 		this.month = month;
@@ -287,6 +303,9 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 		this.contractedOffpeakPower = contractedOffpeakPower;
 		this.outagePassibleDate = outagePassibleDate;
 		this.expirationDate = expirationDate;
+		this.tension = tension;
+		this.measurement = measurement;
+		this.transformerDesc = transformerDesc;
 		this.status = s;
 	}
 
@@ -500,6 +519,9 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 		out.writeInt(contractedOffpeakPower);
 		out.writeObject(outagePassibleDate);
 		out.writeObject(expirationDate);
+		out.writeInt(tension);
+		out.writeInt(measurement);
+		out.writeUTF(transformerDesc);
 		out.writeShort(status);
 	}
 
@@ -522,7 +544,8 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 				(BigDecimal) in.readObject(), in.readInt(), in.readShort(),
 				(BigDecimal) in.readObject(), in.readShort(), in.readInt(),
 				in.readInt(), (DateTime) in.readObject(),
-				(DateTime) in.readObject(), in.readShort());
+				(DateTime) in.readObject(), in.readInt(), in.readInt(),
+				in.readUTF(), in.readShort());
 	}
 
 	// #endregion
@@ -759,6 +782,30 @@ public class ReadingGeneralInfo extends Model implements Serializable {
 
 	public void setStatus(ReadingStatus status) {
 		this.status = status.toShort();
+	}
+
+	public int getTension() {
+		return tension;
+	}
+
+	public void setTension(int tension) {
+		this.tension = tension;
+	}
+
+	public int getMeasurement() {
+		return measurement;
+	}
+
+	public void setMeasurement(int measurement) {
+		this.measurement = measurement;
+	}
+
+	public String getTransformerDesc() {
+		return transformerDesc;
+	}
+
+	public void setTransformerDesc(String transformerDesc) {
+		this.transformerDesc = transformerDesc;
 	}
 
 	// #endregion

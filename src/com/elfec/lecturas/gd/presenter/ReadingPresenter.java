@@ -84,6 +84,9 @@ public class ReadingPresenter {
 		view.setAddress(WordUtils.capitalizeFully(reading.getAddress(),
 				new char[] { '.', ' ' }));
 		view.setCategory(reading.getCategoryDescription());
+		view.setTensionMeasurement(reading.getTension(),
+				reading.getMeasurement());
+		view.setTransformerDesc(reading.getTransformerDesc());
 		view.setReadingStatus(reading.getStatus());
 		ReadingMeter readingMeter = reading.getReadingMeter();
 		view.setActiveMult(readingMeter.getActiveMultiplicator());

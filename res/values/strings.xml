@@ -83,6 +83,8 @@
     <!-- Reading Take: Reading -->
     <string name="title_client_info">Información del cliente</string>
     <string name="lbl_category">Categoría: </string>
+    <string name="lbl_transformer_desc">Área: </string>
+    <string name="lbl_tension_measurement">Ten/Med: </string>
     <string name="title_reading">Lectura</string>
     <string name="lbl_current_date">Fecha de lectura</string>
     <string name="lbl_current_time">Hora de lectura</string>

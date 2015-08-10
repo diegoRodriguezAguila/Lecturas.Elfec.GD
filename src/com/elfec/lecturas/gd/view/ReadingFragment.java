@@ -33,6 +33,7 @@ import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
 import com.elfec.lecturas.gd.helpers.ui.ReadingStatusColorPicker;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
+import com.elfec.lecturas.gd.helpers.util.text.TensionMeasurementFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.ReadingPresenter;
@@ -79,6 +80,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private TextView txtClientName;
 	private TextView txtAddress;
 	private TextView txtCategory;
+	private TextView txtTransformerDesc;
+	private TextView txtTensionMeasurement;
 	private TextView txtReadingStatus;
 	private TextView txtActiveMult;
 	private TextView txtReactiveMult;
@@ -259,6 +262,10 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		txtClientName = (TextView) rootView.findViewById(R.id.txt_client_name);
 		txtAddress = (TextView) rootView.findViewById(R.id.txt_address);
 		txtCategory = (TextView) rootView.findViewById(R.id.txt_category);
+		txtTransformerDesc = (TextView) rootView
+				.findViewById(R.id.txt_transformer_desc);
+		txtTensionMeasurement = (TextView) rootView
+				.findViewById(R.id.txt_tension_measurement);
 		txtReadingStatus = (TextView) rootView
 				.findViewById(R.id.txt_reading_status);
 		txtActiveMult = (TextView) rootView
@@ -686,6 +693,18 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	@Override
 	public void setCategory(String category) {
 		txtCategory.setText(category);
+	}
+
+	@Override
+	public void setTensionMeasurement(int tension, int measurement) {
+		txtTensionMeasurement.setText(TensionMeasurementFormatter
+				.formatTensionMeasurement(tension, measurement));
+
+	}
+
+	@Override
+	public void setTransformerDesc(String transformerDesc) {
+		txtTransformerDesc.setText(transformerDesc);
 	}
 
 	@Override
