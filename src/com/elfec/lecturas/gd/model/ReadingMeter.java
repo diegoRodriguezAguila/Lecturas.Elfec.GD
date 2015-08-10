@@ -232,6 +232,30 @@ public class ReadingMeter extends Model {
 				.where("ReadingRemoteId IN " + readingRemoteIds).execute();
 	}
 
+	/**
+	 * Obtiene el multiplicador de la energía activa. Ya sea el de la energía a
+	 * distribuir o la de pico elige el que sea diferente de cero. Si ambos son
+	 * cero retorna cero.
+	 * 
+	 * @return el multiplicador de la energía activa
+	 */
+	public BigDecimal getActiveMultiplicator() {
+		return tagActiveDistributing.equals(BigDecimal.ZERO) ? tagActivePeak
+				: tagActiveDistributing;
+	}
+
+	/**
+	 * Obtiene el multiplicador de la energía reactiva. Ya sea el de la energía
+	 * a distribuir o la de pico elige el que sea diferente de cero. Si ambos
+	 * son cero retorna cero.
+	 * 
+	 * @return el multiplicador de la energía reactiva
+	 */
+	public BigDecimal getReactiveMultiplicator() {
+		return tagReactiveDistributing.equals(BigDecimal.ZERO) ? tagReactivePeak
+				: tagReactiveDistributing;
+	}
+
 	// #region Getters y Setters
 
 	public long getReadingRemoteId() {

@@ -16,6 +16,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private TextView txtAddress;
 	private TextView txtCategory;
 	private TextView txtReadingStatus;
+	private TextView txtActiveMult;
+	private TextView txtReactiveMult;
 
 	// Field groups
 	private LinearLayout layoutActiveDistribution;
@@ -257,6 +260,10 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		txtCategory = (TextView) rootView.findViewById(R.id.txt_category);
 		txtReadingStatus = (TextView) rootView
 				.findViewById(R.id.txt_reading_status);
+		txtActiveMult = (TextView) rootView
+				.findViewById(R.id.lbl_active_energy_mult);
+		txtReactiveMult = (TextView) rootView
+				.findViewById(R.id.lbl_reactive_energy_mult);
 	}
 
 	/**
@@ -1094,6 +1101,20 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	@Override
 	public void readingRetryClicked() {
 		presenter.setReadingToRetry();
+	}
+
+	@Override
+	public void setActiveMult(BigDecimal activeMult) {
+		txtActiveMult.setText(Html.fromHtml(String.format(
+				getString(R.string.title_active_energy),
+				activeMult.toPlainString())));
+	}
+
+	@Override
+	public void setReactiveMult(BigDecimal reactiveMult) {
+		txtReactiveMult.setText(Html.fromHtml(String.format(
+				getString(R.string.title_reactive_energy),
+				reactiveMult.toPlainString())));
 	}
 
 	// #endregion

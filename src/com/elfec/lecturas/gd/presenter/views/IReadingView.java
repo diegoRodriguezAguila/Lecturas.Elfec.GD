@@ -45,6 +45,8 @@ public interface IReadingView {
 
 	public void setActiveDistributing(BigDecimal activeDistributing);
 
+	public void setActiveMult(BigDecimal activeMult);
+
 	public BigDecimal getActivePeak();
 
 	public void setActivePeak(BigDecimal activePeak);
@@ -60,6 +62,8 @@ public interface IReadingView {
 	public BigDecimal getReactiveDistributing();
 
 	public void setReactiveDistributing(BigDecimal reactiveDistributing);
+
+	public void setReactiveMult(BigDecimal reactiveMult);
 
 	public BigDecimal getReactivePeak();
 

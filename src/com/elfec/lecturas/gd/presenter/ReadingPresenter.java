@@ -85,6 +85,9 @@ public class ReadingPresenter {
 				new char[] { '.', ' ' }));
 		view.setCategory(reading.getCategoryDescription());
 		view.setReadingStatus(reading.getStatus());
+		ReadingMeter readingMeter = reading.getReadingMeter();
+		view.setActiveMult(readingMeter.getActiveMultiplicator());
+		view.setReactiveMult(readingMeter.getReactiveMultiplicator());
 	}
 
 	/**
