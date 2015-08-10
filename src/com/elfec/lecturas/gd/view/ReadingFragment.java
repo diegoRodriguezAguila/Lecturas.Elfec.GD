@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -340,6 +341,10 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 */
 	public void bindReadingInfo(ReadingGeneralInfo reading) {
 		presenter.setCurrentReading(reading);
+		mClientInfoCollapsed = false;
+		mClientInfoHeight = 0;
+		layoutClientInfo.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 	}
 
 	/**
