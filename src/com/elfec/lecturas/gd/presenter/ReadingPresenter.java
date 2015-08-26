@@ -10,6 +10,7 @@ import com.elfec.lecturas.gd.business_logic.ReadingOrdenativeManager;
 import com.elfec.lecturas.gd.business_logic.ReadingTakenManager;
 import com.elfec.lecturas.gd.business_logic.SessionManager;
 import com.elfec.lecturas.gd.business_logic.validators.ReadingFieldsValidator;
+import com.elfec.lecturas.gd.helpers.util.datetime.DateTimeHelper;
 import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.ReadingMeter;
@@ -162,7 +163,8 @@ public class ReadingPresenter {
 							new ReadingTaken(reading.getReadingRemoteId(),
 									reading.getSupplyId(), DateTime.now(),
 									SessionManager.getLoggedInUsername(),
-									joinDateAndTime(view.getReadingDate(),
+									DateTimeHelper.joinDateAndTime(
+											view.getReadingDate(),
 											view.getReadingTime()), view
 											.getResetCount(), view
 											.getActiveDistributing(), view
@@ -173,15 +175,16 @@ public class ReadingPresenter {
 											.getReactivePeak(), view
 											.getReactiveRest(), view
 											.getReactiveValley(), view
-											.getPowerPeak(), joinDateAndTime(
-											view.getPowerPeakDate(),
-											view.getPowerPeakTime()), view
-											.getPowerRestOffpeak(),
-									joinDateAndTime(
+											.getPowerPeak(), DateTimeHelper
+											.joinDateAndTime(
+													view.getPowerPeakDate(),
+													view.getPowerPeakTime()),
+									view.getPowerRestOffpeak(),
+									DateTimeHelper.joinDateAndTime(
 											view.getPowerRestOffpeakDate(),
 											view.getPowerRestOffpeakTime()),
 									view.getPowerValleyOffpeak(),
-									joinDateAndTime(
+									DateTimeHelper.joinDateAndTime(
 											view.getPowerValleyOffpeakDate(),
 											view.getPowerValleyOffpeakTime())),
 							ReadingStatus.READ);
@@ -208,19 +211,6 @@ public class ReadingPresenter {
 					view.notifyErrorsInFields();
 			}
 		}).start();
-	}
-
-	/**
-	 * Junta un campo de fecha y de hora en un solo objeto
-	 * 
-	 * @param date
-	 * @param time
-	 * @return fecha y hora juntadas
-	 */
-	private DateTime joinDateAndTime(DateTime date, DateTime time) {
-		return new DateTime(date.getYear(), date.getMonthOfYear(),
-				date.getDayOfMonth(), time.getHourOfDay(),
-				time.getMinuteOfHour());
 	}
 
 	/**
