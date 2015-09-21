@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.elfec.lecturas.gd.settings.OracleDatabaseSettings;
-
 import android.content.Context;
+
+import com.elfec.lecturas.gd.settings.OracleDatabaseSettings;
 
 /**
  * Se encarga de conectar remotamente a la base de datos oracle de la empresa
@@ -180,12 +180,17 @@ public class OracleDatabaseConnector {
 	 * Elimina la instancia del conector actual y el contexto
 	 */
 	public static void dispose() {
-		try {
-			if (dbConnectorInstance != null) {
-				if (!dbConnectorInstance.conn.isClosed())
-					dbConnectorInstance.conn.close();
-			}
-		} catch (SQLException e) {
+		if (dbConnectorInstance != null) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						if (!dbConnectorInstance.conn.isClosed())
+							dbConnectorInstance.conn.close();
+					} catch (SQLException e) {
+					}
+				}
+			}).start();
 		}
 		dbConnectorInstance = null;
 		context = null;
