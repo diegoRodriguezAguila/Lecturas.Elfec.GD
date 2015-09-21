@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.elfec.lecturas.gd"
     android:versionCode="1"
-    android:versionName="1.15.08.26" >
+    android:versionName="1.15.09.21" >
 
     <uses-sdk
         android:minSdkVersion="16"

@@ -468,11 +468,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 					@Override
 					public void onDateSet(DatePickerDialog dpd, int year,
 							int month, int day) {
-						DateTime date = new DateTime(year, month, day, 0, 0);
+						DateTime date = new DateTime(year, month + 1, day, 0, 0);
 						txtToBindInfo.setTag(date);
 						txtToBindInfo.setText(date.toString("dd/MM/yyy"));
 					}
-				}, dateNow.getYear(), dateNow.getMonthOfYear(), dateNow
+				}, dateNow.getYear(), dateNow.getMonthOfYear() - 1, dateNow
 						.getDayOfMonth());
 		dpd.show(getActivity().getFragmentManager(), "DatePickerDialog");
 	}
