@@ -180,19 +180,19 @@ public class OracleDatabaseConnector {
 	 * Elimina la instancia del conector actual y el contexto
 	 */
 	public static void dispose() {
-		if (dbConnectorInstance != null) {
+		if (dbConnectorInstance != null && dbConnectorInstance.conn != null) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					try {
 						if (!dbConnectorInstance.conn.isClosed())
 							dbConnectorInstance.conn.close();
+						dbConnectorInstance = null;
 					} catch (SQLException e) {
 					}
 				}
 			}).start();
 		}
-		dbConnectorInstance = null;
 		context = null;
 		System.gc();
 	}
