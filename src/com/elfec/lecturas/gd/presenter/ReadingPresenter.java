@@ -167,23 +167,33 @@ public class ReadingPresenter {
 											view.getReadingDate(),
 											view.getReadingTime()), view
 											.getResetCount(), view
-											.getActiveDistributing(), view
-											.getActivePeak(), view
-											.getActiveRest(), view
-											.getActiveValley(), view
-											.getReactiveDistributing(), view
-											.getReactivePeak(), view
-											.getReactiveRest(), view
-											.getReactiveValley(), view
-											.getPowerPeak(), DateTimeHelper
+											.getActiveDistributing(),
+									validateActiveDistribution ? view
+											.getActivePeak() : null,
+									validateActiveDistribution ? view
+											.getActiveRest() : null,
+									validateActiveDistribution ? view
+											.getActiveValley() : null,
+									validateReactiveEnergy ? view
+											.getReactiveDistributing() : null,
+									validateReactiveDistribution ? view
+											.getReactivePeak() : null,
+									validateReactiveDistribution ? view
+											.getReactiveRest() : null,
+									validateReactiveDistribution ? view
+											.getReactiveValley() : null,
+									validateEnergyPower ? view.getPowerPeak()
+											: null, DateTimeHelper
 											.joinDateAndTime(
 													view.getPowerPeakDate(),
 													view.getPowerPeakTime()),
-									view.getPowerRestOffpeak(),
+									validateEnergyPower ? view
+											.getPowerRestOffpeak() : null,
 									DateTimeHelper.joinDateAndTime(
 											view.getPowerRestOffpeakDate(),
 											view.getPowerRestOffpeakTime()),
-									view.getPowerValleyOffpeak(),
+									validateEnergyPower ? view
+											.getPowerValleyOffpeak() : null,
 									DateTimeHelper.joinDateAndTime(
 											view.getPowerValleyOffpeakDate(),
 											view.getPowerValleyOffpeakTime())),
