@@ -8,6 +8,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -1219,6 +1220,28 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		txtEnergyPowerMult.setText(Html.fromHtml(String.format(
 				getString(R.string.lbl_energy_power_mult),
 				powerMult.toPlainString())));
+	}
+
+	@Override
+	public void showReadingSaveConfirmation() {
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				new AlertDialog.Builder(getActivity())
+						.setTitle(R.string.title_confirm_reading_save)
+						.setMessage(R.string.msg_confirm_reading_save)
+						.setIcon(R.drawable.save_reading_d)
+						.setPositiveButton(R.string.btn_confirm,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										presenter.confirmReadingSave();
+									}
+								}).setNegativeButton(R.string.btn_cancel, null)
+						.show();
+			}
+		});
 	}
 
 	// #endregion

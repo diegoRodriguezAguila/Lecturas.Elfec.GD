@@ -158,65 +158,7 @@ public class ReadingPresenter {
 			@Override
 			public void run() {
 				if (validateFields()) {
-					VoidResult result = ReadingTakenManager.registerReadingTaken(
-							reading,
-							new ReadingTaken(reading.getReadingRemoteId(),
-									reading.getSupplyId(), DateTime.now(),
-									SessionManager.getLoggedInUsername(),
-									DateTimeHelper.joinDateAndTime(
-											view.getReadingDate(),
-											view.getReadingTime()), view
-											.getResetCount(), view
-											.getActiveDistributing(),
-									validateActiveDistribution ? view
-											.getActivePeak() : null,
-									validateActiveDistribution ? view
-											.getActiveRest() : null,
-									validateActiveDistribution ? view
-											.getActiveValley() : null,
-									validateReactiveEnergy ? view
-											.getReactiveDistributing() : null,
-									validateReactiveDistribution ? view
-											.getReactivePeak() : null,
-									validateReactiveDistribution ? view
-											.getReactiveRest() : null,
-									validateReactiveDistribution ? view
-											.getReactiveValley() : null,
-									validateEnergyPower ? view.getPowerPeak()
-											: null, DateTimeHelper
-											.joinDateAndTime(
-													view.getPowerPeakDate(),
-													view.getPowerPeakTime()),
-									validateEnergyPower ? view
-											.getPowerRestOffpeak() : null,
-									DateTimeHelper.joinDateAndTime(
-											view.getPowerRestOffpeakDate(),
-											view.getPowerRestOffpeakTime()),
-									validateEnergyPower ? view
-											.getPowerValleyOffpeak() : null,
-									DateTimeHelper.joinDateAndTime(
-											view.getPowerValleyOffpeakDate(),
-											view.getPowerValleyOffpeakTime())),
-							ReadingStatus.READ);
-					boolean wasInEditionMode = isInEditionMode;
-					if (!result.hasErrors() && isInEditionMode) {
-						isInEditionMode = false;
-						result = new ReadingOrdenativeManager()
-								.deleteReadingAssignedOrdenatives(reading);
-					}
-					if (!result.hasErrors()) {
-						view.notifyReadingSavedSuccessfully();
-						view.setReadingStatus(reading.getStatus());
-						view.setReadOnly(true);
-						if (readingCallback != null)
-							readingCallback.onReadingSavedSuccesfully(reading,
-									wasInEditionMode);
-					} else {
-						view.showReadingSaveErrors(result.getErrors());
-						if (readingCallback != null)
-							readingCallback.onReadingSaveErrors(result
-									.getErrors());
-					}
+					view.showReadingSaveConfirmation();
 				} else
 					view.notifyErrorsInFields();
 			}
@@ -691,6 +633,72 @@ public class ReadingPresenter {
 					view.setReadOnly(true);
 					if (readingCallback != null)
 						readingCallback.onRetryReadingSavedSuccesfully(reading);
+				} else {
+					view.showReadingSaveErrors(result.getErrors());
+					if (readingCallback != null)
+						readingCallback.onReadingSaveErrors(result.getErrors());
+				}
+			}
+		}).start();
+	}
+
+	/**
+	 * Confirma y efectiviza el guardado de la lectura
+	 */
+	public void confirmReadingSave() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				VoidResult result = ReadingTakenManager.registerReadingTaken(
+						reading,
+						new ReadingTaken(reading.getReadingRemoteId(), reading
+								.getSupplyId(), DateTime.now(), SessionManager
+								.getLoggedInUsername(), DateTimeHelper
+								.joinDateAndTime(view.getReadingDate(),
+										view.getReadingTime()), view
+								.getResetCount(), view.getActiveDistributing(),
+								validateActiveDistribution ? view
+										.getActivePeak() : null,
+								validateActiveDistribution ? view
+										.getActiveRest() : null,
+								validateActiveDistribution ? view
+										.getActiveValley() : null,
+								validateReactiveEnergy ? view
+										.getReactiveDistributing() : null,
+								validateReactiveDistribution ? view
+										.getReactivePeak() : null,
+								validateReactiveDistribution ? view
+										.getReactiveRest() : null,
+								validateReactiveDistribution ? view
+										.getReactiveValley() : null,
+								validateEnergyPower ? view.getPowerPeak()
+										: null, DateTimeHelper.joinDateAndTime(
+										view.getPowerPeakDate(),
+										view.getPowerPeakTime()),
+								validateEnergyPower ? view
+										.getPowerRestOffpeak() : null,
+								DateTimeHelper.joinDateAndTime(
+										view.getPowerRestOffpeakDate(),
+										view.getPowerRestOffpeakTime()),
+								validateEnergyPower ? view
+										.getPowerValleyOffpeak() : null,
+								DateTimeHelper.joinDateAndTime(
+										view.getPowerValleyOffpeakDate(),
+										view.getPowerValleyOffpeakTime())),
+						ReadingStatus.READ);
+				boolean wasInEditionMode = isInEditionMode;
+				if (!result.hasErrors() && isInEditionMode) {
+					isInEditionMode = false;
+					result = new ReadingOrdenativeManager()
+							.deleteReadingAssignedOrdenatives(reading);
+				}
+				if (!result.hasErrors()) {
+					view.notifyReadingSavedSuccessfully();
+					view.setReadingStatus(reading.getStatus());
+					view.setReadOnly(true);
+					if (readingCallback != null)
+						readingCallback.onReadingSavedSuccesfully(reading,
+								wasInEditionMode);
 				} else {
 					view.showReadingSaveErrors(result.getErrors());
 					if (readingCallback != null)

@@ -153,6 +153,11 @@ public interface IReadingView {
 	 */
 	public void notifyEditionModeEnabled();
 
+	/**
+	 * Muestra al usuario la confirmación de guardado de la lectura
+	 */
+	public void showReadingSaveConfirmation();
+
 	// #region Set Errors
 	public void setReadingDateErrors(List<Exception> errors);
 
