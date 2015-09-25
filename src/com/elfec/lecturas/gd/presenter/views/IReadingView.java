@@ -158,6 +158,13 @@ public interface IReadingView {
 	 */
 	public void showReadingSaveConfirmation();
 
+	/**
+	 * Verifica si la vista tiene cambios pendientes
+	 * 
+	 * @return true si es que el usuario introdució datos y no guardó la lectura
+	 */
+	public boolean hasPendingChanges();
+
 	// #region Set Errors
 	public void setReadingDateErrors(List<Exception> errors);
 

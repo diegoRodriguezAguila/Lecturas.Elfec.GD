@@ -74,6 +74,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private Runnable setReadOnlyRunnable;
 
 	private transient boolean needsToClear;
+	private transient boolean hasPendingChanges;
 	private transient boolean isClearing;
 	private transient boolean isReadOnly;
 	private transient boolean clearOnlyErrors;
@@ -157,6 +158,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 					}
 					isClearing = false;
 					needsToClear = false;
+					hasPendingChanges = false;
 				}
 			}
 		};
@@ -431,8 +433,9 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				synchronized (lockObject) {
 					if (!isClearing && !isReadOnly) {
 						presenter.validateFieldByNumber(fieldNum);
+						needsToClear = true;
+						hasPendingChanges = true;
 					}
-					needsToClear = true;
 				}
 			}
 		};
@@ -1242,6 +1245,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						.show();
 			}
 		});
+	}
+
+	@Override
+	public boolean hasPendingChanges() {
+		return !isReadOnly && hasPendingChanges;
 	}
 
 	// #endregion

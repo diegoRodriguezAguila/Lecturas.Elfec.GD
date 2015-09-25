@@ -34,6 +34,7 @@ import com.elfec.lecturas.gd.model.ReadingTaken;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.ReadingTakePresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingTakeView;
+import com.elfec.lecturas.gd.presenter.views.IReadingView;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
@@ -195,10 +196,30 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 			drawerLayout.closeDrawer(Gravity.START);
 			return;
 		} else {
-			super.onBackPressed();
-			overridePendingTransition(R.anim.slide_right_in,
-					R.anim.slide_right_out);
+			if (!((IReadingView) readingPagerAdapter.getCurrentItem())
+					.hasPendingChanges()) {
+				exitReadingTake();
+			} else {
+				new AlertDialog.Builder(this)
+						.setIcon(R.drawable.warning)
+						.setTitle(R.string.title_exit_reading)
+						.setMessage(R.string.msg_exit_reading)
+						.setPositiveButton(R.string.btn_ok,
+								new OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										exitReadingTake();
+									}
+								}).setNegativeButton(R.string.btn_cancel, null)
+						.show();
+			}
 		}
+	}
+
+	private void exitReadingTake() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 	}
 
 	/**

@@ -55,7 +55,8 @@
 
     <!-- Reading Take -->
     <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
-    
+    <string name="title_exit_reading">Lectura pendiente</string>
+    <string name="msg_exit_reading">Tiene una lectura a medio realizar, ¿Está seguro que desea salir? Se perderan los datos que no se hayan guardado.</string>
     <!-- Reading Take: Retry -->
 	<string name="retry_reading">Reintentar lectura</string>
 	<string name="title_retry_reading">Reintentar lectura</string>
