@@ -3,8 +3,6 @@ package com.elfec.lecturas.gd.remote_data_access;
 import java.net.ConnectException;
 import java.sql.SQLException;
 
-import android.util.Log;
-
 /**
  * Provee de una capa de acceso a datos remota para la activación de roles
  * 
@@ -26,11 +24,8 @@ public class RoleAccessRDA {
 	 * @throws SQLException
 	 * @throws ConnectException
 	 */
-	public void enableRole(String username, String password,
-			String rolename, String rolepassword) throws ConnectException,
-			SQLException {
-		Log.w("ROL ACTIVATION",
-				"Aun no se implementó la activación del rol, cuidado con este paso");
+	public void enableRole(String username, String password, String rolename,
+			String rolepassword) throws ConnectException, SQLException {
 		/*
 		 * OracleDatabaseConnector.instance(username, password).executeUpdate(
 		 * "SET ROLE " + rolename + (rolepassword == null ||

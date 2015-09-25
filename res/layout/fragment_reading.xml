@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_top_margin"
-    tools:ignore="TooManyViews" >
+    tools:ignore="TooManyViews,TextFields" >
 
     <TextView
         android:id="@+id/lbl_client_info"
@@ -282,6 +282,7 @@
                         android:hint="@string/lbl_current_date"
                         android:inputType="none"
                         android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_reading_time"
                         android:textIsSelectable="true" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -294,6 +295,7 @@
                     android:layout_weight="1" >
 
                     <EditText
+                        android:id="@+id/txt_reading_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/clock"
@@ -304,6 +306,7 @@
                         android:hint="@string/lbl_current_time"
                         android:inputType="none"
                         android:maxLength="5"
+                        android:nextFocusDown="@+id/txt_active_total"
                         android:textIsSelectable="true" />
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -316,6 +319,7 @@
                     android:layout_weight="1" >
 
                     <EditText
+                        android:id="@+id/txt_reset_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/reset_count"
@@ -324,9 +328,9 @@
                         android:ems="10"
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_reset_count"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
-                        android:maxLength="2"
-                        android:nextFocusDown="@+id/txt_active_total" />
+                        android:maxLength="2"/>
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Energía activa -->
@@ -402,7 +406,7 @@
                         android:drawableStart="@drawable/active_peak"
                         android:ems="10"
                         android:gravity="center_vertical"
-                        android:hint="@string/lbl_energy_rate_A"
+                        android:hint="@string/lbl_active_energy_rate_A"
                         android:inputType="numberDecimal"
                         android:maxLength="10"
                         android:nextFocusDown="@+id/txt_active_rest" />
@@ -425,7 +429,7 @@
                         android:drawableStart="@drawable/active_rest"
                         android:ems="10"
                         android:gravity="center_vertical"
-                        android:hint="@string/lbl_energy_rate_B"
+                        android:hint="@string/lbl_active_energy_rate_B"
                         android:inputType="numberDecimal"
                         android:maxLength="10"
                         android:nextFocusDown="@+id/txt_active_valley" />
@@ -448,7 +452,7 @@
                         android:drawableStart="@drawable/active_valley"
                         android:ems="10"
                         android:gravity="center_vertical"
-                        android:hint="@string/lbl_energy_rate_C"
+                        android:hint="@string/lbl_active_energy_rate_C"
                         android:inputType="numberDecimal"
                         android:maxLength="10"
                         android:nextFocusDown="@+id/txt_power_peak" />
@@ -510,8 +514,9 @@
                             android:drawableStart="@drawable/power_peak"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power"
+                            android:hint="@string/lbl_energy_power_rate_A"
                             android:inputType="numberDecimal"
+                            android:nextFocusDown="@+id/txt_power_peak_date"
                             android:maxLength="10" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -524,6 +529,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_peak_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/calendar"
@@ -531,9 +537,10 @@
                             android:drawableStart="@drawable/calendar"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power_date"
+                            android:hint="@string/lbl_energy_power_date_rate_A"
                             android:inputType="none"
                             android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_power_peak_time"
                             android:textIsSelectable="true" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -546,6 +553,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_peak_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/clock"
@@ -553,8 +561,9 @@
                             android:drawableStart="@drawable/clock"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power_time"
+                            android:hint="@string/lbl_energy_power_time_rate_A"
                             android:inputType="none"
+                            android:nextFocusDown="@+id/txt_power_rest_offpeak"
                             android:maxLength="5"
                             android:textIsSelectable="true" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
@@ -599,6 +608,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_rest_offpeak"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/power_rest_offpeak"
@@ -606,8 +616,9 @@
                             android:drawableStart="@drawable/power_rest_offpeak"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power"
+                            android:hint="@string/lbl_energy_power_rate_B"
                             android:inputType="numberDecimal"
+                            android:nextFocusDown="@+id/txt_power_rest_offpeak_date"
                             android:maxLength="10" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -620,6 +631,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_rest_offpeak_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/calendar"
@@ -627,9 +639,10 @@
                             android:drawableStart="@drawable/calendar"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power_date"
+                            android:hint="@string/lbl_energy_power_date_rate_B"
                             android:inputType="none"
                             android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_power_rest_offpeak_time"
                             android:textIsSelectable="true" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -642,6 +655,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_rest_offpeak_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/clock"
@@ -649,9 +663,10 @@
                             android:drawableStart="@drawable/clock"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power_time"
+                            android:hint="@string/lbl_energy_power_time_rate_B"
                             android:inputType="none"
                             android:maxLength="5"
+                            android:nextFocusDown="@+id/txt_power_valley_offpeak"
                             android:textIsSelectable="true" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
                 </LinearLayout>
@@ -695,6 +710,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_valley_offpeak"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/power_valley_offpeak"
@@ -702,9 +718,9 @@
                             android:drawableStart="@drawable/power_valley_offpeak"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power"
+                            android:hint="@string/lbl_energy_power_rate_C"
                             android:inputType="numberDecimal"
-                            android:nextFocusDown="@+id/txt_reactive_total"
+                            android:nextFocusDown="@+id/txt_power_valley_offpeak_date"
                             android:maxLength="10" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -717,6 +733,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_valley_offpeak_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/calendar"
@@ -724,9 +741,10 @@
                             android:drawableStart="@drawable/calendar"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power_date"
+                            android:hint="@string/lbl_energy_power_date_rate_C"
                             android:inputType="none"
                             android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_power_valley_offpeak_time"
                             android:textIsSelectable="true" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
@@ -739,6 +757,7 @@
                         android:layout_weight="1" >
 
                         <EditText
+                            android:id="@+id/txt_power_valley_offpeak_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/clock"
@@ -746,9 +765,10 @@
                             android:drawableStart="@drawable/clock"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_power_time"
+                            android:hint="@string/lbl_energy_power_time_rate_C"
                             android:inputType="none"
                             android:maxLength="5"
+                            android:nextFocusDown="@+id/txt_reactive_total"
                             android:textIsSelectable="true" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
                 </LinearLayout>
@@ -831,7 +851,7 @@
                             android:drawableStart="@drawable/reactive_peak"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_rate_A"
+                            android:hint="@string/lbl_reactive_energy_rate_A"
                             android:inputType="numberDecimal"
                             android:maxLength="10"
                             android:nextFocusDown="@+id/txt_reactive_rest" />
@@ -854,7 +874,7 @@
                             android:drawableStart="@drawable/reactive_rest"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_rate_B"
+                            android:hint="@string/lbl_reactive_energy_rate_B"
                             android:inputType="numberDecimal"
                             android:maxLength="10"
                             android:nextFocusDown="@+id/txt_reactive_valley" />
@@ -877,8 +897,9 @@
                             android:drawableStart="@drawable/reactive_valley"
                             android:ems="10"
                             android:gravity="center_vertical"
-                            android:hint="@string/lbl_energy_rate_C"
+                            android:hint="@string/lbl_reactive_energy_rate_C"
                             android:inputType="numberDecimal"
+                            android:nextFocusDown="@+id/txt_reset_count"
                             android:maxLength="10" />
                     </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
                 </LinearLayout>

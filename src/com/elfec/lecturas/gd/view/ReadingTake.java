@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -66,6 +67,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	private int position;
 	private int lastReadingPos;
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -277,7 +279,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	 * @param v
 	 */
 	public void btnNextReading(View v) {
-		if (position < lastReadingPos) {
+		if (position < (lastReadingPos - 1)) {
 			setSelectedReading(position + 1);
 		}
 	}

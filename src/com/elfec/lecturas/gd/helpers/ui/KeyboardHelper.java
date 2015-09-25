@@ -28,4 +28,21 @@ public class KeyboardHelper {
 			}
 		}
 	}
+
+	/**
+	 * Muestra el teclado
+	 * 
+	 * @param view
+	 */
+	public static void showKeyboard(final View view) {
+		view.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				InputMethodManager keyboard = (InputMethodManager) view
+						.getContext().getSystemService(
+								Context.INPUT_METHOD_SERVICE);
+				keyboard.showSoftInput(view, 0);
+			}
+		}, 200);
+	}
 }

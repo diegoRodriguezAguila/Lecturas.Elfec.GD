@@ -48,8 +48,8 @@ public class Login extends AppCompatActivity implements ILoginView {
 		presenter = new LoginPresenter(this);
 
 		// TEST PRUPOUSES
-		txtInputUsername.getEditText().setText("ecampos");
-		txtInputPassword.getEditText().setText("123");
+		// txtInputUsername.getEditText().setText("ecampos");
+		// txtInputPassword.getEditText().setText("123");
 	}
 
 	@Override

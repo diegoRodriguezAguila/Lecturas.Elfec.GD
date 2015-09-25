@@ -18,20 +18,24 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
+import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.helpers.ui.ReadingStatusColorPicker;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.helpers.util.text.TensionMeasurementFormatter;
@@ -68,10 +72,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private Runnable readingSavedRunnable;
 	private Runnable setReadOnlyRunnable;
 
-	private boolean needsToClear;
-	private boolean isClearing;
-	private boolean isReadOnly;
-	private boolean clearOnlyErrors;
+	private transient boolean needsToClear;
+	private transient boolean isClearing;
+	private transient boolean isReadOnly;
+	private transient boolean clearOnlyErrors;
+	private final Object lockObject = new Object();
 
 	// Client Info
 	private LinearLayout layoutClientInfo;
@@ -140,16 +145,18 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		clearAllRunnable = new Runnable() {
 			@Override
 			public void run() {
-				isClearing = true;
-				for (ImprovedTextInputLayout txtField : listedFields) {
-					if (!clearOnlyErrors) {
-						txtField.getEditText().setTag(null);
-						txtField.getEditText().setText(null);
+				synchronized (lockObject) {
+					isClearing = true;
+					for (ImprovedTextInputLayout txtField : listedFields) {
+						if (!clearOnlyErrors) {
+							txtField.getEditText().setTag(null);
+							txtField.getEditText().setText(null);
+						}
+						txtField.setErrorEnabled(false);
 					}
-					txtField.setErrorEnabled(false);
+					isClearing = false;
+					needsToClear = false;
 				}
-				isClearing = false;
-				needsToClear = false;
 			}
 		};
 		readingSavedRunnable = new Runnable() {
@@ -382,7 +389,23 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		int size = listedFields.size();
 		for (int i = 0; i < size; i++) {
 			setFieldValidationListener(listedFields.get(i), i);
+			setNextFocusDown(listedFields.get(i).getEditText());
 		}
+	}
+
+	private void setNextFocusDown(final EditText editText) {
+		editText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					View nextField = findNextFocusable(editText);
+					nextField.requestFocus();
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	/**
@@ -404,10 +427,12 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (!isClearing && !isReadOnly) {
-					presenter.validateFieldByNumber(fieldNum);
+				synchronized (lockObject) {
+					if (!isClearing && !isReadOnly) {
+						presenter.validateFieldByNumber(fieldNum);
+					}
+					needsToClear = true;
 				}
-				needsToClear = true;
 			}
 		};
 		txtField.setEditTextOnFocusChangeListener(listener);
@@ -471,6 +496,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						DateTime date = new DateTime(year, month + 1, day, 0, 0);
 						txtToBindInfo.setTag(date);
 						txtToBindInfo.setText(date.toString("dd/MM/yyy"));
+						View nextField = findNextFocusable(txtToBindInfo);
+						nextField.requestFocus();
 					}
 				}, dateNow.getYear(), dateNow.getMonthOfYear() - 1, dateNow
 						.getDayOfMonth());
@@ -536,6 +563,9 @@ public class ReadingFragment extends Fragment implements IReadingView,
 								hourOfDay, minute);
 						txtToBindInfo.setTag(time);
 						txtToBindInfo.setText(time.toString("HH:mm"));
+						View nextField = findNextFocusable(txtToBindInfo);
+						nextField.requestFocus();
+						KeyboardHelper.showKeyboard(nextField);
 					}
 				}, dateNow.getHourOfDay(), dateNow.getMinuteOfHour(), true);
 		tpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
@@ -1046,9 +1076,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	@Override
 	public void clearAllFieldsAndErrors(boolean clearOnlyErrors) {
-		if (needsToClear) {
-			this.clearOnlyErrors = clearOnlyErrors;
-			mHandler.postDelayed(clearAllRunnable, 40);
+		synchronized (lockObject) {
+			if (needsToClear) {
+				this.clearOnlyErrors = clearOnlyErrors;
+				mHandler.post(clearAllRunnable);
+			}
 		}
 	}
 
@@ -1056,24 +1088,62 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	public void setActiveDistributionVisible(boolean isVisible) {
 		layoutActiveDistribution.setVisibility(isVisible ? View.VISIBLE
 				: View.GONE);
+		txtInputActivePeak.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputActiveRest.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputActiveValley.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
 	public void setReactiveEnergyVisible(boolean isVisible) {
 		layoutReactiveEnergy
 				.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+		txtInputReactiveDistributing.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputReactivePeak.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputReactiveRest.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputReactiveValley.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
 	public void setReactiveDistributionVisible(boolean isVisible) {
 		layoutReactiveDistribution.setVisibility(isVisible ? View.VISIBLE
 				: View.GONE);
+		txtInputReactivePeak.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputReactiveRest.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputReactiveValley.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
 	public void setEnergyPowerVisible(boolean isVisible) {
 		layoutEnergyPowerVisible.setVisibility(isVisible ? View.VISIBLE
 				: View.GONE);
+		txtInputPowerPeak.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerPeakDate.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerPeakTime.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerRestOffpeak.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerRestOffpeakDate.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerRestOffpeakTime.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerValleyOffpeak.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerValleyOffpeakDate.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
+		txtInputPowerValleyOffpeakTime.getEditText().setVisibility(
+				isVisible ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
@@ -1152,6 +1222,13 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	// #endregion
+
+	private View findNextFocusable(View view) {
+		view = view.focusSearch(View.FOCUS_DOWN);
+		while (view.getVisibility() == View.GONE)
+			view = view.focusSearch(View.FOCUS_DOWN);
+		return view;
+	}
 
 	/**
 	 * Clase para asignar listeners a un campo de la vista
