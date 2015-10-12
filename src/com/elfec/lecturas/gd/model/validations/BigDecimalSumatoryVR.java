@@ -45,8 +45,7 @@ public class BigDecimalSumatoryVR implements IValidationRule<BigDecimal> {
 	@Override
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
 		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
-				+ fieldName + "</b> debería ser igual a la suma <b>"
-				+ summatory.toPlainString() + "</b> de los campos: "
-				+ summatoryFields, false);
+				+ fieldName + "</b> debería sumar: <b>"
+				+ summatory.toPlainString(), false);
 	}
 }

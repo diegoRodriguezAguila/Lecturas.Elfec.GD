@@ -329,8 +329,9 @@
                         android:gravity="center_vertical"
                         android:hint="@string/lbl_reset_count"
                         android:imeOptions="actionDone"
-                        android:inputType="number"
-                        android:maxLength="2"/>
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789"
+                        android:maxLength="3"/>
                 </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
             </LinearLayout>
             <!-- Energía activa -->

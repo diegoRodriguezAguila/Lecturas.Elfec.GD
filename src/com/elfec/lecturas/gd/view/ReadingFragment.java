@@ -628,7 +628,13 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		String fieldString = textField.getText().toString();
 		if (fieldString == null || fieldString.isEmpty())
 			return null;
-		return new BigDecimal(fieldString);
+		if (fieldString.equals("."))
+			return BigDecimal.ZERO;
+		try {
+			return new BigDecimal(fieldString);
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	/**
