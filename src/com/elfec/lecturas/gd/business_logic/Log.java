@@ -32,7 +32,7 @@ public class Log {
 	 * @param e
 	 */
 	public static synchronized void error(final Class<?> origin,
-			final Exception e) {
+			final Throwable e) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

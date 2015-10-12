@@ -88,8 +88,7 @@ public class ReadingFieldsValidator {
 				bigDecimalValidationRules);
 		Object[][] params = new Object[2][];
 		if (validateEnergyDistribution) {
-			validationRules.add(new BigDecimalSumatoryVR(
-					"energía activa Rate A, Rate B y Rate C"));
+			validationRules.add(new BigDecimalSumatoryVR());
 			params[1] = new Object[] { activePeak, activeRest, activeValley };
 		}
 		VoidResult result = new VoidResult();
@@ -130,8 +129,7 @@ public class ReadingFieldsValidator {
 				bigDecimalValidationRules);
 		Object[][] params = new Object[2][];
 		if (validateReactiveDistribution) {
-			validationRules.add(new BigDecimalSumatoryVR(
-					"energía reactiva Rate A, Rate B y Rate C"));
+			validationRules.add(new BigDecimalSumatoryVR());
 			params[1] = new Object[] { reactivePeak, reactiveRest,
 					reactiveValley };
 		}

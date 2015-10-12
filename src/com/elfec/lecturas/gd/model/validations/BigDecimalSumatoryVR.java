@@ -12,7 +12,6 @@ import com.elfec.lecturas.gd.model.exceptions.ValidationException;
  *
  */
 public class BigDecimalSumatoryVR implements IValidationRule<BigDecimal> {
-	private String summatoryFields;
 	private BigDecimal summatory;
 
 	/**
@@ -26,8 +25,7 @@ public class BigDecimalSumatoryVR implements IValidationRule<BigDecimal> {
 	 *            igual a la suma de los campos: número 1, número 2 y
 	 *            número3</i>
 	 */
-	public BigDecimalSumatoryVR(String summatoryFields) {
-		this.summatoryFields = summatoryFields;
+	public BigDecimalSumatoryVR() {
 		this.summatory = BigDecimal.ZERO;
 	}
 
