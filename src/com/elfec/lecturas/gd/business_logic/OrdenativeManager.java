@@ -4,13 +4,9 @@ import java.net.ConnectException;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
-import com.activeandroid.ActiveAndroid;
 import com.elfec.lecturas.gd.business_logic.data_exchange.DataImporter;
 import com.elfec.lecturas.gd.model.Ordenative;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
-import com.elfec.lecturas.gd.model.ReadingOrdenative;
 import com.elfec.lecturas.gd.model.data_exchange.ImportSource;
 import com.elfec.lecturas.gd.model.events.DataImportListener;
 import com.elfec.lecturas.gd.model.results.TypedResult;
@@ -81,36 +77,6 @@ public class OrdenativeManager {
 			Log.error(ReadingGeneralInfoManager.class, e);
 			e.printStackTrace();
 			result.addError(e);
-		}
-		return result;
-	}
-
-	/**
-	 * Agrega ordenativos a una lectura
-	 * 
-	 * @param reading
-	 * @param ordenatives
-	 * @return {@link VoidResult} resultado de el guardado de ordenativos
-	 */
-	public static VoidResult addOrdenativesToReading(
-			ReadingGeneralInfo reading, List<Ordenative> ordenatives) {
-		VoidResult result = new VoidResult();
-		try {
-			ActiveAndroid.beginTransaction();
-			String currentUser = SessionManager.getLoggedInUsername();
-			for (Ordenative ordenative : ordenatives) {
-				new ReadingOrdenative(reading.getReadingRemoteId(),
-						reading.getSupplyId(), ordenative.getCode(),
-						DateTime.now(), currentUser).save();
-			}
-			ActiveAndroid.setTransactionSuccessful();
-		} catch (Exception e) {
-			Log.error(ReadingGeneralInfoManager.class, e);
-			e.printStackTrace();
-			result.addError(e);
-		} finally {
-			if (ActiveAndroid.inTransaction())
-				ActiveAndroid.endTransaction();
 		}
 		return result;
 	}

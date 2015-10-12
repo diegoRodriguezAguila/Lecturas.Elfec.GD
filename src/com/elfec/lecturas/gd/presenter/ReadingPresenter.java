@@ -689,7 +689,7 @@ public class ReadingPresenter {
 				boolean wasInEditionMode = isInEditionMode;
 				if (!result.hasErrors() && isInEditionMode) {
 					isInEditionMode = false;
-					result = new ReadingOrdenativeManager()
+					result = ReadingOrdenativeManager
 							.deleteReadingAssignedOrdenatives(reading);
 				}
 				if (!result.hasErrors()) {

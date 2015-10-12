@@ -2,6 +2,7 @@ package com.elfec.lecturas.gd.model;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 
@@ -11,6 +12,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.elfec.lecturas.gd.model.enums.ExportStatus;
 import com.elfec.lecturas.gd.model.enums.ReadingStatus;
+import com.elfec.lecturas.gd.model.interfaces.IBackupable;
 import com.elfec.lecturas.gd.model.interfaces.IExportable;
 import com.elfec.lecturas.gd.model.utils.SQLUtils;
 
@@ -21,11 +23,14 @@ import com.elfec.lecturas.gd.model.utils.SQLUtils;
  *
  */
 @Table(name = "ReadingsTaken")
-public class ReadingTaken extends Model implements IExportable {
+public class ReadingTaken extends Model implements IExportable, IBackupable {
+	private static final String BACKUP_FILENAME = "Lecturas";
 	public static final String INSERT_QUERY = "INSERT INTO ERP_ELFEC.SGC_MOVIL_LECTURAS_GD "
 			+ "VALUES (%d, %d, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
 			+ "TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), %s, TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), "
 			+ "TO_DATE(%s, 'dd/mm/yyyy hh24:mi:ss'), '%s', SYSDATE, USER, %d)";
+
+	private static final String DELETE_QUERY = "DELETE FROM ERP_ELFEC.SGC_MOVIL_LECTURAS_GD WHERE IDLECTURAGD=%d";
 
 	/**
 	 * IDLECTURAGD en Oracle
@@ -223,7 +228,8 @@ public class ReadingTaken extends Model implements IExportable {
 	 * @return consulta INSERT SQL de esta lectura tomada
 	 */
 	public String toRemoteInsertSQL() {
-		return String.format(INSERT_QUERY, readingRemoteId, supplyId,
+		return String.format(Locale.getDefault(), INSERT_QUERY,
+				readingRemoteId, supplyId,
 				SQLUtils.dateTimeToSQLString(readingDate),
 				SQLUtils.intToSQLString(resetCount),
 				SQLUtils.bigDecimalToSQLString(activeDistributing),
@@ -252,6 +258,22 @@ public class ReadingTaken extends Model implements IExportable {
 	 */
 	public ReadingGeneralInfo getReadingGeneralInfo() {
 		return ReadingGeneralInfo.findByReadingRemoteId(readingRemoteId);
+	}
+
+	@Override
+	public String getBackupFilename() {
+		return BACKUP_FILENAME;
+	}
+
+	@Override
+	public String toInsertSQL() {
+		return toRemoteInsertSQL();
+	}
+
+	@Override
+	public String toDeleteSQL() {
+		return String
+				.format(Locale.getDefault(), DELETE_QUERY, readingRemoteId);
 	}
 
 	// #region Getters y Setters

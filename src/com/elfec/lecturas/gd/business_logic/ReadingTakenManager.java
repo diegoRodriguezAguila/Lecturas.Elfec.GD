@@ -39,9 +39,13 @@ public class ReadingTakenManager {
 			if (reading.getReadingTaken() != null) {
 				readingTaken.assignId(reading.getReadingTaken());
 			}
+			// Es edición
+			if (readingTaken.getId() != null)
+				TextBackupManager.deleteBackup(readingTaken);
 			readingTaken.save();
 			reading.assignReadingTaken(readingTaken, status);
 			reading.save();
+			TextBackupManager.saveBackup(readingTaken);
 		} catch (Exception e) {
 			Log.error(ReadingTakenManager.class, e);
 			e.printStackTrace();

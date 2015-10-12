@@ -1,6 +1,7 @@
 package com.elfec.lecturas.gd.model;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 
@@ -10,6 +11,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.elfec.lecturas.gd.model.enums.ExportStatus;
+import com.elfec.lecturas.gd.model.interfaces.IBackupable;
 import com.elfec.lecturas.gd.model.interfaces.IExportable;
 
 /**
@@ -19,9 +21,12 @@ import com.elfec.lecturas.gd.model.interfaces.IExportable;
  *
  */
 @Table(name = "ReadingOrdenatives")
-public class ReadingOrdenative extends Model implements IExportable {
+public class ReadingOrdenative extends Model implements IExportable,
+		IBackupable {
+	private static final String BACKUP_FILENAME = "Ordenativos";
 	public static final String INSERT_QUERY = "INSERT INTO ERP_ELFEC.SGC_MOVIL_ORDENATIVOS_GD "
 			+ "VALUES (%d, %d, %d, TO_DATE('%s', 'dd/mm/yyyy hh24:mi:ss'), '%s', SYSDATE, USER)";
+	private static final String DELETE_QUERY = "DELETE FROM ERP_ELFEC.SGC_MOVIL_ORDENATIVOS_GD WHERE IDLECTURAGD=%d AND COD_ORDENATIVO=%d";
 	/**
 	 * IDLECTURAGD en Oracle
 	 */
@@ -110,8 +115,25 @@ public class ReadingOrdenative extends Model implements IExportable {
 	 * @return consulta INSERT del ordenativo
 	 */
 	public String toRemoteInsertSQL() {
-		return String.format(INSERT_QUERY, readingRemoteId, supplyId, code,
+		return String.format(Locale.getDefault(), INSERT_QUERY,
+				readingRemoteId, supplyId, code,
 				saveDate.toString("dd/MM/yyyy HH:mm:ss"), readerUser);
+	}
+
+	@Override
+	public String getBackupFilename() {
+		return BACKUP_FILENAME;
+	}
+
+	@Override
+	public String toInsertSQL() {
+		return toRemoteInsertSQL();
+	}
+
+	@Override
+	public String toDeleteSQL() {
+		return String.format(Locale.getDefault(), DELETE_QUERY,
+				readingRemoteId, code);
 	}
 
 	// #region Getters y Setters

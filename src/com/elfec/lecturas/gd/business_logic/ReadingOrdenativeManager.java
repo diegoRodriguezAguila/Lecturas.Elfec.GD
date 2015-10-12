@@ -4,7 +4,11 @@ import java.net.ConnectException;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
+import com.activeandroid.ActiveAndroid;
 import com.elfec.lecturas.gd.business_logic.data_exchange.DataExporter;
+import com.elfec.lecturas.gd.model.Ordenative;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.ReadingOrdenative;
 import com.elfec.lecturas.gd.model.data_exchange.ExportSpecs;
@@ -50,15 +54,49 @@ public class ReadingOrdenativeManager {
 	}
 
 	/**
+	 * Agrega ordenativos a una lectura
+	 * 
+	 * @param reading
+	 * @param ordenatives
+	 * @return {@link VoidResult} resultado de el guardado de ordenativos
+	 */
+	public static VoidResult addOrdenativesToReading(
+			ReadingGeneralInfo reading, List<Ordenative> ordenatives) {
+		VoidResult result = new VoidResult();
+		try {
+			ActiveAndroid.beginTransaction();
+			String currentUser = SessionManager.getLoggedInUsername();
+			ReadingOrdenative readOrd;
+			for (Ordenative ordenative : ordenatives) {
+				readOrd = new ReadingOrdenative(reading.getReadingRemoteId(),
+						reading.getSupplyId(), ordenative.getCode(),
+						DateTime.now(), currentUser);
+				readOrd.save();
+				TextBackupManager.saveBackup(readOrd);
+			}
+			ActiveAndroid.setTransactionSuccessful();
+		} catch (Exception e) {
+			Log.error(ReadingGeneralInfoManager.class, e);
+			e.printStackTrace();
+			result.addError(e);
+		} finally {
+			if (ActiveAndroid.inTransaction())
+				ActiveAndroid.endTransaction();
+		}
+		return result;
+	}
+
+	/**
 	 * Elimina todos los ordenativos asignados a una lectura
 	 * 
 	 * @param reading
 	 * @return resultado de la operación
 	 */
-	public VoidResult deleteReadingAssignedOrdenatives(
+	public static VoidResult deleteReadingAssignedOrdenatives(
 			ReadingGeneralInfo reading) {
 		VoidResult result = new VoidResult();
 		try {
+			deleteReadingOrdenativesBackup(reading);
 			ReadingOrdenative.deleteByReadingRemoteId(reading
 					.getReadingRemoteId());
 		} catch (Exception e) {
@@ -68,4 +106,20 @@ public class ReadingOrdenativeManager {
 		}
 		return result;
 	}
+
+	/**
+	 * Se encarga de hacer que el backup de ordenativos tenga los eliminar
+	 * necesarios
+	 * 
+	 * @param reading
+	 */
+	private static void deleteReadingOrdenativesBackup(
+			final ReadingGeneralInfo reading) {
+		List<ReadingOrdenative> ordenatives = ReadingOrdenative
+				.findByReadingRemoteId(reading.getReadingRemoteId());
+		for (ReadingOrdenative readOrd : ordenatives) {
+			TextBackupManager.deleteBackup(readOrd);
+		}
+	}
+
 }

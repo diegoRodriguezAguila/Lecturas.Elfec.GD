@@ -3,6 +3,7 @@ package com.elfec.lecturas.gd.presenter;
 import java.util.List;
 
 import com.elfec.lecturas.gd.business_logic.OrdenativeManager;
+import com.elfec.lecturas.gd.business_logic.ReadingOrdenativeManager;
 import com.elfec.lecturas.gd.model.Ordenative;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.presenter.views.IOrdenativeAdditionView;
@@ -50,7 +51,7 @@ public class OrdenativeAdditionPresenter {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					if (!OrdenativeManager.addOrdenativesToReading(reading,
+					if (!ReadingOrdenativeManager.addOrdenativesToReading(reading,
 							selectedOrdenatives).hasErrors()) {
 						view.notifyOrdenativesAddedSuccessfully();
 					}
