@@ -24,11 +24,18 @@ public class ElfecApp extends Application {
 	 * el log de errores
 	 */
 	private void setExceptionLogger() {
+		final Thread.UncaughtExceptionHandler oldHandler = Thread
+				.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
 			@Override
 			public void uncaughtException(Thread thread, Throwable ex) {
 				Log.error(ElfecApp.class, ex);
+				// Delegates to Android's error handling
+				if (oldHandler != null)
+					oldHandler.uncaughtException(thread, ex);
+				else
+					System.exit(2);
 			}
 		});
 	}

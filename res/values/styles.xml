@@ -62,5 +62,11 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlActivated">@color/color_control_activated</item>
     </style>
+    
+    <style name="AppStyle.TimePickerStyle" parent="BetterPickersDialogFragment.Light" >
+        <item name="bpDialogBackground">@drawable/abc_dialog_material_background_light</item>
+	    <item name="bpButtonBackground">@drawable/select_background_material</item>
+	    <item name="bpKeyBackground">@drawable/select_background_material</item>
+	</style>
 
 </resources>

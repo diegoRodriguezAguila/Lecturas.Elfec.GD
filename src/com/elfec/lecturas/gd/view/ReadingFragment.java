@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.timepicker.TimePickerDialogFragment.TimePickerDialogHandler;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
 import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
@@ -50,11 +51,9 @@ import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
 import com.elfec.lecturas.gd.view.listeners.OnReadingEditClickListener;
 import com.elfec.lecturas.gd.view.listeners.OnReadingRetryClickListener;
 import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
+import com.elfec.lecturas.gd.view.view_services.TimePickerDialogService;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
 public class ReadingFragment extends Fragment implements IReadingView,
 		OnReadingSaveClickListener, OnReadingEditClickListener,
@@ -557,11 +556,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private void showTimePicker(final EditText txtToBindInfo) {
 		final DateTime dateNow = txtToBindInfo.getTag() == null ? DateTime
 				.now() : (DateTime) txtToBindInfo.getTag();
-		TimePickerDialog tpd = TimePickerDialog.newInstance(
-				new OnTimeSetListener() {
+		new TimePickerDialogService(getActivity()).addTimePickerDialogHandlers(
+				new TimePickerDialogHandler() {
 					@Override
-					public void onTimeSet(RadialPickerLayout view,
-							int hourOfDay, int minute) {
+					public void onDialogTimeSet(int reference, int hourOfDay,
+							int minute) {
 						DateTime time = new DateTime(dateNow.getYear(), dateNow
 								.getMonthOfYear(), dateNow.getDayOfMonth(),
 								hourOfDay, minute);
@@ -571,8 +570,22 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						nextField.requestFocus();
 						KeyboardHelper.showKeyboard(nextField);
 					}
-				}, dateNow.getHourOfDay(), dateNow.getMinuteOfHour(), true);
-		tpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
+				}).show();
+		/*
+		 * TimePickerDialog tpd = TimePickerDialog.newInstance( new
+		 * OnTimeSetListener() {
+		 * 
+		 * @Override public void onTimeSet(RadialPickerLayout view, int
+		 * hourOfDay, int minute) { DateTime time = new
+		 * DateTime(dateNow.getYear(), dateNow .getMonthOfYear(),
+		 * dateNow.getDayOfMonth(), hourOfDay, minute);
+		 * txtToBindInfo.setTag(time);
+		 * txtToBindInfo.setText(time.toString("HH:mm")); View nextField =
+		 * findNextFocusable(txtToBindInfo); nextField.requestFocus();
+		 * KeyboardHelper.showKeyboard(nextField); } }, dateNow.getHourOfDay(),
+		 * dateNow.getMinuteOfHour(), true);
+		 * tpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
+		 */
 	}
 
 	/**

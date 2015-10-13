@@ -46,7 +46,6 @@ public class Login extends AppCompatActivity implements ILoginView {
 		txtInputPassword = ((TextInputLayout) findViewById(R.id.password_text_input_layout));
 		setVersionTitle();
 		presenter = new LoginPresenter(this);
-
 		// TEST PRUPOUSES
 		txtInputUsername.getEditText().setText("rcuenca");
 		txtInputPassword.getEditText().setText("E1206");
@@ -89,6 +88,7 @@ public class Login extends AppCompatActivity implements ILoginView {
 			KeyboardHelper.hideKeyboard(rootLayout);
 			presenter.login();
 		}
+
 	}
 
 	// #region Interface Methods
