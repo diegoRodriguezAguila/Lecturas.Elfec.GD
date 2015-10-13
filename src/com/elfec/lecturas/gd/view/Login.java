@@ -20,11 +20,10 @@ import android.widget.TextView;
 
 import com.alertdialogpro.ProgressDialogPro;
 import com.elfec.lecturas.gd.R;
-import com.elfec.lecturas.gd.helpers.ui.ButtonClicksHelper;
-import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.presenter.LoginPresenter;
 import com.elfec.lecturas.gd.presenter.views.ILoginView;
+import com.elfec.lecturas.gd.services.FloatingEditTextService;
 
 public class Login extends AppCompatActivity implements ILoginView {
 
@@ -78,15 +77,26 @@ public class Login extends AppCompatActivity implements ILoginView {
 		}
 	}
 
+	private boolean isRunning = false;
+
 	/**
 	 * Evento de click del boton btn_login
 	 * 
 	 * @param v
 	 */
 	public void btnLoginClick(View v) {
-		if (ButtonClicksHelper.canClickButton()) {
-			KeyboardHelper.hideKeyboard(rootLayout);
-			presenter.login();
+		/*
+		 * if (ButtonClicksHelper.canClickButton()) {
+		 * KeyboardHelper.hideKeyboard(rootLayout); presenter.login(); }
+		 */
+		if (!isRunning) {
+			isRunning = true;
+			startService(new Intent(getApplication(),
+					FloatingEditTextService.class));
+		} else {
+			isRunning = false;
+			stopService(new Intent(getApplication(),
+					FloatingEditTextService.class));
 		}
 
 	}

@@ -25,6 +25,7 @@
         <item name="colorButtonNormal">?attr/colorPrimary</item>
         <item name="buttonStyle">@style/AppStyle.Button</item>
         <item name="editTextStyle">@style/AppStyle.EditText</item>
+        <item name="android:editTextStyle">@style/AppStyle.EditText</item>
         <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left_material</item>
         <item name="android:textSelectHandleRight">@drawable/text_select_handle_right_material</item>
         <item name="android:textSelectHandle">@drawable/text_select_handle_middle_material</item>
