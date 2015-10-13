@@ -5,12 +5,16 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
@@ -38,6 +42,8 @@ import com.elfec.lecturas.gd.presenter.views.IReadingView;
 import com.elfec.lecturas.gd.presenter.views.IReadingsListView;
 import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
 import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
+import com.elfec.lecturas.gd.services.FloatingEditTextService;
+import com.elfec.lecturas.gd.services.FloatingEditTextService.LocalBinder;
 import com.elfec.lecturas.gd.view.adapters.ReadingPagerAdapter;
 import com.elfec.lecturas.gd.view.listeners.OnReadingEditClickListener;
 import com.elfec.lecturas.gd.view.listeners.OnReadingRetryClickListener;
@@ -47,10 +53,13 @@ import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService.OnReadingFoundListener;
 
 public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
-		ReadingSaveCallback {
+		ReadingSaveCallback, ServiceConnection {
 
 	private ReadingTakePresenter presenter;
 	private IReadingListNotifier readingListNotifier;
+
+	private FloatingEditTextService mService;
+	private boolean mBound = false;
 
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle drawerToggle;
@@ -97,6 +106,33 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		btnEditReading = (FloatingActionButton) findViewById(R.id.btn_edit_reading);
 		btnEditReading.setBackgroundTintList(getResources().getColorStateList(
 				R.color.blue_btn_color));
+		startService(new Intent(getApplication(), FloatingEditTextService.class));
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Bind to LocalService
+		Intent intent = new Intent(this, FloatingEditTextService.class);
+		bindService(intent, this, Context.BIND_AUTO_CREATE);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		// Unbind from the service
+		if (mBound) {
+			mService.hideFloatingEditText();
+			unbindService(this);
+			mBound = false;
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		presenter = null;
+		stopService(new Intent(getApplication(), FloatingEditTextService.class));
 	}
 
 	@Override
@@ -196,25 +232,32 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 			drawerLayout.closeDrawer(Gravity.START);
 			return;
 		} else {
-			if (!((IReadingView) readingPagerAdapter.getCurrentItem())
-					.hasPendingChanges()) {
-				exitReadingTake();
-			} else {
-				new AlertDialog.Builder(this)
-						.setIcon(R.drawable.warning)
-						.setTitle(R.string.title_exit_reading)
-						.setMessage(R.string.msg_exit_reading)
-						.setPositiveButton(R.string.btn_ok,
-								new OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										exitReadingTake();
-									}
-								}).setNegativeButton(R.string.btn_cancel, null)
-						.show();
+			if (mService != null && mService.isWindowShown())
+				mService.hideFloatingEditText();
+			else {
+				if (!((IReadingView) readingPagerAdapter.getCurrentItem())
+						.hasPendingChanges()) {
+					exitReadingTake();
+				} else {
+					showExitConfirmation();
+				}
 			}
 		}
+	}
+
+	/**
+	 * Muestra un dialogo de confirmación de salida
+	 */
+	private void showExitConfirmation() {
+		new AlertDialog.Builder(this).setIcon(R.drawable.warning)
+				.setTitle(R.string.title_exit_reading)
+				.setMessage(R.string.msg_exit_reading)
+				.setPositiveButton(R.string.btn_ok, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						exitReadingTake();
+					}
+				}).setNegativeButton(R.string.btn_cancel, null).show();
 	}
 
 	private void exitReadingTake() {
@@ -369,9 +412,12 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	 * @param v
 	 */
 	public void btnSaveReading(View v) {
-		if (ButtonClicksHelper.canClickButton())
+		if (ButtonClicksHelper.canClickButton()) {
+			if (mService != null)
+				mService.hideFloatingEditText();
 			((OnReadingSaveClickListener) readingPagerAdapter.getCurrentItem())
 					.readingSaveClicked(v);
+		}
 	}
 
 	/**
@@ -403,6 +449,15 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 							}).show();
 		}
 		;
+	}
+
+	/**
+	 * Obtiene el servicio de FloatingEditTextService
+	 * 
+	 * @return {@link FloatingEditTextService}
+	 */
+	public FloatingEditTextService getFloatingEditTextService() {
+		return mService;
 	}
 
 	// #region Interface Methods
@@ -513,6 +568,20 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onServiceConnected(ComponentName name, IBinder service) {
+		// We've bound to LocalService, cast the IBinder and get
+		// LocalService instance
+		LocalBinder binder = (LocalBinder) service;
+		mService = binder.getService();
+		mBound = true;
+	}
+
+	@Override
+	public void onServiceDisconnected(ComponentName name) {
+		mBound = false;
 	}
 
 	// #endregion

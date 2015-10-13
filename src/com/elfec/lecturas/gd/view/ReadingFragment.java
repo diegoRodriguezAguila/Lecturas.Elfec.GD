@@ -46,6 +46,7 @@ import com.elfec.lecturas.gd.model.enums.ReadingStatus;
 import com.elfec.lecturas.gd.presenter.ReadingPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingView;
 import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
+import com.elfec.lecturas.gd.services.FloatingEditTextService;
 import com.elfec.lecturas.gd.view.animations.HeightAnimation;
 import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
 import com.elfec.lecturas.gd.view.listeners.OnReadingEditClickListener;
@@ -78,6 +79,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private transient boolean isReadOnly;
 	private transient boolean clearOnlyErrors;
 	private final Object lockObject = new Object();
+	private FloatingEditTextService mService;
 
 	// Client Info
 	private LinearLayout layoutClientInfo;
@@ -217,6 +219,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 				setFieldValidationListeners();
 				setDateListeners();
 				setTimeListeners();
+				setFloatingFieldListeners();
 				setLblClientInfoClickListener(rootView);
 			}
 		}).start();
@@ -232,6 +235,13 @@ public class ReadingFragment extends Fragment implements IReadingView,
 					"Activity must implement fragment's ReadingSaveCallbacks.");
 		}
 		presenter.setReadingCallback((ReadingSaveCallback) activity);
+		mService = ((ReadingTake) activity).getFloatingEditTextService();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mService = null;
 	}
 
 	@Override
@@ -571,6 +581,64 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						KeyboardHelper.showKeyboard(nextField);
 					}
 				}).show();
+	}
+
+	/**
+	 * Asigna los listeners para mostrar el FloatingEditText
+	 */
+	private void setFloatingFieldListeners() {
+		setTextInputFloatingFieldListener(txtInputResetCount);
+		setTextInputFloatingFieldListener(txtInputActiveDistributing);
+		setTextInputFloatingFieldListener(txtInputActiveDistributing);
+		setTextInputFloatingFieldListener(txtInputActivePeak);
+		setTextInputFloatingFieldListener(txtInputActiveRest);
+		setTextInputFloatingFieldListener(txtInputActiveValley);
+		setTextInputFloatingFieldListener(txtInputReactiveDistributing);
+		setTextInputFloatingFieldListener(txtInputReactivePeak);
+		setTextInputFloatingFieldListener(txtInputReactiveRest);
+		setTextInputFloatingFieldListener(txtInputReactiveValley);
+		setTextInputFloatingFieldListener(txtInputPowerPeak);
+		setTextInputFloatingFieldListener(txtInputPowerRestOffpeak);
+		setTextInputFloatingFieldListener(txtInputPowerValleyOffpeak);
+	}
+
+	/**
+	 * Asigna el listener a para mostrar un FloatingEditText al focusear el
+	 * campo
+	 * 
+	 * @param txtInputLayoutTime
+	 *            {@link ImprovedTextInputLayout}
+	 */
+	private void setTextInputFloatingFieldListener(
+			final ImprovedTextInputLayout txtInputLayout) {
+		FieldListener listener = new FieldListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (mService != null)
+					if (hasFocus)
+						mService.showFloatingEditText(txtInputLayout.getHint()
+								.toString(), txtInputLayout.getEditText()
+								.getText().toString());
+					else
+						mService.hideFloatingEditText();
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mService != null && !isClearing && !isReadOnly)
+					mService.setFieldValue(s.toString());
+			}
+		};
+		txtInputLayout.setEditTextOnFocusChangeListener(listener);
+		txtInputLayout.getEditText().addTextChangedListener(listener);
+		txtInputLayout.getEditText().setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mService.showFloatingEditText(txtInputLayout.getHint()
+						.toString(), txtInputLayout.getEditText().getText()
+						.toString());
+			}
+		});
 	}
 
 	/**

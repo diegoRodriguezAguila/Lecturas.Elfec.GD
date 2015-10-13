@@ -91,4 +91,13 @@ public class ImprovedTextInputLayout extends TextInputLayout {
 		});
 	}
 
+	/**
+	 * Obtiene el hint del campo
+	 * 
+	 * @return hint
+	 */
+	public CharSequence getHint() {
+		return mHint;
+	}
+
 }
