@@ -165,6 +165,13 @@ public interface IReadingView {
 	 */
 	public boolean hasPendingChanges();
 
+	/**
+	 * Asigna si es que necesita limpiar los campos
+	 * 
+	 * @param needsToClear
+	 */
+	public void setNeedsToClear(boolean needsToClear);
+
 	// #region Set Errors
 	public void setReadingDateErrors(List<Exception> errors);
 

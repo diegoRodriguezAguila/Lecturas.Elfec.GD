@@ -204,6 +204,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						.findViewById(R.id.snackbar_position);
 				initializeClientInfoFields(rootView);
 				initializeReadingFields(rootView);
+				initializeFieldList();
 				mHandler.post(new Runnable() {
 
 					@Override
@@ -213,7 +214,6 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						presenter.bindReadingTaken();
 					}
 				});
-				initializeFieldList();
 				setFieldValidationListeners();
 				setDateListeners();
 				setTimeListeners();
@@ -571,21 +571,6 @@ public class ReadingFragment extends Fragment implements IReadingView,
 						KeyboardHelper.showKeyboard(nextField);
 					}
 				}).show();
-		/*
-		 * TimePickerDialog tpd = TimePickerDialog.newInstance( new
-		 * OnTimeSetListener() {
-		 * 
-		 * @Override public void onTimeSet(RadialPickerLayout view, int
-		 * hourOfDay, int minute) { DateTime time = new
-		 * DateTime(dateNow.getYear(), dateNow .getMonthOfYear(),
-		 * dateNow.getDayOfMonth(), hourOfDay, minute);
-		 * txtToBindInfo.setTag(time);
-		 * txtToBindInfo.setText(time.toString("HH:mm")); View nextField =
-		 * findNextFocusable(txtToBindInfo); nextField.requestFocus();
-		 * KeyboardHelper.showKeyboard(nextField); } }, dateNow.getHourOfDay(),
-		 * dateNow.getMinuteOfHour(), true);
-		 * tpd.show(getActivity().getFragmentManager(), "TimePickerDialog");
-		 */
 	}
 
 	/**
@@ -1269,6 +1254,11 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	@Override
 	public boolean hasPendingChanges() {
 		return !isReadOnly && hasPendingChanges;
+	}
+
+	@Override
+	public void setNeedsToClear(boolean needsToClear) {
+		this.needsToClear = needsToClear;
 	}
 
 	// #endregion

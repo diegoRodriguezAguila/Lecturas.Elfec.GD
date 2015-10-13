@@ -29,7 +29,7 @@ import com.elfec.lecturas.gd.presenter.views.callbacks.ReadingSaveCallback;
  */
 public class ReadingPresenter {
 
-	private ReadingGeneralInfo reading;
+	private ReadingGeneralInfo mReading;
 	private IReadingView view;
 
 	private ReadingSaveCallback readingCallback;
@@ -62,7 +62,12 @@ public class ReadingPresenter {
 	 *            la información de la lectura
 	 */
 	public void setCurrentReading(ReadingGeneralInfo reading, boolean bind) {
-		this.reading = reading;
+		boolean needsToClear = ((mReading != null)
+				&& (mReading.getReadingTaken() != null) && (reading
+				.getReadingTaken() == null));
+		if (needsToClear)
+			view.setNeedsToClear(needsToClear);
+		this.mReading = reading;
 		if (bind) {
 			bindClientInfo();
 			bindFieldsVisibility();
@@ -76,20 +81,20 @@ public class ReadingPresenter {
 	 * formato de presentación correcto
 	 */
 	public void bindClientInfo() {
-		view.setAccountNumber(AccountFormatter.formatAccountNumber(reading
+		view.setAccountNumber(AccountFormatter.formatAccountNumber(mReading
 				.getSupplyNumber()));
-		view.setNUS(reading.getSupplyId());
-		view.setMeterSerialNumber(reading.getReadingMeter().getSerialNumber());
-		view.setClientName(WordUtils.capitalizeFully(reading.getName(),
+		view.setNUS(mReading.getSupplyId());
+		view.setMeterSerialNumber(mReading.getReadingMeter().getSerialNumber());
+		view.setClientName(WordUtils.capitalizeFully(mReading.getName(),
 				new char[] { '.', ' ' }));
-		view.setAddress(WordUtils.capitalizeFully(reading.getAddress(),
+		view.setAddress(WordUtils.capitalizeFully(mReading.getAddress(),
 				new char[] { '.', ' ' }));
-		view.setCategory(reading.getCategoryDescription());
-		view.setTensionMeasurement(reading.getTension(),
-				reading.getMeasurement());
-		view.setTransformerDesc(reading.getTransformerDesc());
-		view.setReadingStatus(reading.getStatus());
-		ReadingMeter readingMeter = reading.getReadingMeter();
+		view.setCategory(mReading.getCategoryDescription());
+		view.setTensionMeasurement(mReading.getTension(),
+				mReading.getMeasurement());
+		view.setTransformerDesc(mReading.getTransformerDesc());
+		view.setReadingStatus(mReading.getStatus());
+		ReadingMeter readingMeter = mReading.getReadingMeter();
 		view.setActiveMult(readingMeter.getActiveMultiplicator());
 		view.setReactiveMult(readingMeter.getReactiveMultiplicator());
 		view.setEnergyPowerMult(readingMeter.getTagPowerPeak());
@@ -100,7 +105,7 @@ public class ReadingPresenter {
 	 * medidor
 	 */
 	public void bindFieldsVisibility() {
-		ReadingMeter readingMeter = reading.getReadingMeter();
+		ReadingMeter readingMeter = mReading.getReadingMeter();
 		validateActiveDistribution = !readingMeter.getTagActivePeak().equals(
 				BigDecimal.ZERO);
 		validateReactiveDistribution = !readingMeter.getTagReactivePeak()
@@ -119,7 +124,7 @@ public class ReadingPresenter {
 	 * Asigna a la vista la información de la lectura tomada
 	 */
 	public void bindReadingTaken() {
-		ReadingTaken readingTaken = reading.getReadingTaken();
+		ReadingTaken readingTaken = mReading.getReadingTaken();
 		if (readingTaken != null) {
 			view.setReadOnly(true);
 			// #region readingTaken view assignations
@@ -609,7 +614,7 @@ public class ReadingPresenter {
 				public void run() {
 					isInEditionMode = false;
 					view.setReadOnly(true);
-					view.setReadingStatus(reading.getStatus());
+					view.setReadingStatus(mReading.getStatus());
 				}
 			}).start();
 		}
@@ -623,16 +628,18 @@ public class ReadingPresenter {
 			@Override
 			public void run() {
 				VoidResult result = ReadingTakenManager.registerReadingTaken(
-						reading, new ReadingTaken(reading.getReadingRemoteId(),
-								reading.getSupplyId(), DateTime.now(),
+						mReading,
+						new ReadingTaken(mReading.getReadingRemoteId(),
+								mReading.getSupplyId(), DateTime.now(),
 								SessionManager.getLoggedInUsername()),
 						ReadingStatus.RETRY);
 				if (!result.hasErrors()) {
 					view.notifyReadingSavedSuccessfully();
-					view.setReadingStatus(reading.getStatus());
+					view.setReadingStatus(mReading.getStatus());
 					view.setReadOnly(true);
 					if (readingCallback != null)
-						readingCallback.onRetryReadingSavedSuccesfully(reading);
+						readingCallback
+								.onRetryReadingSavedSuccesfully(mReading);
 				} else {
 					view.showReadingSaveErrors(result.getErrors());
 					if (readingCallback != null)
@@ -650,13 +657,15 @@ public class ReadingPresenter {
 			@Override
 			public void run() {
 				VoidResult result = ReadingTakenManager.registerReadingTaken(
-						reading,
-						new ReadingTaken(reading.getReadingRemoteId(), reading
-								.getSupplyId(), DateTime.now(), SessionManager
-								.getLoggedInUsername(), DateTimeHelper
-								.joinDateAndTime(view.getReadingDate(),
+						mReading,
+						new ReadingTaken(mReading.getReadingRemoteId(),
+								mReading.getSupplyId(), DateTime.now(),
+								SessionManager.getLoggedInUsername(),
+								DateTimeHelper.joinDateAndTime(
+										view.getReadingDate(),
 										view.getReadingTime()), view
-								.getResetCount(), view.getActiveDistributing(),
+										.getResetCount(), view
+										.getActiveDistributing(),
 								validateActiveDistribution ? view
 										.getActivePeak() : null,
 								validateActiveDistribution ? view
@@ -690,14 +699,14 @@ public class ReadingPresenter {
 				if (!result.hasErrors() && isInEditionMode) {
 					isInEditionMode = false;
 					result = ReadingOrdenativeManager
-							.deleteReadingAssignedOrdenatives(reading);
+							.deleteReadingAssignedOrdenatives(mReading);
 				}
 				if (!result.hasErrors()) {
 					view.notifyReadingSavedSuccessfully();
-					view.setReadingStatus(reading.getStatus());
+					view.setReadingStatus(mReading.getStatus());
 					view.setReadOnly(true);
 					if (readingCallback != null)
-						readingCallback.onReadingSavedSuccesfully(reading,
+						readingCallback.onReadingSavedSuccesfully(mReading,
 								wasInEditionMode);
 				} else {
 					view.showReadingSaveErrors(result.getErrors());
