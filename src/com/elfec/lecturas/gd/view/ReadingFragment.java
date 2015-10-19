@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +15,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Html;
@@ -227,15 +228,15 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
-		if (!(activity instanceof ReadingSaveCallback)) {
+		if (!(context instanceof ReadingSaveCallback)) {
 			throw new IllegalStateException(
 					"Activity must implement fragment's ReadingSaveCallbacks.");
 		}
-		presenter.setReadingCallback((ReadingSaveCallback) activity);
-		mService = ((ReadingTake) activity).getFloatingEditTextService();
+		presenter.setReadingCallback((ReadingSaveCallback) context);
+		mService = ((ReadingTake) context).getFloatingEditTextService();
 	}
 
 	@Override
@@ -747,11 +748,12 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (errors != null && errors.size() > 0)
+				if (errors != null && errors.size() > 0) {
 					txtInputField.setError(MessageListFormatter
 							.fotmatHTMLFromErrors(errors));
-				else
+				} else {
 					txtInputField.setErrorEnabled(false);
+				}
 			}
 		});
 	}
@@ -824,10 +826,9 @@ public class ReadingFragment extends Fragment implements IReadingView,
 			@Override
 			public void run() {
 				txtReadingStatus.setText(status.toString());
-				txtReadingStatus.setBackgroundColor(txtReadingStatus
-						.getResources().getColor(
-								ReadingStatusColorPicker
-										.getResourceColorId(status)));
+				txtReadingStatus.setBackgroundColor(ContextCompat.getColor(
+						txtReadingStatus.getContext(),
+						ReadingStatusColorPicker.getResourceColorId(status)));
 			}
 		});
 	}

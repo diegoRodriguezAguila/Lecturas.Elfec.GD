@@ -38,7 +38,6 @@ public class TimePickerDialogService {
 				}).create();
 		mPicker = (TimePicker) rootView;
 		mPicker.setTheme(R.style.AppStyle_TimePickerStyle);
-		mPicker.setSetButton(mDialog.getButton(AlertDialog.BUTTON_POSITIVE));
 	}
 
 	/**
@@ -46,6 +45,7 @@ public class TimePickerDialogService {
 	 */
 	public void show() {
 		mDialog.show();
+		mPicker.setSetButton(mDialog.getButton(AlertDialog.BUTTON_POSITIVE));
 	}
 
 	/**

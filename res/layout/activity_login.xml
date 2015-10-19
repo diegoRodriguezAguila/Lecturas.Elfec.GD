@@ -37,7 +37,7 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <android.support.design.widget.TextInputLayout
+        <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
             android:id="@+id/username_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,9 +58,9 @@
                 android:maxLines="1"
                 android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ0123456789" >
             </EditText>
-        </android.support.design.widget.TextInputLayout>
+        </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
             android:id="@+id/password_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
                 android:maxLength="20" />
-        </android.support.design.widget.TextInputLayout>
+        </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
 
         <Button
             android:id="@+id/btn_login"

@@ -3,6 +3,7 @@ package com.elfec.lecturas.gd.view.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -54,8 +55,8 @@ public class RouteAssignmentAdapter extends ArrayAdapter<RouteAssignment> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null)
 			convertView = super.getView(position, convertView, parent);
-		((TextView) convertView).setTextColor(getContext().getResources()
-				.getColor(android.R.color.white));
+		((TextView) convertView).setTextColor(ContextCompat.getColor(
+				getContext(), android.R.color.white));
 		if (position == 0) {
 			((TextView) convertView).setText("Todas");
 		} else {

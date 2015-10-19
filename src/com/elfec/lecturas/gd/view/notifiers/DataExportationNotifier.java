@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
@@ -39,7 +40,7 @@ public class DataExportationNotifier implements IDataExportationObserver {
 				.setContentText(
 						mContext.getText(R.string.msg_export_data_initialize))
 				.setColor(
-						mContext.getResources().getColor(R.color.color_primary))
+						ContextCompat.getColor(mContext, R.color.color_primary))
 				.setSmallIcon(R.drawable.export_to_server_sn)
 				.setOngoing(true)
 				.setPriority(Notification.PRIORITY_MAX)

@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -25,14 +24,15 @@ import com.elfec.lecturas.gd.helpers.ui.KeyboardHelper;
 import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.presenter.LoginPresenter;
 import com.elfec.lecturas.gd.presenter.views.ILoginView;
+import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
 
 public class Login extends AppCompatActivity implements ILoginView {
 
 	private LoginPresenter presenter;
 
 	private View rootLayout;
-	private TextInputLayout txtInputUsername;
-	private TextInputLayout txtInputPassword;
+	private ImprovedTextInputLayout txtInputUsername;
+	private ImprovedTextInputLayout txtInputPassword;
 	private ProgressDialogPro waitingDialog;
 
 	@Override
@@ -42,8 +42,8 @@ public class Login extends AppCompatActivity implements ILoginView {
 
 		getSupportActionBar().setTitle(R.string.title_login);
 		rootLayout = findViewById(R.id.root_layout);
-		txtInputUsername = ((TextInputLayout) findViewById(R.id.username_text_input_layout));
-		txtInputPassword = ((TextInputLayout) findViewById(R.id.password_text_input_layout));
+		txtInputUsername = ((ImprovedTextInputLayout) findViewById(R.id.username_text_input_layout));
+		txtInputPassword = ((ImprovedTextInputLayout) findViewById(R.id.password_text_input_layout));
 		setVersionTitle();
 		presenter = new LoginPresenter(this);
 		// TEST PRUPOUSES

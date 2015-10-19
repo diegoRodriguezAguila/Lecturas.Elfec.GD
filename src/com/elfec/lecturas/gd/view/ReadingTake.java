@@ -16,6 +16,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -104,8 +105,8 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		presenter.loadReadingsGeneralInfo();
 		btnSaveReading = (FloatingActionButton) findViewById(R.id.btn_save_reading);
 		btnEditReading = (FloatingActionButton) findViewById(R.id.btn_edit_reading);
-		btnEditReading.setBackgroundTintList(getResources().getColorStateList(
-				R.color.blue_btn_color));
+		btnEditReading.setBackgroundTintList(ContextCompat.getColorStateList(
+				this, R.color.blue_btn_color));
 		startService(new Intent(getApplication(), FloatingEditTextService.class));
 	}
 
@@ -235,8 +236,9 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 			if (mService != null && mService.isWindowShown())
 				mService.hideFloatingEditText();
 			else {
-				if (!((IReadingView) readingPagerAdapter.getCurrentItem())
-						.hasPendingChanges()) {
+				if (readingPagerAdapter.getCurrentItem() == null
+						|| !((IReadingView) readingPagerAdapter
+								.getCurrentItem()).hasPendingChanges()) {
 					exitReadingTake();
 				} else {
 					showExitConfirmation();

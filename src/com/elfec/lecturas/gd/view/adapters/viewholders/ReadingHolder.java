@@ -2,6 +2,7 @@ package com.elfec.lecturas.gd.view.adapters.viewholders;
 
 import org.apache.commons.lang.WordUtils;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -43,10 +44,9 @@ public class ReadingHolder extends SwappingHolder {
 		txtAccountNumber.setText(AccountFormatter.formatAccountNumber(reading
 				.getSupplyNumber()));
 		txtReadingStatus.setText(reading.getStatus().toString());
-		txtReadingStatus.setBackgroundColor(txtReadingStatus.getResources()
-				.getColor(
-						ReadingStatusColorPicker.getResourceColorId(reading
-								.getStatus())));
+		txtReadingStatus.setBackgroundColor(ContextCompat.getColor(
+				txtReadingStatus.getContext(), ReadingStatusColorPicker
+						.getResourceColorId(reading.getStatus())));
 		txtNUS.setText("" + reading.getSupplyId());
 		txtMeterNumber.setText(reading.getReadingMeter().getSerialNumber());
 		txtClientName.setText(WordUtils.capitalizeFully(reading.getName(),

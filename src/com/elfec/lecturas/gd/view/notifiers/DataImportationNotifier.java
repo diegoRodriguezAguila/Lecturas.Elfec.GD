@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -53,7 +54,7 @@ public class DataImportationNotifier implements IDataImportationObserver {
 				context.getString(R.string.msg_import_data_initialize));
 		notifBuilder
 				.setColor(
-						context.getResources().getColor(R.color.color_primary))
+						ContextCompat.getColor(context, R.color.color_primary))
 				.setSmallIcon(R.drawable.import_from_server_sn)
 				.setOngoing(true)
 				.setPriority(Notification.PRIORITY_MAX)
