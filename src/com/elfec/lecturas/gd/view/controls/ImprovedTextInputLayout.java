@@ -60,9 +60,11 @@ public class ImprovedTextInputLayout extends TextInputLayout {
 			mHint = ((EditText) child).getHint();
 		}
 		super.addView(child, index, params);
-		LinearLayout.LayoutParams layoutParams = (LayoutParams) params;
-		int marginDelta = (int) (layoutParams.topMargin * 0.6f);
-		layoutParams.topMargin += marginDelta;
+		if (child instanceof EditText) {
+			LinearLayout.LayoutParams layoutParams = (LayoutParams) params;
+			int marginDelta = (int) (layoutParams.topMargin * 0.6f);
+			layoutParams.topMargin += marginDelta;
+		}
 	}
 
 	@Override
