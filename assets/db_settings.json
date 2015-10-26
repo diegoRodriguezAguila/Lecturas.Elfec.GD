@@ -1,7 +1,7 @@
 {
-  "ip": "192.168.60.150",
-  "port": "1531",
-  "service": "SIDPROD",
+  "ip": "192.168.60.40",
+  "port": "1525",
+  "service": "EPROD",
   "role": "MOVIL_LECT_GD",
-  "password": "1234"
+  "password": "lect2014"
 }
