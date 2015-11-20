@@ -103,6 +103,7 @@ public class TextBackupManager {
 				File[] extAppDirs = FileManager
 						.getAllExternalAppDirectories(AppPreferences
 								.getApplicationContext());
+
 				OutputStream os;
 				byte[] backupText = (backupable.toDeleteSQL() + SQL_ENDL)
 						.getBytes();

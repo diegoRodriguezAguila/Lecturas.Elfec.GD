@@ -57,6 +57,7 @@ public class FileManager {
 	 * @return File[]
 	 */
 	public static File[] getAllExternalAppDirectories(Context context) {
+
 		boolean isBeforeKitKat = Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
 		File[] extAppDirs = isBeforeKitKat ? getExternalAppDirectoriesPre4_4(context)
 				: ContextCompat.getExternalFilesDirs(context, null);
@@ -71,12 +72,15 @@ public class FileManager {
 						Log.e("App Directory failed",
 								"Failed to create directory: "
 										+ appDir.getPath());
-						return null;
+						return ContextCompat
+								.getExternalFilesDirs(context, null);
 					}
 				}
 			}
 		}
-		return extAppDirList.toArray(new File[extAppDirList.size()]);
+		return extAppDirList.size() > 0 ? extAppDirList
+				.toArray(new File[extAppDirList.size()]) : ContextCompat
+				.getExternalFilesDirs(context, null);
 	}
 
 	/**

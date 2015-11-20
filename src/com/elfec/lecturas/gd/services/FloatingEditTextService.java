@@ -6,8 +6,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
-import android.support.v7.internal.view.ContextThemeWrapper;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,11 +32,15 @@ public class FloatingEditTextService extends Service {
 
 	WindowManager.LayoutParams params;
 
-	@SuppressLint("InflateParams")
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+		inflateViews();
+	}
+
+	@SuppressLint("InflateParams")
+	private void inflateViews() {
 		mFloatingEditTextView = LayoutInflater.from(
 				CalligraphyContextWrapper.wrap(new ContextThemeWrapper(this,
 						R.style.AppCustomTheme))).inflate(
@@ -110,8 +115,11 @@ public class FloatingEditTextService extends Service {
 	 * @param value
 	 */
 	public void showFloatingEditText(String name, String value) {
-		if (!mIsWindowShown)
+		if (!mIsWindowShown) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+				inflateViews();
 			windowManager.addView(mFloatingEditTextView, params);
+		}
 		setFieldName(name);
 		setFieldValue(value);
 		mIsWindowShown = true;

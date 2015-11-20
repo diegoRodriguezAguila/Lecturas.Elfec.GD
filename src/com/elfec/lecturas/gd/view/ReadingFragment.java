@@ -626,8 +626,9 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (mService != null && !isClearing && !isReadOnly)
+				if (mService != null && !isClearing && !isReadOnly) {
 					mService.setFieldValue(s.toString());
+				}
 			}
 		};
 		txtInputLayout.setEditTextOnFocusChangeListener(listener);
