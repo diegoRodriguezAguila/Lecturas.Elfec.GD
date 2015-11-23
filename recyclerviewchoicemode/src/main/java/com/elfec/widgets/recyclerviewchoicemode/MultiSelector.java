@@ -1,4 +1,4 @@
-package com.bignerdranch.android.recyclerviewchoicemode;
+package com.elfec.widgets.recyclerviewchoicemode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,9 @@ public class MultiSelector {
 	 * @author drodriguez
 	 *
 	 */
-	public static interface OnItemClickListener {
-		public abstract void onItemClick(SwappingHolder holder, View view,
-				int position, long id);
+	public interface OnItemClickListener {
+		void onItemClick(SwappingHolder holder, View view,
+						 int position, long id);
 	}
 
 	private OnItemClickListener mListener;

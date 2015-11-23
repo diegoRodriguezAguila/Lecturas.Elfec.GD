@@ -1,4 +1,4 @@
-package com.bignerdranch.android.recyclerviewchoicemode;
+package com.elfec.widgets.recyclerviewchoicemode;
 
 public class SingleSelector extends MultiSelector {
     @Override

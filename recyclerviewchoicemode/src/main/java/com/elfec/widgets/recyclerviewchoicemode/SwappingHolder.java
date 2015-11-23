@@ -1,4 +1,4 @@
-package com.bignerdranch.android.recyclerviewchoicemode;
+package com.elfec.widgets.recyclerviewchoicemode;
 
 import android.animation.AnimatorInflater;
 import android.animation.StateListAnimator;

@@ -36,7 +36,7 @@ public abstract class RebindReportingHolder extends RecyclerView.ViewHolder {
 	}
 
 	private static boolean isRelevantFlagSet(int flag) {
-		for (Integer value : new int[] { FLAG_BOUND, FLAG_CHANGED, FLAG_UPDATE,
+		for (Integer value : new int[] { FLAG_BOUND, FLAG_UPDATE,
 				FLAG_RETURNED_FROM_SCRAP }) {
 			if ((flag & value) == value) {
 				return true;

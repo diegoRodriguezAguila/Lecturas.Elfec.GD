@@ -1,10 +1,9 @@
-package com.bignerdranch.android.recyclerviewchoicemode;
-
-import java.util.List;
+package com.elfec.widgets.recyclerviewchoicemode;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.bignerdranch.android.recyclerviewchoicemode.MultiSelector.OnItemClickListener;
+import java.util.List;
+
 
 public abstract class RecyclerViewChoiceAdapter<T extends SwappingHolder>
 		extends RecyclerView.Adapter<T> {
@@ -15,12 +14,12 @@ public abstract class RecyclerViewChoiceAdapter<T extends SwappingHolder>
 		this.selector = selector;
 	}
 
-	public void setOnItemClickListener(OnItemClickListener listener) {
+	public void setOnItemClickListener(MultiSelector.OnItemClickListener listener) {
 		selector.setOnItemClickListener(listener);
 	}
 
 	/**
-	 * Asigna el item en la posición especificada con el estado de selección
+	 * Asigna el item en la posiciï¿½n especificada con el estado de selecciï¿½n
 	 * provisto
 	 * 
 	 * @param pos
@@ -38,7 +37,7 @@ public abstract class RecyclerViewChoiceAdapter<T extends SwappingHolder>
 	}
 
 	/**
-	 * Verifica si una posición está seleccionada
+	 * Verifica si una posiciï¿½n estï¿½ seleccionada
 	 * 
 	 * @param pos
 	 */

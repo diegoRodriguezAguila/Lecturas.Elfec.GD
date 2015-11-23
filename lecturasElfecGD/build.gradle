@@ -6,6 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.elfec.lecturas.gd"
+        versionCode 1
+        versionName "1.15.11.23"
         minSdkVersion 16
         targetSdkVersion 23
     }
@@ -25,8 +27,7 @@ android {
 }
 
 dependencies {
-    compile project(':recyclerviewchoicemode')
-    compile project(':superrecyclerview')
+    compile project(':recyclerviewChoiceMode')
     compile project(':betterPickers')
     compile 'com.github.fengdai:alertdialogpro-theme-material:0.2.4'
     compile 'com.wdullaer:materialdatetimepicker:2.0.2'
@@ -38,6 +39,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'commons-validator:commons-validator:1.4.0'
-    compile files('libs/ActiveAndroid.jar')
-    compile files('libs/ojdbc14.jar')
+    compile 'com.malinskiy:superrecyclerview:1.1.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }

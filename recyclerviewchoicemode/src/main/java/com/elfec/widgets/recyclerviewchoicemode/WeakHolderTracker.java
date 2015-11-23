@@ -1,4 +1,4 @@
-package com.bignerdranch.android.recyclerviewchoicemode;
+package com.elfec.widgets.recyclerviewchoicemode;
 
 import android.util.SparseArray;
 

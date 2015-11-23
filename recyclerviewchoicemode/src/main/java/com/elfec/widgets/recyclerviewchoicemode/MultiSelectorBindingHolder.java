@@ -1,4 +1,4 @@
-package com.bignerdranch.android.recyclerviewchoicemode;
+package com.elfec.widgets.recyclerviewchoicemode;
 
 import android.support.v7.widget.RebindReportingHolder;
 import android.view.View;

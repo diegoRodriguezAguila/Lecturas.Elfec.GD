@@ -1,4 +1,2 @@
-include ':betterPickers'
-include ':recyclerviewchoicemode'
-include ':superrecyclerview'
+include ':betterPickers', ':recyclerviewChoiceMode'
 include ':lecturasElfecGD'

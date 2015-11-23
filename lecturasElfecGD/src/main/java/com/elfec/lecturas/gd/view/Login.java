@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity implements ILoginView {
 	}
 
 	/**
-	 * Asigna la versión al titulo
+	 * Asigna la versiÃ³n al titulo
 	 */
 	private void setVersionTitle() {
 		try {
