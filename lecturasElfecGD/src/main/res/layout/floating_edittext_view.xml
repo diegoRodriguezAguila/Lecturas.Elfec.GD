@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup_background_mtrl"
+    android:orientation="vertical"
+    tools:context=".view.Login" >
+
+    <TextView
+        android:id="@+id/lbl_field_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/color_primary"
+        android:textSize="15sp" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/txt_field_value"
+        android:layout_width="420dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:inputType="none"
+        android:longClickable="false"
+        android:clickable="false"
+        android:textIsSelectable="true"
+        android:textSize="36sp" />
+
+</LinearLayout>

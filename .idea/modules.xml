@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Lecturas.Elfec.GD.iml" filepath="$PROJECT_DIR$/Lecturas.Elfec.GD.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterPickers/betterPickers.iml" filepath="$PROJECT_DIR$/betterPickers/betterPickers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lecturasElfecGD/lecturasElfecGD.iml" filepath="$PROJECT_DIR$/lecturasElfecGD/lecturasElfecGD.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recyclerviewchoicemode/recyclerviewchoicemode.iml" filepath="$PROJECT_DIR$/recyclerviewchoicemode/recyclerviewchoicemode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/superrecyclerview/superrecyclerview.iml" filepath="$PROJECT_DIR$/superrecyclerview/superrecyclerview.iml" />
+    </modules>
+  </component>
+</project>

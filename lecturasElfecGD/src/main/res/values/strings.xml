@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name">Lecturas Gran Demanda </string>
+    <string name="app_full_name">Lecturas Gran Demanda v. %s</string>
+
+    <!-- Login -->
+    <string name="title_login">&#160;&#160;Ingreso al sistema</string>
+    <string name="hint_user">Usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_login">Ingresar</string>
+    <string name="errors_in_fields">Los campos tienen errores, reviselos para poder continuar</string>
+    <string name="msg_login_waiting">Validando la información del usuario, espere por favor&#8230;</string>
+    <string name="title_login_errors">Error de ingreso al sistema</string>
+
+    <!-- Start -->
+    <string name="title_activity_start">&#160;&#160;Inicio</string>
+    <string name="btn_reading_take">Tomar lecturas</string>
+    <string name="title_readings_list">Lista de lecturas</string>
+    <string name="lbl_main_menu_info">Presione menu principal para ingresar a las opciones de lecturas</string>
+    <string name="btn_import_data">Cargar datos</string>
+    <string name="btn_export_data">Descargar datos</string>
+    <string name="msg_session_closed">Se finalizó la sesión de <b>%s</b>!</string>
+
+    <!-- Start: Import data -->
+    <string name="title_import_data">Carga de datos</string>
+    <string name="msg_confirm_import_data">Se procederá a iniciar el proceso de carga de datos ¿Desea continuar?</string>
+    <string name="msg_import_data_initialize">Inicializando la importación de datos del servidor&#8230;</string>
+    <string name="msg_importing_ordenatives">Cargando ordenativos (TIPOS_NOV_SUM)&#8230;</string>
+    <string name="msg_importing_route_assignments">Cargando asignación de rutas del usuario (USUARIO_ASIGNACION)&#8230;</string>
+    <string name="msg_importing_readings_general_info">Cargando información de lecturas (LECTURASGD)&#8230;</string>
+    <string name="msg_importing_reading_meters">Cargando información de medidores de lecturas (LECTURASGD_MED)&#8230;</string>
+    <string name="msg_finishing_import">Finalizando la carga de datos&#8230;</string>
+    <string name="title_import_data_error">Error en la carga de datos</string>
+    <string name="msg_data_imported_successfully">Se completó la carga de datos exitosamente!</string>
+
+    <!-- Start: Export data -->
+    <string name="title_export_data">Descarga de datos</string>
+    <string name="msg_confirm_export_data">Se procederá a iniciar el proceso de descarga de datos, luego se eliminará toda la información local y se cerrará su sesión ¿Desea continuar?</string>
+    <string name="msg_export_data_initialize">Inicializando la exportación de datos al servidor&#8230;</string>
+    <string name="msg_exporting_readings_taken">Descargando lecturas tomadas (SGC_MOVIL_LECTURAS_GD)&#8230;</string>
+    <string name="msg_exporting_reading_ordenatives">Descargando ordenativos de lecturas (SGC_MOVIL_ORDENATIVOS_GD)&#8230;</string>
+    <string name="msg_finishing_export">Finalizando la descarga de datos&#8230;</string>
+    <string name="msg_data_exported_successfully">Se completó la descarga de datos exitosamente!</string>
+    <string name="title_export_data_error">Error en la descarga de datos</string>
+
+    <!-- Start: Data wipe -->
+    <string name="title_wipe_all_data">Eliminar todos los datos</string>
+    <string name="msg_restoring_route_assignments">Restaurando asignación de rutas&#8230;</string>
+    <string name="msg_wiping_all_data">Eliminando toda la información local&#8230;</string>
+    <string name="msg_wipe_all_data_confirm">Se procederá a restaurar el estado de todas las rutas, de todos los usuarios, que fueron importadas al teléfono. Luego se eliminará toda la información local y se cerrará su sesión, confirme si desea continuar!</string>
+    <string name="msg_cannot_wipe_all_data">No puede eliminar la información porque ya se realizaron lecturas!</string>
+    <string name="title_wipe_all_data_errors">Error en la eliminación de datos</string>
+    <string name="msg_all_data_wiped_successfully">Se eliminaron todos los datos locales exitosamente!</string>
+
+    <!-- Reading Take -->
+    <string name="title_activity_reading_take">&#160;&#160;Toma de lecturas</string>
+    <string name="title_exit_reading">Lectura pendiente</string>
+    <string name="msg_exit_reading">Tiene una lectura a medio realizar, ¿Está seguro que desea salir? Se perderan los datos que no se hayan guardado.</string>
+    <!-- Reading Take: Retry -->
+	<string name="retry_reading">Reintentar lectura</string>
+	<string name="title_retry_reading">Reintentar lectura</string>
+	<string name="msg_confirm_retry_reading">Confirma que desea poner la lectura para reintentar? Las lecturas puestas para reintentar
+	    se descargan en el servidor, para que puedan ser reasignadas. Una vez que se pone una lectura para reintentar ya no la puede volver a registrar ni editar.</string>
+	
+    <!-- Reading Take: Navigation Panel -->
+    <string name="drawer_open">Abrir panel de navegación</string>
+    <string name="drawer_close">Cerrar panel de navegación</string>
+    <string name="title_reading_list">Lista de lecturas</string>
+    <string name="lbl_reading_status">Estado:</string>
+    <string name="lbl_route">Ruta:</string>
+    <string name="lbl_loading_readings">Espere, se estan cargando las lecturas&#8230;</string>
+    <string name="lbl_no_readings">No se encontró ninguna lectura que coincida con los filtros solicitados.</string>
+    <string name="lbl_no_readings_help">Si no utilizó ningún filtro, asegurese de haber cargado correctamente las lecturas al dispositivo.</string>
+
+    <!-- Reading Take: Bottom Toolbar -->
+    <string name="add_ordenatives">Agregar ordenativos</string>
+    <string name="search_reading">Buscar lecturas</string>
+    <string name="first_reading">Primera lectura</string>
+    <string name="previous_reading">Lectura anterior</string>
+    <string name="next_reading">Lectura siguiente</string>
+    <string name="last_reading">Última lectura</string>
+
+    <!-- Reading Take: Reading -->
+    <string name="title_client_info">Información del cliente</string>
+    <string name="lbl_category">Categoría: </string>
+    <string name="lbl_transformer_desc">Área: </string>
+    <string name="lbl_tension_measurement">Ten/Med: </string>
+    <string name="title_reading">Lectura</string>
+    <string name="lbl_current_date">1. Fecha de lectura</string>
+    <string name="lbl_current_time">2. Hora de lectura</string>
+    <string name="lbl_reset_count">20. Número de reset</string>
+    <string name="title_active_energy">Energía <b>activa</b></string>
+    <string name="lbl_active_energy_mult"><![CDATA[Energía <b>activa</b> (%s)]]></string>
+    <string name="lbl_total_active_energy">3. Total energía activa</string>
+    <string name="lbl_active_energy_rate_A">4. Rate A (Pico)</string>
+    <string name="lbl_active_energy_rate_B">5. Rate B (Resto)</string>
+    <string name="lbl_active_energy_rate_C">6. Rate C (Valle)</string>
+    <string name="lbl_total_reactive_energy">16.Total energía reactiva</string>
+    <string name="lbl_reactive_energy_rate_A">17. Rate A (Pico)</string>
+    <string name="lbl_reactive_energy_rate_B">18. Rate B (Resto)</string>
+    <string name="lbl_reactive_energy_rate_C">19. Rate C (Valle)</string>
+    <string name="title_reactive_energy">Energía <b>reactiva</b></string>
+    <string name="lbl_reactive_energy_mult"><![CDATA[Energía <b>reactiva</b> (%s)]]></string>
+    <string name="title_energy_power_rate_A">Demanda máxima <b>rate A</b> (Punta)</string>
+    <string name="lbl_energy_power_mult"><![CDATA[Demanda máxima <b>rate A</b> (Punta) (%s)]]></string>
+    <string name="lbl_energy_power_rate_A">7. Demanda máxima</string>
+    <string name="lbl_energy_power_date_rate_A">8. Fecha demanda max.</string>
+    <string name="lbl_energy_power_time_rate_A">9. Hora demanda max.</string>
+     <string name="lbl_energy_power_rate_B">10. Demanda máxima</string>
+    <string name="lbl_energy_power_date_rate_B">11. Fecha demanda max.</string>
+    <string name="lbl_energy_power_time_rate_B">12. Hora demanda max.</string>
+     <string name="lbl_energy_power_rate_C">13. Demanda máxima</string>
+    <string name="lbl_energy_power_date_rate_C">14. Fecha demanda max.</string>
+    <string name="lbl_energy_power_time_rate_C">15. Hora demanda max.</string>
+    <string name="title_energy_power_rate_B">Demanda máxima <b>rate B</b> (Fuera de punta)</string>
+    <string name="title_energy_power_rate_C">Demanda máxima <b>rate C</b> (Fuera de punta)</string>
+    <string name="error_in_reading_fields">Los campos tienen errores, corríjalos para poder guardar la lectura!</string>
+    <string name="title_confirm_reading_save">Guardar lectura</string>
+    <string name="msg_confirm_reading_save">Confirma que desea guardar la lectura?</string>
+    <string name="msg_reading_saved_successfully">Se guardó la lectura exitosamente!</string>
+    <string name="title_reading_save_errors">Error al guardar la lectura</string>
+
+    <!-- Reading Take: Reading Search -->
+    <string name="title_reading_search">Búsqueda de lecturas</string>
+    <string name="lbl_account_number">Número de cuenta</string>
+    <string name="mask_account_number">##-###-###-##</string>
+    <string name="lbl_meter">Serie medidor</string>
+    <string name="lbl_nus">Número suministro</string>
+    <string name="lbl_searching_readnig">Buscando lectura&#8230;</string>
+    <string name="msg_atleast_one_filed">Debe proporcionar un término de búsqueda!</string>
+    <string name="msg_reading_found">Su búsqueda fue exitosa. Se trajo al frente la lectura encontrada!</string>
+    <string name="btn_search">Buscar</string>
+
+    
+    <!-- Ordenative Addition -->
+    <string name="msg_at_least_one_ordenative">Debe seleccionar por lo menos un ordenativo para agregar!</string>
+    <string name="msg_ordenatives_added_successfully">Se agregaron exitosamente los ordenativos a la lectura!</string>
+    
+    <!-- Reading Ordenatives -->
+    <string name="lbl_reading_ordenatives_info">La lectura actual tiene agregados los ordenativos que se muestran en la lista</string>
+
+    <!-- Reading Take: Edit -->
+    <string name="title_edit_reding">Confirmación de modificación de lectura</string>
+    <string name="msg_confirm_edit_reading">Esta seguro que desea modifcar la lectura?
+        Se pondra la lectura en estado de edición. Una vez que guarde la lectura, se eliminarán los ordenativos asociados a ella 
+        para que se puedan asignar nuevamente.\n\n<i>NOTA.- Si se sale de la pantalla de edición la lectura pasará a su estado anterior, con sus valores previos.</i></string>
+    <string name="msg_reading_on_edition_mode">La lectura ahora se encuentra en modo de edición!</string>
+    <!-- Dialog Buttons -->
+    <string name="btn_ok">Aceptar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_confirm">Confirmar</string>
+    <string name="btn_add">Agregar</string>
+    <string name="btn_save">Guardar</string>
+
+    <!-- Samples -->
+    <string name="sample_welcome_user">Bienvenido <b>drodriguezd</b>!</string>
+    <string name="sample_date">25 Mar 2015</string>
+    <string name="sample_device_imei">331235343553633</string>
+    <string name="sample_nus">321233</string>
+    <string name="sample_account_number" tools:ignore="TypographyDashes">37-222-563-23</string>
+    <string name="sample_meter_number">6435122</string>
+    <string name="sample_reading_status">Leída</string>
+    <string name="sample_name">Fábrica de Leche PIL</string>
+    <string name="sample_address">C Colombia Sn</string>
+    <string name="sample_category">GE2/GDMT</string>
+    <string name="sample_short_date">01/07/2015</string>
+    <string name="sample_ord_code">48</string>
+    <string name="sample_ord_desc">TOMA DIRECTA DE ENERGIA</string>
+
+    <!-- Accesiblity -->
+    <string name="img_importation">Importación de datos</string>
+
+</resources>

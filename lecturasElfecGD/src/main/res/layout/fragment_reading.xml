@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_top_margin"
+    tools:ignore="TooManyViews,TextFields" >
+
+    <TextView
+        android:id="@+id/lbl_client_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:paddingBottom="5dp"
+        android:text="@string/title_client_info"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.CustomFont.Light"
+        android:textColor="?attr/colorPrimaryDark"
+        android:textSize="21sp" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1.5px"
+        android:background="?attr/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/layout_client_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="false"
+            android:gravity="top|start"
+            android:orientation="@integer/list_item_orientation" >
+
+            <TextView
+                android:id="@+id/txt_account_number"
+                android:layout_width="@dimen/col_width"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/account_number"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/account_number"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.CustomFont.Light"
+                android:textColor="@color/background_material_dark"
+                android:textIsSelectable="true"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt_client_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/client"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/client"
+                android:gravity="center_vertical"
+                android:textColor="@color/background_material_dark"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:baselineAligned="false"
+            android:gravity="top|start"
+            android:orientation="@integer/list_item_orientation" >
+
+            <TextView
+                android:id="@+id/txt_nus"
+                android:layout_width="@dimen/col_width"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/nus"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/nus"
+                android:gravity="center_vertical"
+                android:textColor="@color/background_material_dark"
+                android:textIsSelectable="true"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_meter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/meter"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/meter"
+                android:gravity="center_vertical"
+                android:textColor="@color/background_material_dark"
+                android:textIsSelectable="true"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:baselineAligned="false"
+            android:gravity="top|start"
+            android:orientation="@integer/list_item_orientation" >
+
+            <TextView
+                android:id="@+id/txt_address"
+                android:layout_width="@dimen/col_width"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/client_address"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/client_address"
+                android:gravity="center_vertical"
+                android:textColor="@color/background_material_dark"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/lbl_category"
+                    android:textColor="?attr/colorPrimaryDark"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txt_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/background_material_dark"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:baselineAligned="false"
+            android:gravity="top|start"
+            android:orientation="@integer/list_item_orientation" >
+
+            <LinearLayout
+                android:layout_width="@dimen/col_width"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/lbl_transformer_desc"
+                    android:textColor="?attr/colorPrimaryDark"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txt_transformer_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/background_material_dark"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/lbl_tension_measurement"
+                    android:textColor="?attr/colorPrimaryDark"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txt_tension_measurement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/background_material_dark"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:baselineAligned="false"
+        android:gravity="start|bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/title_reading"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.CustomFont.Light"
+            android:textColor="?attr/colorPrimaryDark"
+            android:textSize="21sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/txt_reading_status"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="top|end"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textAppearance="@style/TextAppearance.CustomFont.Light"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5px"
+        android:background="?attr/colorPrimary" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/layout_reading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:gravity="top|start"
+                android:orientation="@integer/list_item_orientation" >
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_reading_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/calendar"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/calendar"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lbl_current_date"
+                        android:inputType="none"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_reading_time"
+                        android:textIsSelectable="true" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_reading_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/list_item_left_margin"
+                    android:layout_marginStart="@dimen/list_item_left_margin"
+                    android:layout_weight="1" >
+
+                    <EditText
+                        android:id="@+id/txt_reading_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/clock"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/clock"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lbl_current_time"
+                        android:inputType="none"
+                        android:maxLength="5"
+                        android:nextFocusDown="@+id/txt_active_total"
+                        android:textIsSelectable="true" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_reset_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/list_item_left_margin"
+                    android:layout_marginStart="@dimen/list_item_left_margin"
+                    android:layout_weight="1" >
+
+                    <EditText
+                        android:id="@+id/txt_reset_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/reset_count"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/reset_count"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lbl_reset_count"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789"
+                        android:maxLength="3"/>
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+            </LinearLayout>
+            <!-- Energía activa -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:gravity="top"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/lbl_active_energy_mult"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="22dp"
+                    android:text="@string/title_active_energy"
+                    android:textAppearance="@style/TextAppearance.CustomFont.Light"
+                    android:textColor="@color/background_material_dark"
+                    android:textSize="20sp" />
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_active_total"
+                    android:layout_width="212dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp" >
+
+                    <EditText
+                        android:id="@+id/txt_active_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/active_energy"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/active_energy"
+                        android:ems="10"
+                        android:hint="@string/lbl_total_active_energy"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_active_peak" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/sub_separator_width"
+                android:layout_height="1.5px"
+                android:background="?attr/colorPrimary" />
+
+            <LinearLayout
+                android:id="@+id/layout_active_distribution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:gravity="top|start"
+                android:orientation="@integer/list_item_orientation" >
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_active_peak"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
+
+                    <EditText
+                        android:id="@+id/txt_active_peak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/active_peak"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/active_peak"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lbl_active_energy_rate_A"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_active_rest" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_active_rest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/list_item_left_margin"
+                    android:layout_marginStart="@dimen/list_item_left_margin"
+                    android:layout_weight="1" >
+
+                    <EditText
+                        android:id="@+id/txt_active_rest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/active_rest"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/active_rest"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lbl_active_energy_rate_B"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_active_valley" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                    android:id="@+id/txt_input_layout_active_valley"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/list_item_left_margin"
+                    android:layout_marginStart="@dimen/list_item_left_margin"
+                    android:layout_weight="1" >
+
+                    <EditText
+                        android:id="@+id/txt_active_valley"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/active_valley"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/active_valley"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lbl_active_energy_rate_C"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/txt_power_peak" />
+                </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+            </LinearLayout>
+          
+            <!-- Demanda máxima rate A -->
+
+            <LinearLayout
+                android:id="@+id/layout_energy_power"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/lbl_energy_power_mult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5dp"
+                        android:text="@string/title_energy_power_rate_A"
+                        android:textAppearance="@style/TextAppearance.CustomFont.Light"
+                        android:textColor="@color/background_material_dark"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/sub_separator_width"
+                    android:layout_height="1.5px"
+                    android:background="?attr/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:baselineAligned="false"
+                    android:gravity="top|start"
+                    android:orientation="@integer/list_item_orientation" >
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_peak"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_peak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/power_peak"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/power_peak"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_rate_A"
+                            android:inputType="numberDecimal"
+                            android:nextFocusDown="@+id/txt_power_peak_date"
+                            android:maxLength="10" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_peak_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_peak_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/calendar"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/calendar"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_date_rate_A"
+                            android:inputType="none"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_power_peak_time"
+                            android:textIsSelectable="true" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_peak_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_peak_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/clock"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/clock"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_time_rate_A"
+                            android:inputType="none"
+                            android:nextFocusDown="@+id/txt_power_rest_offpeak"
+                            android:maxLength="5"
+                            android:textIsSelectable="true" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+                </LinearLayout>
+                <!-- Demanda máxima rate A -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5dp"
+                        android:text="@string/title_energy_power_rate_B"
+                        android:textAppearance="@style/TextAppearance.CustomFont.Light"
+                        android:textColor="@color/background_material_dark"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/sub_separator_width"
+                    android:layout_height="1.5px"
+                    android:background="?attr/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:baselineAligned="false"
+                    android:gravity="top|start"
+                    android:orientation="@integer/list_item_orientation" >
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_rest_offpeak"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_rest_offpeak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/power_rest_offpeak"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/power_rest_offpeak"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_rate_B"
+                            android:inputType="numberDecimal"
+                            android:nextFocusDown="@+id/txt_power_rest_offpeak_date"
+                            android:maxLength="10" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_rest_offpeak_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_rest_offpeak_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/calendar"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/calendar"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_date_rate_B"
+                            android:inputType="none"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_power_rest_offpeak_time"
+                            android:textIsSelectable="true" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_rest_offpeak_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_rest_offpeak_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/clock"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/clock"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_time_rate_B"
+                            android:inputType="none"
+                            android:maxLength="5"
+                            android:nextFocusDown="@+id/txt_power_valley_offpeak"
+                            android:textIsSelectable="true" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+                </LinearLayout>
+                <!-- Demanda máxima rate A -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5dp"
+                        android:text="@string/title_energy_power_rate_C"
+                        android:textAppearance="@style/TextAppearance.CustomFont.Light"
+                        android:textColor="@color/background_material_dark"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/sub_separator_width"
+                    android:layout_height="1.5px"
+                    android:background="?attr/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:baselineAligned="false"
+                    android:gravity="top|start"
+                    android:orientation="@integer/list_item_orientation" >
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_valley_offpeak"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_valley_offpeak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/power_valley_offpeak"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/power_valley_offpeak"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_rate_C"
+                            android:inputType="numberDecimal"
+                            android:nextFocusDown="@+id/txt_power_valley_offpeak_date"
+                            android:maxLength="10" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_valley_offpeak_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_valley_offpeak_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/calendar"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/calendar"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_date_rate_C"
+                            android:inputType="none"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_power_valley_offpeak_time"
+                            android:textIsSelectable="true" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_power_valley_offpeak_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_power_valley_offpeak_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/clock"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/clock"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_energy_power_time_rate_C"
+                            android:inputType="none"
+                            android:maxLength="5"
+                            android:nextFocusDown="@+id/txt_reactive_total"
+                            android:textIsSelectable="true" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+  <!-- Energía reactiva -->
+
+            <LinearLayout
+                android:id="@+id/layout_reactive_energy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="6dp"
+                    android:baselineAligned="false"
+                    android:gravity="top"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/lbl_reactive_energy_mult"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="22dp"
+                        android:text="@string/title_reactive_energy"
+                        android:textAppearance="@style/TextAppearance.CustomFont.Light"
+                        android:textColor="@color/background_material_dark"
+                        android:textSize="20sp" />
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_reactive_total"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp" >
+
+                        <EditText
+                            android:id="@+id/txt_reactive_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/reactive_energy"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/reactive_energy"
+                            android:ems="10"
+                            android:hint="@string/lbl_total_reactive_energy"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_reactive_peak" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/sub_separator_width"
+                    android:layout_height="1.5px"
+                    android:background="?attr/colorPrimary" />
+
+                <LinearLayout
+                    android:id="@+id/layout_reactive_distribution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:baselineAligned="false"
+                    android:gravity="top|start"
+                    android:orientation="@integer/list_item_orientation" >
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_reactive_peak"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_reactive_peak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/reactive_peak"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/reactive_peak"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_reactive_energy_rate_A"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_reactive_rest" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_reactive_rest"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_reactive_rest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/reactive_rest"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/reactive_rest"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_reactive_energy_rate_B"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:nextFocusDown="@+id/txt_reactive_valley" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+
+                    <com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout
+                        android:id="@+id/txt_input_layout_reactive_valley"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_left_margin"
+                        android:layout_marginStart="@dimen/list_item_left_margin"
+                        android:layout_weight="1" >
+
+                        <EditText
+                            android:id="@+id/txt_reactive_valley"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/reactive_valley"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/reactive_valley"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lbl_reactive_energy_rate_C"
+                            android:inputType="numberDecimal"
+                            android:nextFocusDown="@+id/txt_reset_count"
+                            android:maxLength="10" />
+                    </com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:id="@+id/view_to_allow_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="68dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

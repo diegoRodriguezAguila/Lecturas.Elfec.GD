@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.elfec.lecturas.gd.views.ReadingTake" >
+    
+    <item
+        android:id="@+id/menu_retry_reading"
+        android:icon="@drawable/retry_reading"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        android:title="@string/retry_reading"/>
+
+    <item
+        android:id="@+id/menu_add_ordenatives"
+        android:icon="@drawable/ordenative_addition"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        android:title="@string/add_ordenatives"/>
+    
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/search"
+        app:showAsAction="ifRoom"
+        android:title="@string/search_reading"/>
+
+</menu>
