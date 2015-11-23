@@ -19,6 +19,6 @@ android {
 
 dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.nineoldandroids:library:2.4.0'
 }

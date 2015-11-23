@@ -1,17 +1,17 @@
 package com.elfec.lecturas.gd.view.adapters.viewholders;
 
-import org.apache.commons.lang.WordUtils;
-
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bignerdranch.android.recyclerviewchoicemode.MultiSelector;
-import com.bignerdranch.android.recyclerviewchoicemode.SwappingHolder;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.helpers.ui.ReadingStatusColorPicker;
 import com.elfec.lecturas.gd.helpers.util.text.AccountFormatter;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
+import com.elfec.widgets.recyclerviewchoicemode.MultiSelector;
+import com.elfec.widgets.recyclerviewchoicemode.SwappingHolder;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 /**
  * Provide a reference to the views for each data item Complex data items may
@@ -47,10 +47,10 @@ public class ReadingHolder extends SwappingHolder {
 		txtReadingStatus.setBackgroundColor(ContextCompat.getColor(
 				txtReadingStatus.getContext(), ReadingStatusColorPicker
 						.getResourceColorId(reading.getStatus())));
-		txtNUS.setText("" + reading.getSupplyId());
+		txtNUS.setText(String.valueOf(reading.getSupplyId()));
 		txtMeterNumber.setText(reading.getReadingMeter().getSerialNumber());
 		txtClientName.setText(WordUtils.capitalizeFully(reading.getName(),
-				new char[] { '.', ' ' }));
+				'.', ' '));
 	}
 
 }

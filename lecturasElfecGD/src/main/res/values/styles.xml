@@ -61,12 +61,19 @@
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlActivated">@color/color_control_activated</item>
+        <item name="adpMessageTextAppearance">@style/TextAppearance.AppStyle.Material.Message</item>
     </style>
-    
-    <style name="AppStyle.TimePickerStyle" parent="BetterPickersDialogFragment.Light" >
+
+    <style name="TextAppearance.AppStyle.Material.Message"
+           parent="TextAppearance.AlertDialogPro.Material.Subhead">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="AppStyle.TimePickerStyle" parent="BetterPickersDialogFragment.Light">
         <item name="bpDialogBackground">@drawable/abc_dialog_material_background_light</item>
-	    <item name="bpButtonBackground">@drawable/select_background_material</item>
-	    <item name="bpKeyBackground">@drawable/select_background_material</item>
-	</style>
+        <item name="bpButtonBackground">@drawable/select_background_material</item>
+        <item name="bpKeyBackground">@drawable/select_background_material</item>
+    </style>
 
 </resources>

@@ -83,7 +83,7 @@ public class DataExportationNotifier implements IDataExportationObserver {
 			notifBuilder
 					.setSmallIcon(R.drawable.error_export_to_server_n)
 					.setContentText(
-							MessageListFormatter.fotmatHTMLFromErrors(errors))
+							MessageListFormatter.formatHTMLFromErrors(errors))
 					.setContentTitle(
 							mContext.getText(R.string.title_export_data_error));
 			notificationManager.notify(NOTIF_ID, notifBuilder.build());

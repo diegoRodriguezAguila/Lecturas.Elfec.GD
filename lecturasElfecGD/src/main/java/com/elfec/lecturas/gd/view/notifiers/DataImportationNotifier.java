@@ -92,7 +92,7 @@ public class DataImportationNotifier implements IDataImportationObserver {
 					R.id.lbl_notification_title, context.getString(titleStrId));
 			notification.contentView.setTextViewText(
 					R.id.lbl_notification_message,
-					MessageListFormatter.fotmatHTMLFromErrors(errors));
+					MessageListFormatter.formatHTMLFromErrors(errors));
 			notificationManager.notify(NOTIF_ID, notification);
 		}
 	}

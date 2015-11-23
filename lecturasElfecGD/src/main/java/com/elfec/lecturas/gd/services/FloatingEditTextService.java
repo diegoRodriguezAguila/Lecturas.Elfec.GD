@@ -1,6 +1,5 @@
 package com.elfec.lecturas.gd.services;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
@@ -8,7 +7,7 @@ import android.graphics.PixelFormat;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +18,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.elfec.lecturas.gd.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class FloatingEditTextService extends Service {
 

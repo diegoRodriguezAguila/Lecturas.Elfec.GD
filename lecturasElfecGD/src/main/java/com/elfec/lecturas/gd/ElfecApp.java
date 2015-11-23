@@ -1,12 +1,14 @@
 package com.elfec.lecturas.gd;
 
-import java.lang.Thread.UncaughtExceptionHandler;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-
 import com.activeandroid.app.Application;
 import com.elfec.lecturas.gd.business_logic.Log;
 import com.elfec.lecturas.gd.settings.AppPreferences;
+
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import java.lang.Thread.UncaughtExceptionHandler;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class ElfecApp extends Application {
 	@Override
@@ -16,6 +18,7 @@ public class ElfecApp extends Application {
 		CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
 				.setDefaultFontPath("fonts/helvetica_neue_roman.otf")
 				.setFontAttrId(R.attr.fontPath).build());
+		JodaTimeAndroid.init(this);
 		setExceptionLogger();
 	}
 

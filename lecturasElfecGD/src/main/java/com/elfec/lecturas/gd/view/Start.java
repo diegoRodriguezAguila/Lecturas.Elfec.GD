@@ -1,12 +1,5 @@
 package com.elfec.lecturas.gd.view;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang.WordUtils;
-import org.joda.time.DateTime;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -33,6 +26,14 @@ import com.elfec.lecturas.gd.view.listeners.WipeConfirmationListener;
 import com.elfec.lecturas.gd.view.notifiers.DataExportationNotifier;
 import com.elfec.lecturas.gd.view.notifiers.DataImportationNotifier;
 import com.elfec.lecturas.gd.view.view_services.WipeAllDataDialogService;
+
+import org.apache.commons.lang3.text.WordUtils;
+import org.joda.time.DateTime;
+
+import java.util.Arrays;
+import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Start extends AppCompatActivity implements IStartView {
 
@@ -211,7 +212,7 @@ public class Start extends AppCompatActivity implements IStartView {
 							.setIcon(iconDrawableId)
 							.setMessage(
 									MessageListFormatter
-											.fotmatHTMLFromErrors(errors))
+											.formatHTMLFromErrors(errors))
 							.setPositiveButton(R.string.btn_ok, null).show();
 				}
 			}

@@ -1,9 +1,5 @@
 package com.elfec.lecturas.gd.view;
 
-import java.util.List;
-import java.util.Locale;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -25,6 +21,11 @@ import com.elfec.lecturas.gd.helpers.util.text.MessageListFormatter;
 import com.elfec.lecturas.gd.presenter.LoginPresenter;
 import com.elfec.lecturas.gd.presenter.views.ILoginView;
 import com.elfec.lecturas.gd.view.controls.ImprovedTextInputLayout;
+
+import java.util.List;
+import java.util.Locale;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Login extends AppCompatActivity implements ILoginView {
 
@@ -113,7 +114,7 @@ public class Login extends AppCompatActivity implements ILoginView {
 	public void setUsernameFieldErrors(List<Exception> errors) {
 		if (errors.size() > 0)
 			txtInputUsername.setError(MessageListFormatter
-					.fotmatHTMLFromErrors(errors));
+					.formatHTMLFromErrors(errors));
 		else
 			txtInputUsername.setErrorEnabled(false);
 	}
@@ -122,7 +123,7 @@ public class Login extends AppCompatActivity implements ILoginView {
 	public void setPasswordFieldErrors(List<Exception> errors) {
 		if (errors.size() > 0)
 			txtInputPassword.setError(MessageListFormatter
-					.fotmatHTMLFromErrors(errors));
+					.formatHTMLFromErrors(errors));
 		else
 			txtInputPassword.setErrorEnabled(false);
 	}
@@ -196,7 +197,7 @@ public class Login extends AppCompatActivity implements ILoginView {
 							.setTitle(R.string.title_login_errors)
 							.setMessage(
 									MessageListFormatter
-											.fotmatHTMLFromErrors(validationErrors))
+											.formatHTMLFromErrors(validationErrors))
 							.setPositiveButton(R.string.btn_ok, null).show();
 				}
 			}

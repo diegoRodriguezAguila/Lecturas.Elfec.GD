@@ -1,12 +1,5 @@
 package com.elfec.lecturas.gd.view;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.math.NumberUtils;
-import org.joda.time.DateTime;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -56,6 +49,13 @@ import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.elfec.lecturas.gd.view.view_services.TimePickerDialogService;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
+
+import org.apache.commons.lang3.math.NumberUtils;
+import org.joda.time.DateTime;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReadingFragment extends Fragment implements IReadingView,
 		OnReadingSaveClickListener, OnReadingEditClickListener,
@@ -131,8 +131,9 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	private boolean mClientInfoCollapsed;
 	private int mClientInfoHeight;
+    private int mEnabledTxtColor;
 
-	/**
+    /**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
@@ -237,6 +238,8 @@ public class ReadingFragment extends Fragment implements IReadingView,
 		}
 		presenter.setReadingCallback((ReadingSaveCallback) context);
 		mService = ((ReadingTake) context).getFloatingEditTextService();
+        mEnabledTxtColor = ContextCompat.getColor(getContext(), R.color
+                .txt_hard_green);
 	}
 
 	@Override
@@ -253,7 +256,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Crea una snackbar modificada, para que soporte mas de 2 líneas de texto
+	 * Crea una snackbar modificada, para que soporte mas de 2 lÃ­neas de texto
 	 */
 	private Snackbar createSnackbar() {
 		Snackbar snackbar = Snackbar.make(snackBarPosition,
@@ -269,7 +272,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Inicializa los campos de texto de información del cliente
+	 * Inicializa los campos de texto de informaciÃ³n del cliente
 	 * 
 	 * @param rootView
 	 */
@@ -355,7 +358,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Asigna la información de la lectura al fragment
+	 * Asigna la informaciÃ³n de la lectura al fragment
 	 * 
 	 * @param reading
 	 */
@@ -493,7 +496,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Muestra un DatePicker y llena la información en el texto provisto y su
+	 * Muestra un DatePicker y llena la informaciÃ³n en el texto provisto y su
 	 * tag con el objeto de {@link DateTime}
 	 * 
 	 * @param txtToBindInfo
@@ -558,7 +561,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Muestra un TimePicker que llenará la información en el respectivo campo
+	 * Muestra un TimePicker que llenarÃ¡ la informaciÃ³n en el respectivo campo
 	 * de texto y su tag con el objeto de {@link DateTime}
 	 * 
 	 * @param txtToBindInfo
@@ -607,7 +610,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	 * Asigna el listener a para mostrar un FloatingEditText al focusear el
 	 * campo
 	 * 
-	 * @param txtInputLayoutTime
+	 * @param txtInputLayout
 	 *            {@link ImprovedTextInputLayout}
 	 */
 	private void setTextInputFloatingFieldListener(
@@ -644,7 +647,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Asigna el listener de click al label de la información del cliente para
+	 * Asigna el listener de click al label de la informaciÃ³n del cliente para
 	 * colapsarlo
 	 * 
 	 * @param rootView
@@ -663,7 +666,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Collapsa la información del cliente
+	 * Collapsa la informaciÃ³n del cliente
 	 */
 	private void collapseClientInfo() {
 		mClientInfoCollapsed = true;
@@ -676,7 +679,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	}
 
 	/**
-	 * Muestra la información del cliente
+	 * Muestra la informaciÃ³n del cliente
 	 */
 	private void expandClientInfo() {
 		mClientInfoCollapsed = false;
@@ -739,7 +742,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 
 	/**
 	 * Muestra errores en un campo de texto o los elimina si la lista de errores
-	 * está vacía
+	 * estÃ¡ vacÃ­a
 	 * 
 	 * @param txtInputField
 	 * @param errors
@@ -751,7 +754,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 			public void run() {
 				if (errors != null && errors.size() > 0) {
 					txtInputField.setError(MessageListFormatter
-							.fotmatHTMLFromErrors(errors));
+							.formatHTMLFromErrors(errors));
 				} else {
 					txtInputField.setErrorEnabled(false);
 				}
@@ -765,6 +768,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 	private void setReadOnlyFields() {
 		for (ImprovedTextInputLayout txtInputLayout : listedFields) {
 			txtInputLayout.getEditText().setEnabled(!isReadOnly);
+            txtInputLayout.getEditText().setTextColor(mEnabledTxtColor);
 		}
 	}
 
@@ -1239,7 +1243,7 @@ public class ReadingFragment extends Fragment implements IReadingView,
 							.setTitle(R.string.title_reading_save_errors)
 							.setMessage(
 									MessageListFormatter
-											.fotmatHTMLFromErrors(errors))
+											.formatHTMLFromErrors(errors))
 							.setPositiveButton(R.string.btn_ok, null).show();
 				}
 			}

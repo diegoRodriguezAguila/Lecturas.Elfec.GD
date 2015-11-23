@@ -1,16 +1,16 @@
 package com.elfec.lecturas.gd.view.adapters;
 
-import java.util.List;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bignerdranch.android.recyclerviewchoicemode.RecyclerViewChoiceAdapter;
-import com.bignerdranch.android.recyclerviewchoicemode.SingleSelector;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.view.adapters.viewholders.ReadingHolder;
+import com.elfec.widgets.recyclerviewchoicemode.RecyclerViewChoiceAdapter;
+import com.elfec.widgets.recyclerviewchoicemode.SingleSelector;
+
+import java.util.List;
 
 /**
  * Adapter para las lecturas que se muestran en un recyclerview

@@ -1,9 +1,5 @@
 package com.elfec.lecturas.gd.view.view_services;
 
-import java.util.List;
-
-import org.apache.commons.lang.math.NumberUtils;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -34,8 +30,12 @@ import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.presenter.ReadingSearchPresenter;
 import com.elfec.lecturas.gd.presenter.views.IReadingSearchView;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
+import java.util.List;
+
 /**
- * Servicio de popup que muestra la opción de búsqueda de lecturas
+ * Servicio de popup que muestra la opciï¿½n de bï¿½squeda de lecturas
  * 
  * @author drodriguez
  *
@@ -66,11 +66,11 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 	}
 
 	/**
-	 * Crea un nuevo popup de búsqueda de lecturas
+	 * Crea un nuevo popup de bï¿½squeda de lecturas
 	 * 
 	 * @param context
 	 * @param anchorView
-	 *            la vista a partir de la cual se desplegará el popup
+	 *            la vista a partir de la cual se desplegarï¿½ el popup
 	 */
 	@SuppressLint("InflateParams")
 	public ReadingSearchPopupService(Context context, View anchorView,
@@ -133,7 +133,7 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 	}
 
 	/**
-	 * Asigna el listener que se llamará ante el evento de encontrar una lectura
+	 * Asigna el listener que se llamarï¿½ ante el evento de encontrar una lectura
 	 * 
 	 * @param onReadingFoundListener
 	 * @return la instancia actual de este servicio
@@ -157,7 +157,7 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 	}
 
 	/**
-	 * Muestra el diálogo
+	 * Muestra el diï¿½logo
 	 */
 	public void show() {
 		mDialog.show();
@@ -165,7 +165,7 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 
 	/**
 	 * Asigna los listeners para los textos, de esta forma se evita que el
-	 * usuario ponga más de una condición de búsqueda al mismo tiempo
+	 * usuario ponga mï¿½s de una condiciï¿½n de bï¿½squeda al mismo tiempo
 	 */
 	private void setTextListeners() {
 		txtAccountNumber.addTextChangedListener(new ExclusiveTextWatcher(
@@ -232,7 +232,7 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 				progressSearchingReading.setVisibility(View.GONE);
 				txtSearchingReading.setVisibility(View.GONE);
 				txtSearchingError.setText(MessageListFormatter
-						.fotmatHTMLFromErrors(errors));
+						.formatHTMLFromErrors(errors));
 				txtSearchingError.setVisibility(View.VISIBLE);
 			}
 		});
@@ -255,19 +255,19 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 	// #endregion
 
 	/**
-	 * Listener para el evento de que se encontró una lectura, resultado de una
-	 * búsqueda
+	 * Listener para el evento de que se encontrï¿½ una lectura, resultado de una
+	 * bï¿½squeda
 	 * 
 	 * @author drodriguez
 	 *
 	 */
-	public static interface OnReadingFoundListener {
+	public interface OnReadingFoundListener {
 		/**
-		 * Se ejecuta cuando se encontró una lectura
+		 * Se ejecuta cuando se encontrï¿½ una lectura
 		 * 
 		 * @param reading
 		 */
-		public void onReadingFound(ReadingGeneralInfo reading);
+		void onReadingFound(ReadingGeneralInfo reading);
 	}
 
 	/**

@@ -1,9 +1,5 @@
 package com.elfec.lecturas.gd.view;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
-import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 
-import com.bignerdranch.android.recyclerviewchoicemode.MultiSelector.OnItemClickListener;
-import com.bignerdranch.android.recyclerviewchoicemode.SwappingHolder;
 import com.elfec.lecturas.gd.R;
 import com.elfec.lecturas.gd.model.ReadingGeneralInfo;
 import com.elfec.lecturas.gd.model.RouteAssignment;
@@ -30,10 +24,17 @@ import com.elfec.lecturas.gd.presenter.views.notifiers.IReadingListNotifier;
 import com.elfec.lecturas.gd.view.adapters.ReadingRecyclerViewAdapter;
 import com.elfec.lecturas.gd.view.adapters.ReadingStatusAdapter;
 import com.elfec.lecturas.gd.view.adapters.RouteAssignmentAdapter;
+import com.elfec.widgets.recyclerviewchoicemode.MultiSelector;
+import com.elfec.widgets.recyclerviewchoicemode.SwappingHolder;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
 public class ReadingsListFragment extends Fragment implements
-		IReadingsListView, OnItemClickListener {
+		IReadingsListView, MultiSelector.OnItemClickListener {
 
 	private ReadingsListPresenter presenter;
 	private IReadingListNotifier readingListNotifier;
@@ -75,7 +76,7 @@ public class ReadingsListFragment extends Fragment implements
 		readingsList = (SuperRecyclerView) view
 				.findViewById(R.id.list_readings);
 
-		readingsList.setHasFixedSize(true);
+		readingsList.getRecyclerView().setHasFixedSize(true);
 		readingsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 		if (readingsList.getAdapter() == null && readingsAdapter != null)
 			readingsList.setAdapter(readingsAdapter);
@@ -219,7 +220,7 @@ public class ReadingsListFragment extends Fragment implements
 			@Override
 			public void run() {
 				if (readingsAdapter != null) {
-					readingsList.getLayoutManager().scrollToPosition(position);
+					readingsList.getRecyclerView().getLayoutManager().scrollToPosition(position);
 					readingsAdapter.setSelected(position, true);
 				}
 			}
