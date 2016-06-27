@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-    compileOptions.encoding = 'windows-1252'
     defaultConfig {
         applicationId "com.elfec.lecturas.gd"
         versionCode 2

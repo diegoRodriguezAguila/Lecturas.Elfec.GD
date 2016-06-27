@@ -3,8 +3,8 @@ package com.elfec.lecturas.gd.model.validations;
 import com.elfec.lecturas.gd.model.exceptions.ValidationException;
 
 /**
- * Valida si el tamaÒo de una cadena es v·lido, es decir si su longitud es mayor
- * o igual que el tamaÒo mÌnimo requerido
+ * Valida si el tama√±o de una cadena es v√°lido, es decir si su longitud es mayor
+ * o igual que el tama√±o m√≠nimo requerido
  * 
  * @author Diego
  *

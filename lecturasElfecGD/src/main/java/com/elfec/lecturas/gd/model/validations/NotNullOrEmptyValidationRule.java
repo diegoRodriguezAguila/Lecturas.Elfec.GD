@@ -14,7 +14,7 @@ public class NotNullOrEmptyValidationRule implements IValidationRule<String> {
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
 		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
 				+ fieldName + "</b> no puede estar "
-				+ (isMaleGender ? "vacío." : "vacía."));
+				+ (isMaleGender ? "vacÃ­o." : "vacÃ­a."));
 	}
 
 }

@@ -24,7 +24,7 @@ public class NumericValidationRule implements IValidationRule<String> {
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
 		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
 				+ fieldName + "</b> tiene que ser "
-				+ (isMaleGender ? "numérico-" : "numérica."));
+				+ (isMaleGender ? "numÃ©rico-" : "numÃ©rica."));
 	}
 
 }

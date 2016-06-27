@@ -5,8 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 /**
- * Factory para la creación de reglas, nuevas reglas añadidas deben añadirse en
- * el constructor estático
+ * Factory para la creaciï¿½n de reglas, nuevas reglas aï¿½adidas deben aï¿½adirse en
+ * el constructor estï¿½tico
  * 
  * @author Diego
  *
@@ -34,11 +34,11 @@ public class ValidationRulesFactory {
 	}
 
 	/**
-	 * Se debe llamar a esta función antes de llamar a getValidationParams, crea
-	 * las reglas de validación a partir de una cadena
+	 * Se debe llamar a esta funciÃ³n antes de llamar a getValidationParams, crea
+	 * las reglas de validaciÃ³n a partir de una cadena
 	 * 
 	 * @param validationRules
-	 * @return las reglas de validación y sus parámetros en una clase Wrapper
+	 * @return las reglas de validaciÃ³n y sus parÃ¡metros en una clase Wrapper
 	 *         ValidationsAndParams
 	 */
 	@SuppressWarnings("unchecked")

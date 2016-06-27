@@ -3,7 +3,7 @@ package com.elfec.lecturas.gd.model.validations;
 import com.elfec.lecturas.gd.model.exceptions.ValidationException;
 
 /**
- * Provee de una interfaz para reglas de validación
+ * Provee de una interfaz para reglas de validaciï¿½n
  * 
  * @author Diego
  *
@@ -13,21 +13,21 @@ public interface IValidationRule<T> {
 
 	/**
 	 * Valida si es que el objeto cumple con los requisitos de la regla de
-	 * validación
+	 * validaciÃ³n
 	 * 
 	 * @param objectToValidate
-	 * @return
+	 * @return boolean, true si es vÃ¡lido
 	 */
-	public boolean isValid(T objectToValidate, Object... params);
+	boolean isValid(T objectToValidate, Object... params);
 
 	/**
 	 * Devuelve una cadena que describe el error en caso de incumplimiento de la
-	 * regla de validación utilizando el <b>fieldName</b> como parámetro
+	 * regla de validaciÃ³n utilizando el <b>fieldName</b> como parÃ¡metro
 	 * 
 	 * @param fieldName
 	 * @param isMaleGender
-	 *            sirve para mostrar el mensaje correcto según el género
-	 * @return
+	 *            sirve para mostrar el mensaje correcto segÃºn el gÃ©nero
+	 * @return error en la validaciÃ³n
 	 */
-	public ValidationException getError(String fieldName, boolean isMaleGender);
+	ValidationException getError(String fieldName, boolean isMaleGender);
 }

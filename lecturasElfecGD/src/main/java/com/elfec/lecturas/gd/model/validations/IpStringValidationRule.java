@@ -1,8 +1,8 @@
 package com.elfec.lecturas.gd.model.validations;
 
-import org.apache.commons.validator.routines.InetAddressValidator;
-
 import com.elfec.lecturas.gd.model.exceptions.ValidationException;
+
+import org.apache.commons.validator.routines.InetAddressValidator;
 
 public class IpStringValidationRule implements IValidationRule<String> {
 
@@ -15,7 +15,7 @@ public class IpStringValidationRule implements IValidationRule<String> {
 	@Override
 	public ValidationException getError(String fieldName, boolean isMaleGender) {
 		return new ValidationException((isMaleGender ? "El " : "La ") + "<b>"
-				+ fieldName + "</b> tiene que ser una IPv4 v·lid"
+				+ fieldName + "</b> tiene que ser una IPv4 v√°lid"
 				+ (isMaleGender ? "o" : "a"));
 	}
 
