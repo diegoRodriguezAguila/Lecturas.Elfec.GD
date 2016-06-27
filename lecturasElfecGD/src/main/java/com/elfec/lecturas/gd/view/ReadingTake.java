@@ -1,9 +1,5 @@
 package com.elfec.lecturas.gd.view;
 
-import java.util.Arrays;
-import java.util.List;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -52,6 +48,11 @@ import com.elfec.lecturas.gd.view.listeners.OnReadingSaveClickListener;
 import com.elfec.lecturas.gd.view.view_services.OrdenativeDialogService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService;
 import com.elfec.lecturas.gd.view.view_services.ReadingSearchPopupService.OnReadingFoundListener;
+
+import java.util.Arrays;
+import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 		ReadingSaveCallback, ServiceConnection {
@@ -248,7 +249,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	/**
-	 * Muestra un dialogo de confirmación de salida
+	 * Muestra un dialogo de confirmaciï¿½n de salida
 	 */
 	private void showExitConfirmation() {
 		new AlertDialog.Builder(this).setIcon(R.drawable.warning)
@@ -283,7 +284,7 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	/**
-	 * Inicializa el drawer de navegación lateral que tiene la lista de lecturas
+	 * Inicializa el drawer de navegaciï¿½n lateral que tiene la lista de lecturas
 	 */
 	private void initializeNavReadingList() {
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -360,11 +361,11 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	/**
-	 * Identifica si es que es necesario cambiar de boton según los estados de
+	 * Identifica si es que es necesario cambiar de boton segï¿½n los estados de
 	 * la lectura anterior y de la lectura actual
 	 * 
 	 * @param pos
-	 *            posición de la lectura actual
+	 *            posiciï¿½n de la lectura actual
 	 */
 	private void setFloatingButtonsVisibility(int pos) {
 		if ((readingPagerAdapter != null && readingPagerAdapter.getCount() > 0)
@@ -386,10 +387,10 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 	}
 
 	/**
-	 * Asigna la visibilidad a los componentes del menú según el estado de la
-	 * lectura en la posición indicada
+	 * Asigna la visibilidad a los componentes del menï¿½ segï¿½n el estado de la
+	 * lectura en la posiciï¿½n indicada
 	 * 
-	 * @param posición
+	 * @param posiciï¿½n
 	 *            de la lectura actual
 	 */
 	private void setMenuItemsVisibility(final int pos) {
@@ -450,7 +451,6 @@ public class ReadingTake extends AppCompatActivity implements IReadingTakeView,
 								}
 							}).show();
 		}
-		;
 	}
 
 	/**

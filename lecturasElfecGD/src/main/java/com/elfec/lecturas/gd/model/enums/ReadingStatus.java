@@ -15,9 +15,9 @@ public enum ReadingStatus {
 	 */
 	PENDING("Pendiente", "Pendientes"),
 	/**
-	 * Estado de lectura leída
+	 * Estado de lectura leÃ­da
 	 */
-	READ("Leída", "Leídas"),
+	READ("LeÃ­da", "LeÃ­das"),
 	/**
 	 * Estado de lectura impedida
 	 */
@@ -31,14 +31,14 @@ public enum ReadingStatus {
 	 */
 	RETRY("Reintentar", "Reintentar"),
 	/**
-	 * Estado de lectura en edición
+	 * Estado de lectura en ediciÃ³n
 	 */
 	EDITING("Editando", null);
 
 	private String string;
 	private String pluralString;
 
-	private ReadingStatus(String string, String pluralString) {
+	ReadingStatus(String string, String pluralString) {
 		this.string = string;
 		this.pluralString = pluralString;
 	}

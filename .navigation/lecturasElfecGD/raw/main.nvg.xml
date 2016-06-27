@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.elfec.lecturas.gd.view.Login"/>
+      <point      
+        x = "1492"      
+        y = "104"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.elfec.lecturas.gd.view.ReadingTake"/>
+      <point      
+        x = "2488"      
+        y = "184"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.elfec.lecturas.gd.view.Start"/>
+      <point      
+        x = "344"      
+        y = "264"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

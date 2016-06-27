@@ -69,6 +69,7 @@
     <string name="title_reading_list">Lista de lecturas</string>
     <string name="lbl_reading_status">Estado:</string>
     <string name="lbl_route">Ruta:</string>
+    <string name="lbl_all_routes">Todas</string>
     <string name="lbl_loading_readings">Espere, se estan cargando las lecturas&#8230;</string>
     <string name="lbl_no_readings">No se encontró ninguna lectura que coincida con los filtros solicitados.</string>
     <string name="lbl_no_readings_help">Si no utilizó ningún filtro, asegurese de haber cargado correctamente las lecturas al dispositivo.</string>

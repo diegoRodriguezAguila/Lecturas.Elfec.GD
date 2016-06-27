@@ -17,8 +17,7 @@ public class ReadingStatusAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null)
-			convertView = super.getView(position, convertView, parent);
+		convertView = super.getView(position, convertView, parent);
 		((TextView) convertView).setTextColor(ContextCompat.getColor(
 				getContext(), android.R.color.white));
 		return convertView;

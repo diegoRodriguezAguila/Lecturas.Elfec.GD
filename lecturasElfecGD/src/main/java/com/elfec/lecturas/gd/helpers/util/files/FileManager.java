@@ -1,5 +1,12 @@
 package com.elfec.lecturas.gd.helpers.util.files;
 
+import android.content.Context;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.os.EnvironmentCompat;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,13 +17,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import android.content.Context;
-import android.os.Build;
-import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.os.EnvironmentCompat;
-import android.util.Log;
 
 /**
  * Clase que sirve para acceder a los archivos de la aplicación, ya sean del
@@ -92,8 +92,8 @@ public class FileManager {
 	private static File[] getExternalAppDirectoriesPre4_4(Context context) {
 		String appdata = context.getFilesDir().getPath()
 				.replaceFirst("data", "Android");
-		String externalpath = new String();
-		String internalpath = new String();
+		String externalpath = "";
+		String internalpath = "";
 		Runtime runtime = Runtime.getRuntime();
 		try {
 			Process proc = runtime.exec("mount");
@@ -106,12 +106,12 @@ public class FileManager {
 				if (!line.contains("secure") && !line.contains("asec")) {
 					if (line.matches(reg)) {// external card
 						String columns[] = line.split(" ");
-						if (columns != null && columns.length > 1) {
+						if (columns.length > 1) {
 							externalpath = externalpath.concat(columns[1]);
 						}
 					} else if (line.contains("fuse")) {// internal storage
 						String columns[] = line.split(" ");
-						if (columns != null && columns.length > 1) {
+						if (columns.length > 1) {
 							internalpath = internalpath.concat(columns[1]);
 						}
 					}

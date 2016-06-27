@@ -35,7 +35,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.util.List;
 
 /**
- * Servicio de popup que muestra la opci�n de b�squeda de lecturas
+ * Servicio de popup que muestra la opción de búsqueda de lecturas
  * 
  * @author drodriguez
  *
@@ -120,7 +120,7 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 						.findViewById(R.id.lbl_searching_error);
 				snackBarPosition = (CoordinatorLayout) dialogView
 						.findViewById(R.id.snackbar_position);
-				((Button) dialogView.findViewById(R.id.btn_search))
+				dialogView.findViewById(R.id.btn_search)
 						.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
@@ -191,7 +191,7 @@ public class ReadingSearchPopupService implements IReadingSearchView {
 
 	@Override
 	public int getNUS() {
-		return NumberUtils.toInt(txtNUS.getText().toString().toString(), -1);
+		return NumberUtils.toInt(txtNUS.getText().toString(), -1);
 	}
 
 	@Override

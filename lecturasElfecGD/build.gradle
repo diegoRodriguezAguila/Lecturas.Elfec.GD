@@ -6,8 +6,8 @@ android {
     compileOptions.encoding = 'windows-1252'
     defaultConfig {
         applicationId "com.elfec.lecturas.gd"
-        versionCode 1
-        versionName "1.15.11.23"
+        versionCode 2
+        versionName "1.16.06.27"
         minSdkVersion 16
         targetSdkVersion 23
     }
