@@ -1,15 +1,15 @@
 package com.elfec.lecturas.gd.business_logic.validators;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.elfec.lecturas.gd.model.validations.IValidationRule;
 import com.elfec.lecturas.gd.model.validations.ValidationRulesFactory;
 import com.elfec.lecturas.gd.model.validations.ValidationsAndParams;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * Se encarga de validar un campo con las reglas y parametros de validaci髇
+ * Se encarga de validar un campo con las reglas y parametros de validaci+on
  * definidos
  * 
  * @author Diego
@@ -17,21 +17,20 @@ import com.elfec.lecturas.gd.model.validations.ValidationsAndParams;
  */
 public class FieldValidator {
 	/**
-	 * Constante que indica que no se requieren parametros para una validaci髇
+	 * Constante que indica que no se requieren parametros para una validaci贸n
 	 */
 	public static final Object[][] NO_VALIDATION_PARAMS = new Object[][] {};
 
 	/**
-	 * Realiza la validaci髇 de un campo y recopila los mensajes de error
-	 * arrojados por cada una de las validaciones. Esta validaci髇 asume que no
-	 * hay par醡etros para ninguna de las validaciones
+	 * Realiza la validaci贸n de un campo y recopila los mensajes de error
+	 * arrojados por cada una de las validaciones. Esta validaci贸n asume que no
+	 * hay par谩metros para ninguna de las validaciones
 	 * 
 	 * @param fieldName
 	 * @param isMaleGender
 	 * @param fieldValue
 	 * @param validationRules
-	 * @param validationParams
-	 *            , la lista de reglas de validaci髇
+	 *            , la lista de reglas de validaci贸n
 	 * @return
 	 */
 	public static <T> List<Exception> validate(String fieldName,
@@ -42,7 +41,7 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Realiza la validaci髇 de un campo y recopila los mensajes de error
+	 * Realiza la validaci贸n de un campo y recopila los mensajes de error
 	 * arrojados por cada una de las validaciones
 	 * 
 	 * @param fieldName
@@ -50,7 +49,7 @@ public class FieldValidator {
 	 * @param fieldValue
 	 * @param validationRules
 	 * @param validationParams
-	 *            , la lista de reglas de validaci髇
+	 *            , la lista de reglas de validaci贸n
 	 * @return
 	 */
 	public static <T> List<Exception> validate(String fieldName,
@@ -61,7 +60,7 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Realiza la validaci髇 de un campo y recopila los mensajes de error
+	 * Realiza la validaci贸n de un campo y recopila los mensajes de error
 	 * arrojados por cada una de las validaciones
 	 * 
 	 * @param fieldName
@@ -69,7 +68,7 @@ public class FieldValidator {
 	 * @param fieldValue
 	 * @param validationRules
 	 * @param validationParams
-	 *            , la lista de reglas de validaci髇
+	 *            , la lista de reglas de validaci贸n
 	 * @return
 	 */
 	public static <T> List<Exception> validate(String fieldName,
@@ -93,14 +92,14 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Realiza la validaci髇 de un campo y recopila los mensajes de error
+	 * Realiza la validaci贸n de un campo y recopila los mensajes de error
 	 * arrojados por cada una de las validaciones
 	 * 
 	 * @param fieldName
 	 * @param fieldIsMaleGender
 	 * @param fieldValue
 	 * @param validationRules
-	 *            , las reglas de validaci髇 pero como cadena
+	 *            , las reglas de validaci贸n pero como cadena
 	 * @return
 	 */
 	public static <T> List<Exception> validate(String fieldName,
